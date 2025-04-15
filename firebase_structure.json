@@ -1,0 +1,56 @@
+{
+    "users": {
+        "userId": {
+            "username": "string",
+            "name": "string",
+            "password": "string",
+            "userType": "string"
+        }
+    },
+    "students": {
+        "studentId": {
+            "userId": "string",
+            "priorityNumbers": [
+                "string"
+            ],
+            "transactionHistory": [
+                "transactionId"
+            ]
+        }
+    },
+    "tellers": {
+        "tellerId": {
+            "userId": "string",
+            "windowNumber": "int"
+        }
+    },
+    "admins": {
+        "adminId": {
+            "userId": "string"
+        }
+    },
+    "priorityNumbers": {
+        "priorityNumber": {
+            "status": "string",
+            "studentId": "string",
+            "generatedAt": "timestamp"
+        }
+    },
+    "tellerWindows": {
+        "windowId": {
+            "tellerId": "string"
+        }
+    },
+    "transactions": {
+        "transactionId": {
+            "priorityNumber": "string",
+            "windowNumber": "int",
+            "studentId": "string",
+            "tellerId": "string",
+            "amount": "int",
+            "transactionType": "string",
+            "transactionDate": "timestamp",
+            "status": "string"
+        }
+    }
+}
