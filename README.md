@@ -55,11 +55,13 @@ This project isn’t just an academic requirement — it’s a **real solution f
 
 📸 System Diagram (Initial)
 
+
 Class Diagram
-![LinTech drawio](https://github.com/user-attachments/assets/f78aa1de-45d2-4349-98fe-ef8ebc02ac03)
+![LinTech drawio](https://github.com/user-attachments/assets/81a437de-230b-4d8f-b3ce-43830022725e)
+
 
 Use-Case Diagram
-![QueueManagementApp drawio](https://github.com/user-attachments/assets/62068854-6581-4115-b994-e5b45980f1f1)
+![QueueManagementApp drawio](https://github.com/user-attachments/assets/791f3af1-f401-4e89-bde2-a1af5e7b98ac)
 
 
 
