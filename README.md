@@ -66,4 +66,5 @@ Use-Case Diagram
 
 
 WASHO members :
+Libron, Christian Neil A.
 Villarazo, John Kyle A.
