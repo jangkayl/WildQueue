@@ -66,6 +66,7 @@ Use-Case Diagram
 
 
 WASHO members :
+Alido, Jexter A.
 
 Decretales, Rocky Jr.
 
