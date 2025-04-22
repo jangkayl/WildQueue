@@ -1,83 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
 
-<AnchorPane prefHeight="640.0" prefWidth="360.0" style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.LoginController">
+<AnchorPane prefHeight="640.0" prefWidth="360.0" style="-fx-background-color: linear-gradient(to bottom right, #FFF9E6, #FFEDB8);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.LoginController">
 
-    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <VBox alignment="CENTER" spacing="25" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="40">
+        <!-- Header Section -->
         <VBox alignment="CENTER" spacing="10">
             <StackPane>
-                <Circle fill="#3f51b5" radius="40" stroke="#303f9f" strokeWidth="2" />
-                <Text fill="white" fontSmoothingType="LCD">
+                <Circle fill="#800000" radius="50" stroke="#600000" strokeWidth="2" />  <!-- Maroon circle -->
+                <Text fill="#FFD700" fontSmoothingType="LCD" style="-fx-font-weight: bold;">  <!-- Gold check -->
                     <font>
-                        <Font name="Arial" size="24" />
+                        <Font name="Arial" size="28" />
                     </font>
                     <text>✓</text>
                 </Text>
             </StackPane>
-            <Text fill="#333" fontSmoothingType="LCD">
+            <Text fill="#800000" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
                 <font>
-                    <Font name="Arial Bold" size="24" />
+                    <Font name="Arial Bold" size="28" />
                 </font>
-                <text>Welcome Back</text>
+                <text>WIVERSITY</text>
             </Text>
-            <Text fill="#666">
+            <Text fill="#800000" style="-fx-font-style: italic;">
                 <font>
                     <Font name="Arial" size="14" />
                 </font>
-                <text>Please login to continue</text>
+                <text>COUNSITUTE OF</text>
             </Text>
         </VBox>
 
-        <GridPane alignment="CENTER" hgap="15" vgap="15">
-            <padding><Insets bottom="10" left="25" right="25" top="10" /></padding>
+        <!-- Form Section -->
+        <GridPane alignment="CENTER" hgap="15" vgap="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <padding><Insets bottom="15" left="15" right="15" top="15" /></padding>
 
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Institutional ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="institutionalIdField" prefWidth="250" promptText="Enter your institutional ID" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Institutional ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="institutionalIdField" prefWidth="250" promptText="Enter your ID"
+                       style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #800000; -fx-border-width: 1.5; -fx-padding: 8;"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <PasswordField fx:id="passwordField" prefWidth="250" promptText="Enter your password" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <PasswordField fx:id="passwordField" prefWidth="250" promptText="Enter your password"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #800000; -fx-border-width: 1.5; -fx-padding: 8;"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <HBox alignment="CENTER_LEFT" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <CheckBox fx:id="rememberMe" style="-fx-text-fill: #555; -fx-font-size: 13px;" text="Remember me" />
+                <CheckBox fx:id="rememberMe" style="-fx-text-fill: #800000; -fx-font-size: 13px;" text="Remember me" />
             </HBox>
 
-            <Button fx:id="loginButton" defaultButton="true" onAction="#handleLogin" prefWidth="250" style="-fx-background-color: #3f51b5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="LOGIN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="loginButton" defaultButton="true" onAction="#handleLogin" prefWidth="280" prefHeight="50"
+                    style="-fx-background-color: #800000; -fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-font-size: 16px;
+                          -fx-background-radius: 25; -fx-cursor: hand;
+                          -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);"
+                    text="LOGIN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <columnConstraints>
-                <ColumnConstraints maxWidth="102.0" minWidth="56.0" prefWidth="99.0" />
-                <ColumnConstraints maxWidth="239.0" minWidth="193.0" prefWidth="196.0" />
+                <ColumnConstraints maxWidth="120" minWidth="80" prefWidth="100" halignment="RIGHT" />
+                <ColumnConstraints maxWidth="300" minWidth="200" prefWidth="250" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
+                <RowConstraints prefHeight="40" />
+                <RowConstraints prefHeight="40" />
+                <RowConstraints prefHeight="30" />
+                <RowConstraints prefHeight="55" />
             </rowConstraints>
         </GridPane>
 
-        <Label fx:id="errorLabel" alignment="CENTER" maxWidth="300" style="-fx-text-fill: #e53935; -fx-font-weight: bold;" visible="false" wrapText="true" />
+        <!-- Error Message -->
+        <Label fx:id="errorLabel" alignment="CENTER" maxWidth="300"
+               style="-fx-text-fill: #D32F2F; -fx-font-weight: bold; -fx-background-color: #FFCDD2;
+                     -fx-background-radius: 5; -fx-padding: 10 15; -fx-border-color: #D32F2F; -fx-border-width: 1; -fx-border-radius: 5;"
+               visible="false" wrapText="true" />
 
+        <!-- Footer Links -->
         <HBox alignment="CENTER" spacing="20">
-            <Hyperlink style="-fx-text-fill: #666; -fx-border-color: transparent;" text="Forgot Password?" />
-            <Text fill="#999" text="|" />
-            <Hyperlink fx:id="createAccountLink" style="-fx-text-fill: #3f51b5; -fx-font-weight: bold; -fx-border-color: transparent;" text="Create Account" />
+            <Hyperlink style="-fx-text-fill: #800000; -fx-font-weight: bold; -fx-border-color: transparent; -fx-underline: false;"
+                       text="Forgot Password?"
+                       onMouseEntered="-fx-text-fill: #FFD700; -fx-underline: true;"
+                       onMouseExited="-fx-text-fill: #800000; -fx-underline: false;" />
+            <Text fill="#800000" text="•" style="-fx-font-weight: bold;" />
+            <Hyperlink fx:id="createAccountLink" style="-fx-text-fill: #800000; -fx-font-weight: bold; -fx-border-color: transparent; -fx-underline: false;"
+                       text="Create Account"
+                       onMouseEntered="-fx-text-fill: #FFD700; -fx-underline: true;"
+                       onMouseExited="-fx-text-fill: #800000; -fx-underline: false;" />
         </HBox>
     </VBox>
 </AnchorPane>
