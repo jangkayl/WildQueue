@@ -3,9 +3,12 @@ module com.example.WildQueue {
     requires javafx.fxml;
     requires java.sql;
 
-
     opens com.example.wildqueue to javafx.fxml;
+    opens com.example.wildqueue.models to javafx.fxml;
+    opens com.example.wildqueue.controllers to javafx.fxml;
+
     exports com.example.wildqueue;
     exports com.example.wildqueue.controllers;
-    opens com.example.wildqueue.controllers to javafx.fxml;
+    exports com.example.wildqueue.models;
+    exports com.example.wildqueue.utils to javafx.fxml;
 }

@@ -2,6 +2,7 @@ package com.example.wildqueue.controllers;
 
 import com.example.wildqueue.CRUD;
 import com.example.wildqueue.models.User;
+import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,13 +62,15 @@ public class LoginController {
                     Alert.AlertType.INFORMATION,
                     "Login Success",
                     "You have successfully logged in " + user.getName() + "!",
-                    "/com/example/wildqueue/student-homepage.fxml",
+                    "/com/example/wildqueue/student-main.fxml",
                     (Stage) loginButton.getScene().getWindow(),
                     "Homepage"
             );
         } else {
             showError("Invalid password.");
         }
+
+        SessionManager.setCurrentUser(user);
     }
 
     private void showError(String message) {

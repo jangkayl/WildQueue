@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="640.0" prefWidth="360.0" style="-fx-background-color: #F8F5F0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.StudentMainController">
+
+    <!-- Content area -->
+    <StackPane fx:id="contentPane" AnchorPane.bottomAnchor="60" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <VBox fx:id="homeContent" alignment="CENTER" prefHeight="640.0" prefWidth="360.0" spacing="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+            <!-- Homepage Contents will be displayed here -->
+
+        </VBox>
+    </StackPane>
+
+    <!-- Bottom Navigation Bar -->
+    <HBox alignment="CENTER" prefHeight="60" spacing="0" style="-fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, -3);" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- Home -->
+        <VBox fx:id="homeTab" alignment="CENTER" onMouseClicked="#navigateToHome" spacing="2" style="-fx-padding: 5; -fx-cursor: hand;" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                <image>
+                    <Image url="https://cdn2.iconfinder.com/data/icons/lightly-2-essential/24/home-256.png" />
+                </image>
+            </ImageView>
+            <Text fx:id="homeText" style="-fx-font-size: 10px; -fx-fill: #8E8E8E;" text="Home" />
+        </VBox>
+
+        <!-- History -->
+        <VBox fx:id="historyTab" alignment="CENTER" onMouseClicked="#navigateToHistory" spacing="2" style="-fx-padding: 5; -fx-cursor: hand;" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                <image>
+                    <Image url="https://cdn0.iconfinder.com/data/icons/zoldo-miscellaneous-007/64/history_orders_recent_transaction-256.png" />
+                </image>
+            </ImageView>
+            <Text fx:id="historyText" style="-fx-font-size: 10px; -fx-fill: #8E8E8E;" text="History" />
+        </VBox>
+
+        <!-- Profile -->
+        <VBox fx:id="profileTab" alignment="CENTER" onMouseClicked="#navigateToProfile" spacing="2" style="-fx-padding: 5; -fx-cursor: hand;" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                <image>
+                    <Image url="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-person-512.png" />
+                </image>
+            </ImageView>
+            <Text fx:id="profileText" style="-fx-font-size: 10px; -fx-fill: #8E8E8E;" text="Profile" />
+        </VBox>
+    </HBox>
+</AnchorPane>
