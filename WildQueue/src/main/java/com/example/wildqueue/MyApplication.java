@@ -1,5 +1,6 @@
 package com.example.wildqueue;
 
+import com.example.wildqueue.dao.UserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,9 +11,9 @@ import java.io.IOException;
 public class MyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("login-page.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 360, 640);
-        CRUD.createUserTable();
+        UserDAO.createUserTable();
         stage.setTitle("Login");
         stage.setScene(scene);
         stage.setResizable(false);

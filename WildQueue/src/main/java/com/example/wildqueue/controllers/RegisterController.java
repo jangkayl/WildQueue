@@ -1,6 +1,6 @@
 package com.example.wildqueue.controllers;
 
-import com.example.wildqueue.CRUD;
+import com.example.wildqueue.dao.UserDAO;
 import com.example.wildqueue.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -16,7 +16,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 public class RegisterController {
-
 	@FXML private TextField fullNameField;
 	@FXML private TextField emailField;
 	@FXML private TextField institutionalIdField;
@@ -69,7 +68,7 @@ public class RegisterController {
 		} else if (!email.matches("^[a-zA-Z0-9._%+-]+@cit\\.edu$")) {
 			showError(emailField, emailError, "Must be an institutional email (e.g., name@cit.edu).");
 			isValid = false;
-		} else if (CRUD.emailExists(email)){
+		} else if (UserDAO.emailExists(email)){
 			showError(emailField, emailError, "Institutional email already exists.");
 			isValid = false;
 		}
@@ -77,7 +76,7 @@ public class RegisterController {
 		if (institutionalId.isEmpty()) {
 			showError(institutionalIdField, institutionalIdError, "Institutional ID is required.");
 			isValid = false;
-		} else if (CRUD.institutionalIdExists(institutionalId)) {
+		} else if (UserDAO.institutionalIdExists(institutionalId)) {
 			showError(institutionalIdField, institutionalIdError, "Institutional ID already exists.");
 			isValid = false;
 		}
@@ -103,7 +102,7 @@ public class RegisterController {
 			System.out.println("Password: " + password);
 
 			String hashedPassword = Utils.hashPassword(password);
-			CRUD.addUser(institutionalId, email, fullName, hashedPassword, "STUDENT");
+			UserDAO.addUser(institutionalId, email, fullName, hashedPassword, "STUDENT");
 
 			Utils.showAlert(
 					Alert.AlertType.INFORMATION,

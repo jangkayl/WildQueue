@@ -1,6 +1,6 @@
 package com.example.wildqueue.controllers;
 
-import com.example.wildqueue.CRUD;
+import com.example.wildqueue.dao.UserDAO;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
@@ -48,7 +48,7 @@ public class LoginController {
             return;
         }
 
-        User user = CRUD.getUserByInstitutionalId(institutionalId);
+        User user = UserDAO.getUserByInstitutionalId(institutionalId);
 
         if (user == null) {
             showError("User not found.");
