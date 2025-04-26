@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class Utils {
 	public static String hashPassword(String password) {
@@ -29,29 +30,53 @@ public class Utils {
 		}
 	}
 
-	public static void showAlert(Alert.AlertType alertType, String title, String content, String fxmlFile, Stage currentStage, String stageTitle) {
-		Alert alert = new Alert(alertType);
+	public static Optional<ButtonType> showAlert(
+			Alert.AlertType alertType,
+			String title,
+			String content,
+			String fxmlFile,
+			Stage currentStage,
+			String stageTitle,
+			ButtonType... buttons) {
+
+		Alert alert = new Alert(alertType, content);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
-		alert.setContentText(content);
+
+		if (buttons == null || buttons.length == 0) {
+			alert.getButtonTypes().setAll(ButtonType.OK);
+		} else {
+			alert.getButtonTypes().setAll(buttons);
+		}
+
+		if (alertType == Alert.AlertType.WARNING || "LOGOUT".equals(title)) {
+			alert.getDialogPane().getStyleClass().add("alert-warning");
+		}
 
 		Scene scene = alert.getDialogPane().getScene();
 		scene.getStylesheets().add(Utils.class.getResource("/com/example/wildqueue/styles.css").toExternalForm());
 
-		alert.showAndWait().ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				try {
-					if (fxmlFile != null && !fxmlFile.isEmpty()) {
-						FXMLLoader loader = new FXMLLoader(Utils.class.getResource(fxmlFile));
-						Parent root = loader.load();
+		Optional<ButtonType> result = alert.showAndWait();
 
-						currentStage.setScene(new Scene(root));
-						currentStage.setTitle(stageTitle);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		result.ifPresent(button -> {
+			if (button == ButtonType.OK && fxmlFile != null) {
+				navigateToScene(fxmlFile, currentStage, stageTitle);
 			}
 		});
+
+		return result;
 	}
+
+	private static void navigateToScene(String fxmlFile, Stage currentStage, String stageTitle) {
+		try {
+			FXMLLoader loader = new FXMLLoader(Utils.class.getResource(fxmlFile));
+			Parent root = loader.load();
+			Stage stage = (Stage) currentStage.getScene().getWindow();
+			stage.setScene(new Scene(root, 360, 700));
+			stage.setTitle(stageTitle);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

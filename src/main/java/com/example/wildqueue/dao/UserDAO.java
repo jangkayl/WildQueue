@@ -19,7 +19,6 @@ public class UserDAO {
 				"PRIMARY KEY (userId)) AUTO_INCREMENT=1000";
 
 		try (Connection conn = DatabaseUtil.getConnection(); Statement stmt = conn.createStatement()) {
-			System.out.println("USER TABLE CREATION STARTED...");
 			stmt.execute(query);
 			System.out.println("USER TABLE CREATED SUCCESSFULLY");
 		} catch (SQLException e) {

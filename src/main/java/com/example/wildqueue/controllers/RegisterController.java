@@ -1,6 +1,7 @@
 package com.example.wildqueue.controllers;
 
 import com.example.wildqueue.dao.UserDAO;
+import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -110,7 +111,8 @@ public class RegisterController {
 					"You have successfully registered!",
 					"/com/example/wildqueue/login-page.fxml",
 					(Stage) loginLink.getScene().getWindow(),
-					"Login"
+					"Login",
+					ButtonType.OK
 			);
 		}
 	}

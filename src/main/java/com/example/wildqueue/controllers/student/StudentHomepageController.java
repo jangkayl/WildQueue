@@ -1,4 +1,4 @@
-package com.example.wildqueue.controllers;
+package com.example.wildqueue.controllers.student;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,10 +26,9 @@ public class StudentHomepageController {
         scrollPane.getStyleClass().add("edge-to-edge");
 
         updateWindowNumbers();
-        getNumberButton.setOnAction(event -> generateQueueNumber());
     }
 
-    private void generateQueueNumber() {
+    public void generateQueueNumber() {
         currentQueueNumber++;
         currentTicketNumber.setText(String.valueOf(currentQueueNumber));
         updateWindowNumbers();

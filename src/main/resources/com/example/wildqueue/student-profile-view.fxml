@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.ProfileController">
+<AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.ProfileController">
 
     <!-- Profile Content -->
     <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -36,21 +36,18 @@
             <VBox alignment="CENTER_LEFT" prefWidth="320.0" spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 15 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 3);">
                 <!-- Option Items -->
                 <VBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 0 20;">
-                    <Label style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Favorites" />
-                    <Label style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="History" />
-                    <Label style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Settings" />
+                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Favorites" />
+                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="History" />
+                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Settings" />
                 </VBox>
 
                 <Separator prefWidth="280.0" style="-fx-background-color: #E9ECEF;" />
 
                 <VBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 15 20 0 20;">
-                    <Label style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Clear History" />
-                    <Label style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Log Out" />
+                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Clear History" />
+                    <Label fx:id="lblLogout" onMouseClicked="#logout" prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Log Out" />
                 </VBox>
             </VBox>
-
-            <!-- App Version -->
-            <Text style="-fx-font-size: 12px; -fx-fill: #6C757D;" text="App Version 2.3" />
         </VBox>
     </ScrollPane>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package com.example.wildqueue.controllers;
+package com.example.wildqueue.controllers.student;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

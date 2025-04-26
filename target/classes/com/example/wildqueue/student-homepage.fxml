@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F5F0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.StudentHomepageController">
+<AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F5F0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.StudentHomepageController">
 
     <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <content>
@@ -105,7 +105,7 @@
                     </VBox>
 
                     <HBox alignment="CENTER" spacing="15">
-                        <Button fx:id="getNumberButton" style="-fx-background-color: #B38B5B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20;" text="GET NEW NUMBER" />
+                        <Button fx:id="getNumberButton" onAction="#generateQueueNumber" style="-fx-background-color: #B38B5B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20;" text="GET NEW NUMBER" />
                     </HBox>
                 </VBox>
             </VBox>
