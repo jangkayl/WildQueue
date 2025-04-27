@@ -3,6 +3,7 @@ package com.example.wildqueue.controllers.student;
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.PriorityNumber;
+import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
@@ -60,21 +61,29 @@ public class StudentHomepageController {
     }
 
     private void handleQueueUpdates(List<PriorityNumber> updatedNumbers) {
-        for (PriorityNumber number : updatedNumbers) {
-            boolean alreadyExists = priorityQueue.stream()
-                    .anyMatch(pn -> pn.getPriorityNumber().equals(number.getPriorityNumber()));
+        boolean needsUpdate = false;
 
-            if (!alreadyExists) {
-                priorityQueue.add(number);
+        for (PriorityNumber updatedNumber : updatedNumbers) {
+            Optional<PriorityNumber> existingNumber = priorityQueue.stream()
+                    .filter(pn -> pn.getPriorityNumber().equals(updatedNumber.getPriorityNumber()))
+                    .findFirst();
+
+            if (existingNumber.isPresent()) {
+                if (!existingNumber.get().getStatus().equals(updatedNumber.getStatus())) {
+                    existingNumber.get().setStatus(updatedNumber.getStatus());
+                    needsUpdate = true;
+                    System.out.println("Status updated for: " + updatedNumber.getPriorityNumber());
+                }
+            } else {
+                priorityQueue.add(updatedNumber);
+                needsUpdate = true;
+                System.out.println("New number added: " + updatedNumber.getPriorityNumber());
             }
-
-            System.out.println("Updated PriorityNumber:");
-            System.out.println("Priority Number: " + number.getPriorityNumber());
-            System.out.println("Student ID: " + number.getStudentId());
-            System.out.println("Status: " + number.getStatus());
-            System.out.println("Created At: " + number.getCreatedAt());
         }
-        updatePriorityQueueUI();
+
+        if (needsUpdate) {
+            updatePriorityQueueUI();
+        }
     }
 
     private void setupExistingTransactionIfAny() {
@@ -100,7 +109,7 @@ public class StudentHomepageController {
     public void generatePriorityNumber(String priorityNumber, String purpose, PriorityNumber pn) {
 	    Transaction transaction = new Transaction(
                 0, priorityNumber, 0, SessionManager.getCurrentUser().getInstitutionalId(),
-                null, 0, purpose, new Date(), "Pending"
+                null, 0, purpose, new Date(), PriorityStatus.PENDING.toString()
         );
 
         PriorityNumberDAO.addPriorityNumber(pn);
@@ -143,14 +152,35 @@ public class StudentHomepageController {
     }
 
     private void updatePriorityQueueUI() {
+        // Remove non-pending labels first
+        hbQueue.getChildren().removeIf(node -> {
+            if (node instanceof Label label) {
+                String labelText = label.getText();
+                // Find the PriorityNumber matching this label
+                Optional<PriorityNumber> matchingPN = priorityQueue.stream()
+                        .filter(pn -> pn.getPriorityNumber().equals(labelText))
+                        .findFirst();
+
+                // If matching PriorityNumber exists but not PENDING, remove label
+                return matchingPN.isPresent() && !PriorityStatus.PENDING.toString().equalsIgnoreCase(matchingPN.get().getStatus().toString());
+            }
+            return false;
+        });
+
+        // Clear and rebuild pending labels
         hbQueue.getChildren().clear();
-        txtNumWaiting.setText("• " + priorityQueue.size() + " people waiting");
+
+        List<PriorityNumber> pendingQueue = priorityQueue.stream()
+                .filter(pn -> PriorityStatus.PENDING.toString().equalsIgnoreCase(pn.getStatus().toString()))
+                .toList();
+
+        txtNumWaiting.setText("• " + pendingQueue.size() + " people waiting");
 
         int maxVisibleItems = 3;
-        int totalItems = priorityQueue.size();
+        int totalItems = pendingQueue.size();
 
         for (int i = 0; i < Math.min(totalItems, maxVisibleItems); i++) {
-            addPriorityLabel(priorityQueue.get(i));
+            addPriorityLabel(pendingQueue.get(i));
         }
 
         if (totalItems > maxVisibleItems) {

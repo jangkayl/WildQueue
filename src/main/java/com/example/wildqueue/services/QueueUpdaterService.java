@@ -5,10 +5,8 @@ import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.utils.ThreadUtils;
 import com.example.wildqueue.utils.Utils;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.function.Consumer;
@@ -78,26 +76,31 @@ public class QueueUpdaterService {
 		}
 
 		System.out.println("Latest fetched num " + lastFetched.getPriorityNumber());
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 8000);
-
-		System.out.println("Last Modified Timestamp: " + sdf.format(lastModifiedSince));
+		System.out.println("Checking for updates since: " + lastModifiedSince);
 
 		List<PriorityNumber> updatedQueue = PriorityNumberDAO.getPriorityNumbersSince(
-				lastFetched.getPriorityNumber(), lastModifiedSince);
+				lastFetched.getPriorityNumber(),
+				lastModifiedSince
+		);
 
 		if (!updatedQueue.isEmpty()) {
 			String latestFetchedPriority = updatedQueue.get(updatedQueue.size() - 1).getPriorityNumber();
+
 			if (Utils.comparePriorityNumbers(lastFetched.getPriorityNumber(), latestFetchedPriority) <= 0) {
 				synchronized (this) {
 					this.lastFetchedByNumber = updatedQueue.get(updatedQueue.size() - 1);
 				}
-				notifySubscriber(updatedQueue);
+				System.out.println("New priority numbers found, updating...");
 			} else {
-				System.out.println("No new updates after last fetched priority number: " + lastFetched.getPriorityNumber());
+				System.out.println("Status changes detected (no new numbers)");
 			}
+
+			notifySubscriber(updatedQueue);
 		}
 	}
 

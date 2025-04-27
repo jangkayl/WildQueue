@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="added priority number and transaction generation and transaction form and synch ui in database">
+    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="done fixed efficiency in fetching data in database and not waste unnecessary fetching">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/PriorityNumberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/PriorityNumberDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/PriorityNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/PriorityNumber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Transaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/services/QueueUpdaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/services/QueueUpdaterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/ThreadUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/ThreadUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentDetailsFormController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentDetailsFormController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHomepageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHomepageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/PriorityNumberDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/PriorityNumberDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityNumber.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityNumber.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/QueueUpdaterService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/QueueUpdaterService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/ThreadUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/ThreadUtils.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +56,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/User/Downloads/WildQueue",
+    "last_opened_file_path": "E:/WildQueue",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -100,6 +91,27 @@
       <option name="presentableId" value="Default" />
       <updated>1745675973040</updated>
     </task>
+    <task id="LOCAL-00001" summary="done fixed efficiency in fetching data in database and not waste unnecessary fetching">
+      <option name="closed" value="true" />
+      <created>1745747788432</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745747788432</updated>
+    </task>
+    <task id="LOCAL-00002" summary="done fixed efficiency in fetching data in database and not waste unnecessary fetching">
+      <option name="closed" value="true" />
+      <created>1745747835484</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745747835484</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="done fixed efficiency in fetching data in database and not waste unnecessary fetching" />
+    <option name="LAST_COMMIT_MESSAGE" value="done fixed efficiency in fetching data in database and not waste unnecessary fetching" />
   </component>
 </project>
