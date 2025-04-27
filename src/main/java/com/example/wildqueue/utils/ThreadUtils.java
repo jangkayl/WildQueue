@@ -14,17 +14,33 @@ public class ThreadUtils {
 		Thread thread = new Thread(() -> {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
-					System.out.println("Threads running");
-					task.run();
-					Thread.sleep(intervalMillis);
+					long startTime = System.currentTimeMillis();
+
+					try {
+						task.run();
+					} catch (Exception e) {
+						exceptionHandler.accept(e);
+					}
+
+					long elapsed = System.currentTimeMillis() - startTime;
+					long remainingSleep = intervalMillis - elapsed;
+
+					if (remainingSleep > 0) {
+						try {
+							Thread.sleep(remainingSleep);
+						} catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+							break;
+						}
+					}
 				}
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				exceptionHandler.accept(e);
+			} finally {
+				System.out.println("Thread exiting");
 			}
 		});
 
 		thread.setDaemon(true);
+		thread.setName("QueueUpdaterThread");
 		thread.start();
 		return thread;
 	}

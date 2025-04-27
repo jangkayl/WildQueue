@@ -1,7 +1,12 @@
 package com.example.wildqueue.models;
 
 public class Teller extends User {
-	private String tellerId;
+	public Teller(String institutionalId, String name, String password, String userType) {
+		this.institutionalId = institutionalId;
+		this.name = name;
+		this.password = password;
+		this.userType = userType;
+	}
 
 	public void updatePriorityNumber() {}
 	public void getPriorityNumber() {}
@@ -9,8 +14,13 @@ public class Teller extends User {
 	public void requestTimeout() {}
 
 	@Override
-	public void login() {}
+	public void login() {
+		System.out.println(name + " has logged in.");
+	}
+
 	@Override
-	public void logout() {}
+	public void logout() {
+		System.out.println(name + " has logged out.");
+	}
 }
 

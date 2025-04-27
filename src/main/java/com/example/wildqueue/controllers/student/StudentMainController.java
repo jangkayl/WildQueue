@@ -2,6 +2,7 @@ package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.utils.PriorityNumberManager;
+import com.example.wildqueue.utils.SessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -22,8 +23,16 @@ public class StudentMainController {
 	public StudentHomepageController homepageController;
 
 	@FXML
-	public void initialize() {
+	public void initialize() throws IOException {
 		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
+		loader.load();
+
+		homepageController = loader.getController();
+		homepageController.initializePriorityQueue();
+		homepageController.setupExistingTransactionIfAny();
+
 		navigateToHome();
 	}
 
@@ -37,7 +46,6 @@ public class StudentMainController {
 			homepageController.setMainController(this);
 
 			homeContent.getProperties().put("controller", homepageController);
-
 			contentPane.getChildren().clear();
 			contentPane.getChildren().add(homeContent);
 

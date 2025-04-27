@@ -1,10 +1,13 @@
 package com.example.wildqueue.dao;
 
 import com.example.wildqueue.models.Student;
+import com.example.wildqueue.models.Teller;
 import com.example.wildqueue.models.User;
+import com.example.wildqueue.models.UserType;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
+import java.util.Objects;
 
 public class UserDAO {
 	private static final String TABLE_NAME = "users";
@@ -81,13 +84,25 @@ public class UserDAO {
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, institutionalId);
 			ResultSet rs = stmt.executeQuery();
+
 			if (rs.next()) {
-				return new Student(
-						rs.getString("institutionalId"),
-						rs.getString("name"),
-						rs.getString("password"),
-						rs.getString("userType")
-				);
+				String userType = rs.getString("userType");
+
+				if(Objects.equals(userType, UserType.STUDENT.toString())){
+					return new Student(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("password"),
+							rs.getString("userType")
+					);
+				} else if(Objects.equals(userType, UserType.TELLER.toString())){
+					return new Teller(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("password"),
+							rs.getString("userType")
+					);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

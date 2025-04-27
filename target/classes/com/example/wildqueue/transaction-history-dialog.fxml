@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
-<VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.TellerHomepageController">
+<VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.teller.TellerHomepageController">
     <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #800000;" text="TRANSACTION HISTORY" />
 
     <HBox alignment="CENTER_LEFT" spacing="15">

@@ -36,19 +36,28 @@ public class StudentHomepageController {
     @FXML private HBox hbQueue;
 
     private StudentMainController mainController;
-    private final User currentUser = SessionManager.getCurrentUser();
+    private User currentUser;
     private List<PriorityNumber> priorityQueue;
 
 	@FXML
     public void initialize() {
         Utils.scrollPaneSetup(scrollPane);
 
+        this.currentUser = SessionManager.getCurrentUser();
+
+        if (currentUser == null) {
+            System.err.println("Error: No user logged in");
+            return;
+        }
+
         initializePriorityQueue();
         setupExistingTransactionIfAny();
     }
 
-    private void initializePriorityQueue() {
+    public void initializePriorityQueue() {
         priorityQueue = PriorityNumberManager.getPriorityNumberList();
+        updatePriorityQueueUI();
+
         PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
                 priorityQueue.get(priorityQueue.size() - 1) : null;
 
@@ -86,7 +95,11 @@ public class StudentHomepageController {
         }
     }
 
-    private void setupExistingTransactionIfAny() {
+    public void setupExistingTransactionIfAny() {
+        if(currentUser == null){
+            this.currentUser = SessionManager.getCurrentUser();
+        }
+
         List<Transaction> transactions = TransactionDAO.getTransactionsByStudentId(currentUser.getInstitutionalId());
 
         if (!transactions.isEmpty()) {
@@ -151,23 +164,19 @@ public class StudentHomepageController {
         }
     }
 
-    private void updatePriorityQueueUI() {
-        // Remove non-pending labels first
+    public void updatePriorityQueueUI() {
         hbQueue.getChildren().removeIf(node -> {
             if (node instanceof Label label) {
                 String labelText = label.getText();
-                // Find the PriorityNumber matching this label
                 Optional<PriorityNumber> matchingPN = priorityQueue.stream()
                         .filter(pn -> pn.getPriorityNumber().equals(labelText))
                         .findFirst();
 
-                // If matching PriorityNumber exists but not PENDING, remove label
                 return matchingPN.isPresent() && !PriorityStatus.PENDING.toString().equalsIgnoreCase(matchingPN.get().getStatus().toString());
             }
             return false;
         });
 
-        // Clear and rebuild pending labels
         hbQueue.getChildren().clear();
 
         List<PriorityNumber> pendingQueue = priorityQueue.stream()
