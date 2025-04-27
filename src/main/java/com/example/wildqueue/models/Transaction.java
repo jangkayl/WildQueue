@@ -8,12 +8,12 @@ public class Transaction {
 	private int windowNumber;
 	private String studentId;
 	private String tellerId;
-	private int amount;
+	private double amount;
 	private String transactionType;
 	private Date transactionDate;
 	private String status;
 
-	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentId, String tellerId, int amount, String transactionType, Date transactionDate, String status) {
+	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, String status) {
 		this.transactionId = transactionId;
 		this.priorityNumber = priorityNumber;
 		this.windowNumber = windowNumber;
@@ -65,7 +65,7 @@ public class Transaction {
 		this.tellerId = tellerId;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
@@ -95,5 +95,18 @@ public class Transaction {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void printAllDetails(){
+		System.out.println("Transaction Submitted:");
+		System.out.println("ID: " + getTransactionId());
+		System.out.println("Priority Number: " + getPriorityNumber());
+		System.out.println("Window Number: " + getWindowNumber());
+		System.out.println("Student ID: " + getStudentId());
+		System.out.println("Teller ID: " + getTellerId());
+		System.out.println("Amount: " + getAmount());
+		System.out.println("Type: " + getTransactionType());
+		System.out.println("Date: " + getTransactionDate());
+		System.out.println("Status: " + getStatus());
 	}
 }

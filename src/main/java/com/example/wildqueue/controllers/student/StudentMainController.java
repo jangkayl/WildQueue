@@ -1,7 +1,10 @@
-package com.example.wildqueue.controllers;
+package com.example.wildqueue.controllers.student;
 
+import com.example.wildqueue.dao.PriorityNumberDAO;
+import com.example.wildqueue.utils.PriorityNumberManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -16,25 +19,35 @@ public class StudentMainController {
 	@FXML private Text homeText;
 	@FXML private Text historyText;
 	@FXML private Text profileText;
+	public StudentHomepageController homepageController;
 
 	@FXML
 	public void initialize() {
+		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
 		navigateToHome();
 	}
 
 	@FXML
-	private void navigateToHome() {
+	protected void navigateToHome() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
 			AnchorPane homeContent = loader.load();
+
+			homepageController = loader.getController();
+			homepageController.setMainController(this);
+
+			homeContent.getProperties().put("controller", homepageController);
+
 			contentPane.getChildren().clear();
 			contentPane.getChildren().add(homeContent);
+
 			setActiveTab(homeTab, homeText);
 		} catch (IOException e) {
 			System.err.println("Error loading home content:");
 			e.printStackTrace();
 		}
 	}
+
 
 	@FXML
 	private void navigateToHistory() {
@@ -62,6 +75,27 @@ public class StudentMainController {
 			System.err.println("Error loading profile content:");
 			e.printStackTrace();
 		}
+	}
+
+	public void showTransactionForm() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-details-form.fxml"));
+			AnchorPane transactionContent = loader.load();
+
+			StudentDetailsFormController detailsFormController= loader.getController();
+			detailsFormController.setMainController(this);
+
+			contentPane.getChildren().clear();
+			contentPane.getChildren().add(transactionContent);
+
+		} catch (IOException e) {
+			System.err.println("Error loading transaction content:");
+			e.printStackTrace();
+		}
+	}
+
+	public StudentHomepageController getHomepageController() {
+		return homepageController;
 	}
 
 	private void setActiveTab(VBox activeTab, Text activeText) {

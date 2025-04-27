@@ -7,9 +7,10 @@ import com.example.wildqueue.utils.DatabaseUtil;
 import java.sql.*;
 
 public class UserDAO {
+	private static final String TABLE_NAME = "users";
 
 	public static void createUserTable() {
-		String query = "CREATE TABLE IF NOT EXISTS users (" +
+		String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
 				"userId BIGINT NOT NULL AUTO_INCREMENT, " +
 				"institutionalId VARCHAR(50) NOT NULL, " +
 				"email VARCHAR(100) NOT NULL, " +
@@ -19,7 +20,6 @@ public class UserDAO {
 				"PRIMARY KEY (userId)) AUTO_INCREMENT=1000";
 
 		try (Connection conn = DatabaseUtil.getConnection(); Statement stmt = conn.createStatement()) {
-			System.out.println("USER TABLE CREATION STARTED...");
 			stmt.execute(query);
 			System.out.println("USER TABLE CREATED SUCCESSFULLY");
 		} catch (SQLException e) {
@@ -28,7 +28,7 @@ public class UserDAO {
 	}
 
 	public static boolean institutionalIdExists(String institutionalId) {
-		String query = "SELECT COUNT(*) FROM users WHERE institutionalId = ?";
+		String query = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE institutionalId = ?";
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, institutionalId);
@@ -43,7 +43,7 @@ public class UserDAO {
 	}
 
 	public static boolean emailExists(String email) {
-		String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+		String query = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE email = ?";
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, email);
@@ -58,7 +58,7 @@ public class UserDAO {
 	}
 
 	public static void addUser(String institutionalId, String email, String name, String hashedPassword, String userType) {
-		String query = "INSERT INTO users (institutionalId, email, name, password, userType) VALUES (?, ?, ?, ?, ?)";
+		String query = "INSERT INTO " + TABLE_NAME + " (institutionalId, email, name, password, userType) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, institutionalId);
@@ -76,7 +76,7 @@ public class UserDAO {
 	}
 
 	public static User getUserByInstitutionalId(String institutionalId) {
-		String query = "SELECT * FROM users WHERE institutionalId = ?";
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE institutionalId = ?";
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, institutionalId);

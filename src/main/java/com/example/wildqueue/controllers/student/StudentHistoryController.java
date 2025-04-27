@@ -1,18 +1,16 @@
-package com.example.wildqueue.controllers;
+package com.example.wildqueue.controllers.student;
 
+import com.example.wildqueue.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 
-public class HistoryController {
+public class StudentHistoryController {
 	@FXML private ScrollPane scrollPane;
 
 	@FXML
 	public void initialize() {
-		scrollPane.setFitToWidth(true);
-		scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollPane.setPannable(true);
+		Utils.scrollPaneSetup(scrollPane);
 
 		scrollPane.getStyleClass().add("edge-to-edge");
 	}

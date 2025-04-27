@@ -1,0 +1,91 @@
+package com.example.wildqueue.services;
+
+import com.example.wildqueue.dao.PriorityNumberDAO;
+import com.example.wildqueue.models.PriorityNumber;
+import com.example.wildqueue.utils.ThreadUtils;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+public class QueueUpdaterService {
+	private static final QueueUpdaterService INSTANCE = new QueueUpdaterService();
+	private static final long DEFAULT_UPDATE_INTERVAL = 5000;
+
+	private Thread updateThread;
+	private boolean isRunning = false;
+	private Consumer<List<PriorityNumber>> currentSubscriber;
+	private PriorityNumber lastFetchedByNumber;
+
+	private QueueUpdaterService() {}
+
+	public static QueueUpdaterService getInstance() {
+		return INSTANCE;
+	}
+
+	public synchronized void subscribe(Consumer<List<PriorityNumber>> callback) {
+		if (callback == null) throw new IllegalArgumentException("Callback cannot be null");
+
+		currentSubscriber = callback;
+
+		if (!isRunning) {
+			startUpdateThread();
+		}
+	}
+
+	public synchronized void unsubscribe(Consumer<List<PriorityNumber>> callback) {
+		if (currentSubscriber == callback) {
+			currentSubscriber = null;
+			stopUpdateThread();
+		}
+	}
+
+	public synchronized void setLastFetched(PriorityNumber lastFetched) {
+		this.lastFetchedByNumber = lastFetched;
+	}
+
+	private void startUpdateThread() {
+		isRunning = true;
+		updateThread = ThreadUtils.createDaemonIntervalThread(
+				this::fetchUpdates,
+				DEFAULT_UPDATE_INTERVAL,
+				e -> {
+					synchronized (this) { isRunning = false; }
+					e.printStackTrace();
+				}
+		);
+	}
+
+	private void stopUpdateThread() {
+		if (updateThread != null) {
+			updateThread.interrupt();
+			isRunning = false;
+			updateThread = null;
+		}
+	}
+
+	private void fetchUpdates() {
+		PriorityNumber lastFetched;
+		synchronized (this) {
+			lastFetched = this.lastFetchedByNumber;
+			if (lastFetched == null) return;
+		}
+
+		List<PriorityNumber> updatedQueue = PriorityNumberDAO.getPriorityNumbersSince(lastFetched.getPriorityNumber());
+		if (!updatedQueue.isEmpty()) {
+			synchronized (this) {
+				this.lastFetchedByNumber = updatedQueue.get(updatedQueue.size() - 1);
+			}
+			notifySubscriber(updatedQueue);
+		}
+	}
+
+	private void notifySubscriber(List<PriorityNumber> updates) {
+		Consumer<List<PriorityNumber>> subscriber;
+		synchronized (this) {
+			subscriber = currentSubscriber;
+		}
+		if (subscriber != null) {
+			ThreadUtils.runOnFxThread(() -> subscriber.accept(updates));
+		}
+	}
+}
