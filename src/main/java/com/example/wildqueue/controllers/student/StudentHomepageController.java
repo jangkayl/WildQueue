@@ -60,7 +60,20 @@ public class StudentHomepageController {
     }
 
     private void handleQueueUpdates(List<PriorityNumber> updatedNumbers) {
-        priorityQueue.addAll(updatedNumbers);
+        for (PriorityNumber number : updatedNumbers) {
+            boolean alreadyExists = priorityQueue.stream()
+                    .anyMatch(pn -> pn.getPriorityNumber().equals(number.getPriorityNumber()));
+
+            if (!alreadyExists) {
+                priorityQueue.add(number);
+            }
+
+            System.out.println("Updated PriorityNumber:");
+            System.out.println("Priority Number: " + number.getPriorityNumber());
+            System.out.println("Student ID: " + number.getStudentId());
+            System.out.println("Status: " + number.getStatus());
+            System.out.println("Created At: " + number.getCreatedAt());
+        }
         updatePriorityQueueUI();
     }
 
@@ -72,7 +85,6 @@ public class StudentHomepageController {
             setupExistingTransaction(transactionQueue);
         }
     }
-
 
     public void setMainController(StudentMainController mainController) {
         this.mainController = mainController;

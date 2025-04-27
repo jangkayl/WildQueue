@@ -14,6 +14,7 @@ public class ThreadUtils {
 		Thread thread = new Thread(() -> {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
+					System.out.println("Threads running");
 					task.run();
 					Thread.sleep(intervalMillis);
 				}

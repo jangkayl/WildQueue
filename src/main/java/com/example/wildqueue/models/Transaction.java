@@ -81,9 +81,7 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
+	public Date getTransactionDate() { return transactionDate; }
 
 	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;

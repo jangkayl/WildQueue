@@ -3,8 +3,14 @@ package com.example.wildqueue.services;
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.utils.ThreadUtils;
+import com.example.wildqueue.utils.Utils;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.function.Consumer;
 
 public class QueueUpdaterService {
@@ -15,6 +21,7 @@ public class QueueUpdaterService {
 	private boolean isRunning = false;
 	private Consumer<List<PriorityNumber>> currentSubscriber;
 	private PriorityNumber lastFetchedByNumber;
+
 
 	private QueueUpdaterService() {}
 
@@ -70,12 +77,27 @@ public class QueueUpdaterService {
 			if (lastFetched == null) return;
 		}
 
-		List<PriorityNumber> updatedQueue = PriorityNumberDAO.getPriorityNumbersSince(lastFetched.getPriorityNumber());
+		System.out.println("Latest fetched num " + lastFetched.getPriorityNumber());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 8000);
+
+		System.out.println("Last Modified Timestamp: " + sdf.format(lastModifiedSince));
+
+		List<PriorityNumber> updatedQueue = PriorityNumberDAO.getPriorityNumbersSince(
+				lastFetched.getPriorityNumber(), lastModifiedSince);
+
 		if (!updatedQueue.isEmpty()) {
-			synchronized (this) {
-				this.lastFetchedByNumber = updatedQueue.get(updatedQueue.size() - 1);
+			String latestFetchedPriority = updatedQueue.get(updatedQueue.size() - 1).getPriorityNumber();
+			if (Utils.comparePriorityNumbers(lastFetched.getPriorityNumber(), latestFetchedPriority) <= 0) {
+				synchronized (this) {
+					this.lastFetchedByNumber = updatedQueue.get(updatedQueue.size() - 1);
+				}
+				notifySubscriber(updatedQueue);
+			} else {
+				System.out.println("No new updates after last fetched priority number: " + lastFetched.getPriorityNumber());
 			}
-			notifySubscriber(updatedQueue);
 		}
 	}
 

@@ -1,19 +1,26 @@
 package com.example.wildqueue.models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class PriorityNumber {
 	private String priorityNumber;
 	private String studentId;
 	private PriorityStatus status;
-	private Date createdAt;
+	private Timestamp createdAt;
+	private Timestamp lastModified;
 
-	public PriorityNumber(String priorityNumber, String studentId, PriorityStatus status, Date createdAt) {
+	public PriorityNumber(String priorityNumber, String studentId, PriorityStatus status, Timestamp createdAt, Timestamp lastModified) {
 		this.priorityNumber = priorityNumber;
 		this.studentId = studentId;
 		this.status = status;
 		this.createdAt = createdAt;
+		this.lastModified = lastModified;
 	}
+
+	public Timestamp getLastModified() { return lastModified; }
+
+	public void setLastModified(Timestamp lastModified) { this.lastModified = lastModified; }
 
 	public String getPriorityNumber() { return priorityNumber; }
 
@@ -27,7 +34,7 @@ public class PriorityNumber {
 
 	public void setStatus(PriorityStatus status) { this.status = status; }
 
-	public Date getCreatedAt() { return createdAt; }
+	public Timestamp getCreatedAt() { return createdAt; }
 
-	public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+	public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
 }

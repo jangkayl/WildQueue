@@ -5,10 +5,10 @@ import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.wildqueue.utils.Utils.comparePriorityNumbers;
+import java.util.TimeZone;
 
 public class PriorityNumberDAO {
 	private static final String TABLE_NAME = "priority_numbers";
@@ -19,6 +19,7 @@ public class PriorityNumberDAO {
 				"studentId VARCHAR(50) NOT NULL, " +
 				"status VARCHAR(20) DEFAULT 'PENDING', " +
 				"createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 				"PRIMARY KEY (priorityNumber), " +
 				"INDEX idx_student (studentId)" +
 				")";
@@ -33,7 +34,7 @@ public class PriorityNumberDAO {
 	}
 
 	public static void addPriorityNumber(PriorityNumber priorityNumber) {
-		String query = "INSERT INTO " + TABLE_NAME + " (priorityNumber, studentId, status, createdAt) VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO " + TABLE_NAME + " (priorityNumber, studentId, status) VALUES (?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -41,9 +42,6 @@ public class PriorityNumberDAO {
 			pstmt.setString(1, priorityNumber.getPriorityNumber());
 			pstmt.setString(2, priorityNumber.getStudentId());
 			pstmt.setString(3, priorityNumber.getStatus().toString());
-
-			Date sqlDate = new java.sql.Date(priorityNumber.getCreatedAt().getTime());
-			pstmt.setDate(4, sqlDate);
 
 			pstmt.executeUpdate();
 			System.out.println("PriorityNumber added successfully.");
@@ -66,7 +64,8 @@ public class PriorityNumberDAO {
 						rs.getString("priorityNumber"),
 						rs.getString("studentId"),
 						PriorityStatus.valueOf(rs.getString("status")),
-						rs.getDate("createdAt")
+						rs.getTimestamp("createdAt"),
+						rs.getTimestamp("lastModified")
 				);
 			}
 		} catch (SQLException e) {
@@ -88,7 +87,8 @@ public class PriorityNumberDAO {
 						rs.getString("priorityNumber"),
 						rs.getString("studentId"),
 						PriorityStatus.valueOf(rs.getString("status")),
-						rs.getDate("createdAt")
+						rs.getTimestamp("createdAt"),
+						rs.getTimestamp("lastModified")
 				);
 				priorityNumbers.add(pn);
 			}
@@ -99,45 +99,47 @@ public class PriorityNumberDAO {
 		return priorityNumbers;
 	}
 
-	public static List<PriorityNumber> getPriorityNumbersSince(String lastPriorityNumber) {
-		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber > ?";
+	public static List<PriorityNumber> getPriorityNumbersSince(String lastPriorityNumber, Timestamp lastModifiedSince) {
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber > ? OR lastModified > ? ORDER BY priorityNumber ASC";
 
 		List<PriorityNumber> priorityNumbers = new ArrayList<>();
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
 			stmt.setString(1, lastPriorityNumber);
+			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
 			ResultSet rs = stmt.executeQuery();
 
-			System.out.println("Last Priority Number: " + lastPriorityNumber);
-
 			while (rs.next()) {
-				String priorityNumber = rs.getString("priorityNumber");
+				Timestamp dbTimestamp = rs.getTimestamp("lastModified");
+				String formattedTimestamp = sdf.format(dbTimestamp);
+				System.out.println("Comparing DB: " + formattedTimestamp + " vs Query: " + sdf.format(lastModifiedSince));
 
-				if (comparePriorityNumbers(lastPriorityNumber, priorityNumber) < 0) {
-					System.out.println("Fetched Priority Number: " + priorityNumber);
+				PriorityNumber pn = new PriorityNumber(
+						rs.getString("priorityNumber"),
+						rs.getString("studentId"),
+						PriorityStatus.valueOf(rs.getString("status")),
+						rs.getTimestamp("createdAt"),
+						dbTimestamp
+				);
+				priorityNumbers.add(pn);
 
-					PriorityStatus status = PriorityStatus.valueOf(rs.getString("status"));
-					Timestamp createdAtTimestamp = rs.getTimestamp("createdAt");
-					Date createdAt = new Date(createdAtTimestamp.getTime());
-
-					PriorityNumber pn = new PriorityNumber(
-							priorityNumber,
-							rs.getString("studentId"),
-							status,
-							createdAt
-					);
-					priorityNumbers.add(pn);
-				}
+				System.out.println("Fetched Priority Number: " + pn.getPriorityNumber());
+				System.out.println("Status: " + pn.getStatus());
+				System.out.println("Last Modified: " + formattedTimestamp);
+				System.out.println("----");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return priorityNumbers;
 	}
+
+
 
 	public static void deletePriorityNumber(String priorityNumberId) {
 		String query = "DELETE FROM " + TABLE_NAME + " WHERE priorityNumber = ?";

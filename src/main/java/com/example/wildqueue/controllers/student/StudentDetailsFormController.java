@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -123,7 +124,7 @@ public class StudentDetailsFormController {
 		}
 
 		String priorityNumber = generatePriorityNumberString();
-		PriorityNumber pn = new PriorityNumber(priorityNumber, currentStudentId, PriorityStatus.PENDING, new Date());
+		PriorityNumber pn = new PriorityNumber(priorityNumber, currentStudentId, PriorityStatus.PENDING, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
 
 		Transaction transaction = new Transaction(
 				0,
@@ -133,7 +134,7 @@ public class StudentDetailsFormController {
 				null,
 				amount,
 				transactionType,
-				new Date(),
+				new Date(System.currentTimeMillis()),
 				"Pending"
 		);
 
