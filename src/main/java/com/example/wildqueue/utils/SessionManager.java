@@ -5,7 +5,7 @@ import com.example.wildqueue.models.User;
 public class SessionManager {
 	private static User currentUser;
 
-	private SessionManager() {} 
+	private SessionManager() {}
 
 	public static void setCurrentUser(User user) {
 		Serialize.serialize(user,"user.ser");
