@@ -4,26 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="added synch threads in tellerhomepage">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/admin-page.fxml" afterDir="false" />
+    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="done added admin page after logged in">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/MyApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/MyApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/MyApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentProfileController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/admin-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/admin-page.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/UserDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/SessionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/SessionManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.ser" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,13 +145,22 @@
       <option name="project" value="LOCAL" />
       <updated>1745848005537</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="done added admin page after logged in">
+      <option name="closed" value="true" />
+      <created>1745850545957</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745850545957</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="done fixed efficiency in fetching data in database and not waste unnecessary fetching" />
     <MESSAGE value="done prio num synch ui if processing status" />
     <MESSAGE value="added synch threads in tellerhomepage" />
-    <option name="LAST_COMMIT_MESSAGE" value="added synch threads in tellerhomepage" />
+    <MESSAGE value="done added admin page after logged in" />
+    <option name="LAST_COMMIT_MESSAGE" value="done added admin page after logged in" />
   </component>
 </project>

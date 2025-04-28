@@ -4,6 +4,8 @@ import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class UserDAO {
@@ -112,5 +114,38 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static List<User> getAllUsers() {
+		List<User> users = new ArrayList<>();
+		String query = "SELECT * FROM " + TABLE_NAME;
+
+		try (Connection conn = DatabaseUtil.getConnection();
+			 Statement stmt = conn.createStatement();
+			 ResultSet rs = stmt.executeQuery(query)) {
+
+			while (rs.next()) {
+				System.out.println(rs.getString("institutionalId") + " " + rs.getString("name") + rs.getString("email"));
+				String userType = rs.getString("userType");
+				if (userType.equals(UserType.STUDENT.toString())) {
+					users.add(new Student(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("email"),
+							userType
+					));
+				} else if (userType.equals(UserType.TELLER.toString())) {
+					users.add(new Teller(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("email"),
+							userType
+					));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 }
