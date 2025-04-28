@@ -135,7 +135,9 @@ public class StudentDetailsFormController {
 				amount,
 				transactionType,
 				new Date(System.currentTimeMillis()),
-				"Pending"
+				new Timestamp(System.currentTimeMillis()),
+				"Pending",
+				null
 		);
 
 		System.out.println("Generated Priority Number: " + priorityNumber);

@@ -84,7 +84,7 @@ public class TellerWindowDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1; // Return -1 if no window found
+		return -1;
 	}
 
 	public static void assignStudentToWindow(int windowNumber, String studentId) {

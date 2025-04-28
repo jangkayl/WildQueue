@@ -1,12 +1,11 @@
 package com.example.wildqueue.dao;
 
-import com.example.wildqueue.models.Student;
-import com.example.wildqueue.models.Teller;
-import com.example.wildqueue.models.User;
-import com.example.wildqueue.models.UserType;
+import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class UserDAO {
@@ -92,6 +91,7 @@ public class UserDAO {
 					return new Student(
 							rs.getString("institutionalId"),
 							rs.getString("name"),
+							rs.getString("email"),
 							rs.getString("password"),
 							rs.getString("userType")
 					);
@@ -99,6 +99,15 @@ public class UserDAO {
 					return new Teller(
 							rs.getString("institutionalId"),
 							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("password"),
+							rs.getString("userType")
+					);
+				} else if(Objects.equals(userType, UserType.ADMIN.toString())){
+					return new Admin(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("email"),
 							rs.getString("password"),
 							rs.getString("userType")
 					);
@@ -108,5 +117,40 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static List<User> getAllUsers() {
+		List<User> users = new ArrayList<>();
+		String query = "SELECT * FROM " + TABLE_NAME;
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     Statement stmt = conn.createStatement();
+		     ResultSet rs = stmt.executeQuery(query)) {
+
+			while (rs.next()) {
+				System.out.println(rs.getString("institutionalId") + " " + rs.getString("name") + rs.getString("email"));
+				String userType = rs.getString("userType");
+				if (userType.equals(UserType.STUDENT.toString())) {
+					users.add(new Student(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("password"),
+							userType
+					));
+				} else if (userType.equals(UserType.TELLER.toString())) {
+					users.add(new Teller(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("password"),
+							userType
+					));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 }

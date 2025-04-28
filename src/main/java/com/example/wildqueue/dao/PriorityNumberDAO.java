@@ -50,6 +50,30 @@ public class PriorityNumberDAO {
 		}
 	}
 
+	public static void updatePriorityNumber(PriorityNumber priorityNumber) {
+		String query = "UPDATE " + TABLE_NAME + " SET " +
+				"studentId = ?, " +
+				"status = ? " +
+				"WHERE priorityNumber = ?";
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, priorityNumber.getStudentId());
+			pstmt.setString(2, priorityNumber.getStatus().toString());
+			pstmt.setString(3, priorityNumber.getPriorityNumber());
+
+			int rowsUpdated = pstmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("PriorityNumber updated successfully.");
+			} else {
+				System.out.println("No PriorityNumber found with the given ID.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static PriorityNumber getPriorityNumber(String priorityNumberId) {
 		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber = ?";
 

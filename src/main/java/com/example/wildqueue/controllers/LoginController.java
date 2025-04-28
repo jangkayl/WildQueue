@@ -68,9 +68,12 @@ public class LoginController {
             if (user.getUserType().equalsIgnoreCase(UserType.TELLER.toString())) {
                 fxmlPath = "/com/example/wildqueue/teller-homepage.fxml";
                 windowTitle = "Teller Dashboard";
-            } else {
+            } else if (user.getUserType().equalsIgnoreCase(UserType.STUDENT.toString())){
                 fxmlPath = "/com/example/wildqueue/student-main.fxml";
-                windowTitle = "Student Dashboard";
+                windowTitle = "Student Homepage";
+            } else {
+                fxmlPath = "/com/example/wildqueue/admin-page.fxml";
+                windowTitle = "Admin Dashboard";
             }
 
             Utils.showAlert(

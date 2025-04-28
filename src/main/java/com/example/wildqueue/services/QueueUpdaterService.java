@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 public class QueueUpdaterService {
 	private static final QueueUpdaterService INSTANCE = new QueueUpdaterService();
-	private static final long DEFAULT_UPDATE_INTERVAL = 5000;
+	private static final long DEFAULT_UPDATE_INTERVAL = 3000;
 
 	private Thread updateThread;
 	private boolean isRunning = false;
@@ -81,7 +81,7 @@ public class QueueUpdaterService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 8000);
+		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - DEFAULT_UPDATE_INTERVAL + 3000);
 		System.out.println("Checking for updates since: " + lastModifiedSince);
 
 		List<PriorityNumber> updatedQueue = PriorityNumberDAO.getPriorityNumbersSince(

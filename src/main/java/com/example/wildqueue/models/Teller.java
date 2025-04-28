@@ -1,9 +1,10 @@
 package com.example.wildqueue.models;
 
 public class Teller extends User {
-	public Teller(String institutionalId, String name, String password, String userType) {
+	public Teller(String institutionalId, String name, String email, String password, String userType) {
 		this.institutionalId = institutionalId;
 		this.name = name;
+		this.email = email;
 		this.password = password;
 		this.userType = userType;
 	}

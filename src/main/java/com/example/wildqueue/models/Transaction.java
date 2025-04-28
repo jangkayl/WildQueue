@@ -1,5 +1,6 @@
 package com.example.wildqueue.models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Transaction {
@@ -11,9 +12,11 @@ public class Transaction {
 	private double amount;
 	private String transactionType;
 	private Date transactionDate;
+	private Timestamp lastModified;
 	private String status;
+	private Timestamp completionDate;
 
-	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, String status) {
+	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, Timestamp lastModified, String status, Timestamp completionDate) {
 		this.transactionId = transactionId;
 		this.priorityNumber = priorityNumber;
 		this.windowNumber = windowNumber;
@@ -22,12 +25,12 @@ public class Transaction {
 		this.amount = amount;
 		this.transactionType = transactionType;
 		this.transactionDate = transactionDate;
+		this.lastModified = lastModified;
 		this.status = status;
+		this.completionDate = completionDate;
 	}
 
-	public int getTransactionId() {
-		return transactionId;
-	}
+	public int getTransactionId() { return transactionId; }
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
@@ -56,9 +59,7 @@ public class Transaction {
 	public String getTellerId() {
 		return tellerId;
 	}
-	public void setTellerId(String tellerId) {
-		this.tellerId = tellerId;
-	}
+	public void setTellerId(String tellerId) { this.tellerId = tellerId; }
 
 	public double getAmount() {
 		return amount;
@@ -79,16 +80,23 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 	}
 
-	public String getStatus() {
-		return status;
-	}
+	public String getStatus() { return status; }
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
+	public Timestamp getLastModified() { return lastModified; }
+	public void setLastModified(Timestamp lastModified) { this.lastModified = lastModified; }
+
+	public void setAmount(double amount) { this.amount = amount; }
+	public Timestamp getCompletionDate() { return completionDate; }
+
+	public void setCompletionDate(Timestamp completionDate) {
+		this.completionDate = completionDate;
+	}
+
 	public void printAllDetails(){
 		System.out.println("Transaction Submitted:");
-		System.out.println("ID: " + getTransactionId());
 		System.out.println("Priority Number: " + getPriorityNumber());
 		System.out.println("Window Number: " + getWindowNumber());
 		System.out.println("Student ID: " + getStudentId());

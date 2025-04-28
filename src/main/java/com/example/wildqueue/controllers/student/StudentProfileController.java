@@ -37,22 +37,8 @@ public class StudentProfileController {
 		}
 	}
 
-	public void logout() {
-		Utils.showAlert(
-				Alert.AlertType.WARNING,
-				"LOGOUT",
-				"Are you sure you want to logout?",
-				"/com/example/wildqueue/login-page.fxml",
-				(Stage) lblLogout.getScene().getWindow(),
-				"Login",
-				ButtonType.OK,
-				ButtonType.CANCEL
-		).ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				QueueUpdaterService.getInstance().stopUpdateThread();
-				SessionManager.clearSession();
-			}
-		});
+	@FXML
+	private void logout() {
+		SessionManager.logout((Stage) lblLogout.getScene().getWindow());
 	}
-
 }

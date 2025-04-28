@@ -36,6 +36,9 @@ public class MyApplication extends Application {
             } else if(user instanceof Teller){
                 System.out.println("Auto-login as Teller: " + user.getName());
                 showTellerView();
+            } else {
+                System.out.println("Auto-login as Admin: " + user.getName());
+                showAdminView();
             }
         } else {
             loadLoginView();
@@ -74,7 +77,19 @@ public class MyApplication extends Application {
 
         Scene scene = new Scene(root);
 
-        primaryStage.setTitle("WildQueue Homepage");
+        primaryStage.setTitle("Teller Dashboard");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    public static void showAdminView() throws IOException, SQLException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource("admin-page.fxml"));
+        Parent root = fxmlLoader.load();
+
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Admin Dashboard");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

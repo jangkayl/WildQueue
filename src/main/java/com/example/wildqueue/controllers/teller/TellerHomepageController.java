@@ -12,6 +12,7 @@ import com.example.wildqueue.utils.PriorityNumberManager;
 import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -21,11 +22,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TellerHomepageController {
 	@FXML private Label tellerNameLabel;
@@ -53,12 +57,13 @@ public class TellerHomepageController {
 	private User currentUser;
 	private List<PriorityNumber> priorityQueue;
 	private PriorityNumber currentServingNumber;
-	private int windowNumber;
+	private int windowNumber = 1;
 
 	@FXML
 	public void initialize() {
 		loadUserData();
 		initializePriorityQueue();
+		updateServedTodayText();
 //		setupWindowNumber();
 	}
 
@@ -95,6 +100,17 @@ public class TellerHomepageController {
 		updateQueueUI();
 	}
 
+	private void updateServedTodayText() {
+		LocalDate today = LocalDate.now();
+
+		List<Transaction> completedTransactionsToday = TransactionDAO.getCompletedTransactionsByTeller(currentUser.getInstitutionalId())
+				.stream()
+				.filter(transaction -> transaction.getCompletionDate().toLocalDateTime().isEqual(today.atStartOfDay()))
+				.toList();
+
+		servedTodayText.setText(String.valueOf(completedTransactionsToday.size()));
+	}
+
 	private void handleQueueUpdates(List<PriorityNumber> updatedNumbers) {
 		boolean needsUpdate = false;
 
@@ -127,37 +143,73 @@ public class TellerHomepageController {
 		waitingCountText.setText(pendingQueue.size() + " people waiting");
 		hbQueue.getChildren().clear();
 
-		int maxVisibleItems = 3;
+		VBox rowsContainer = new VBox(5);
+		rowsContainer.setAlignment(Pos.CENTER_LEFT);
+
+		int maxVisibleNumbers = 5;
 		int totalItems = pendingQueue.size();
+		int numbersToShow = Math.min(totalItems, maxVisibleNumbers);
 
-		for (int i = 0; i < Math.min(totalItems, maxVisibleItems); i++) {
-			addPriorityLabel(pendingQueue.get(i));
+		HBox firstRow = createNewRow();
+		for (int i = 0; i < Math.min(3, numbersToShow); i++) {
+			firstRow.getChildren().add(createPriorityLabel(pendingQueue.get(i)));
+		}
+		rowsContainer.getChildren().add(firstRow);
+
+		if (numbersToShow > 3) {
+			HBox secondRow = createNewRow();
+
+			for (int i = 3; i < numbersToShow; i++) {
+				secondRow.getChildren().add(createPriorityLabel(pendingQueue.get(i)));
+			}
+
+			if (totalItems > maxVisibleNumbers) {
+				secondRow.getChildren().add(createEllipsisLabel());
+			}
+
+			rowsContainer.getChildren().add(secondRow);
+		} else if (totalItems > maxVisibleNumbers) {
+			firstRow.getChildren().add(createEllipsisLabel());
 		}
 
-		if (totalItems > maxVisibleItems) {
-			addEllipsisLabel();
-		}
+		hbQueue.getChildren().add(rowsContainer);
 	}
 
-	private void addPriorityLabel(PriorityNumber pn) {
+	private HBox createNewRow() {
+		HBox row = new HBox(5);
+		row.setAlignment(Pos.CENTER_LEFT);
+		return row;
+	}
+
+	private Label createPriorityLabel(PriorityNumber pn) {
 		Label label = new Label(pn.getPriorityNumber());
 		String backgroundColor = PriorityStatus.PENDING.toString().equalsIgnoreCase(pn.getStatus().toString())
 				? "#8B0000" : "#5E0A15";
 
 		label.setStyle("-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold; " +
 				"-fx-padding: 5 9; -fx-background-color: " + backgroundColor + "; -fx-background-radius: 20;");
-		hbQueue.getChildren().add(label);
+		return label;
 	}
 
-	private void addEllipsisLabel() {
+	private Label createEllipsisLabel() {
 		Label ellipsis = new Label("...");
-		ellipsis.setStyle("-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold; " +
-				"-fx-padding: 5 9; -fx-background-color: #5E0A15; -fx-background-radius: 20;");
-		hbQueue.getChildren().add(ellipsis);
+		ellipsis.setStyle("-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold; -fx-alignment: center;" +
+				"-fx-padding: 5 9; -fx-background-color: #5E0A15; -fx-background-radius: 20; -fx-pref-width: 60px;");
+		return ellipsis;
 	}
 
 	@FXML
 	private void handleCallButton() {
+		if (currentServingNumber != null) {
+			Utils.showAlert(
+					Alert.AlertType.WARNING,
+					"Already Processing",
+					"You are already processing number: " + currentServingNumber.getPriorityNumber(),
+					ButtonType.OK
+			);
+			return;
+		}
+
 		Optional<PriorityNumber> nextNumber = priorityQueue.stream()
 				.filter(pn -> PriorityStatus.PENDING.toString().equalsIgnoreCase(pn.getStatus().toString()))
 				.findFirst();
@@ -165,6 +217,14 @@ public class TellerHomepageController {
 		if (nextNumber.isPresent()) {
 			currentServingNumber = nextNumber.get();
 			currentServingNumber.setStatus(PriorityStatus.PROCESSING);
+
+			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
+			if (transaction != null) {
+				transaction.setWindowNumber(windowNumber);
+				transaction.setTellerId(currentUser.getInstitutionalId());
+				transaction.setStatus(PriorityStatus.PROCESSING.toString());
+				TransactionDAO.updateTransaction(transaction);
+			}
 
 			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING);
 
@@ -182,25 +242,25 @@ public class TellerHomepageController {
 
 	@FXML
 	private void handleCompleteButton() {
-//		if (currentServingNumber != null) {
-//			currentServingNumber.setStatus(PriorityStatus.COMPLETED);
-//			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
-//
-//			// Update the transaction status
-//			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
-//			if (transaction != null) {
-//				transaction.setStatus(PriorityStatus.COMPLETED.toString());
-//				TransactionDAO.updateTransaction(transaction);
-//			}
-//
-//			currentNumberText.setText("--");
-//			currentStudentText.setText("--");
-//			currentServingNumber = null;
-//
-//			updateQueueUI();
-//		} else {
-//			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
-//		}
+		if (currentServingNumber != null) {
+			currentServingNumber.setStatus(PriorityStatus.COMPLETED);
+			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
+
+			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
+			if (transaction != null) {
+				transaction.setStatus(PriorityStatus.COMPLETED.toString());
+				transaction.setCompletionDate(new Timestamp(System.currentTimeMillis()));
+				TransactionDAO.updateTransaction(transaction);
+			}
+
+			currentNumberText.setText("--");
+			currentStudentText.setText("--");
+			currentServingNumber = null;
+
+			updateQueueUI();
+		} else {
+			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
+		}
 	}
 
 	@FXML
@@ -245,7 +305,6 @@ public class TellerHomepageController {
 	@FXML
 	private void handleRecallButton() {
 		if (currentServingNumber != null) {
-			// Just update the UI to show the same number again
 			currentNumberText.setText(currentServingNumber.getPriorityNumber());
 			currentStudentText.setText(currentServingNumber.getStudentId());
 		} else {
@@ -255,7 +314,6 @@ public class TellerHomepageController {
 
 	@FXML
 	private void handleWindowToggle() {
-		// Toggle window status (open/closed)
 		boolean isOpen = windowStatusText.getText().equalsIgnoreCase("OPEN");
 		windowStatusText.setText(isOpen ? "CLOSED" : "OPEN");
 		windowToggleButton.setText(isOpen ? "Open Window" : "Close Window");
@@ -263,20 +321,6 @@ public class TellerHomepageController {
 
 	@FXML
 	private void logout() {
-		Utils.showAlert(
-				Alert.AlertType.WARNING,
-				"LOGOUT",
-				"Are you sure you want to logout?",
-				"/com/example/wildqueue/login-page.fxml",
-				(Stage) logoutButton.getScene().getWindow(),
-				"Login",
-				ButtonType.OK,
-				ButtonType.CANCEL
-		).ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				QueueUpdaterService.getInstance().stopUpdateThread();
-				SessionManager.clearSession();
-			}
-		});
+		SessionManager.logout((Stage) logoutButton.getScene().getWindow());
 	}
 }

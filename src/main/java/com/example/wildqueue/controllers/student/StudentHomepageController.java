@@ -20,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -121,7 +122,7 @@ public class StudentHomepageController {
     public void generatePriorityNumber(String priorityNumber, String purpose, PriorityNumber pn) {
 	    Transaction transaction = new Transaction(
                 0, priorityNumber, 0, SessionManager.getCurrentUser().getInstitutionalId(),
-                null, 0, purpose, new Date(), PriorityStatus.PENDING.toString()
+                null, 0, purpose, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null
         );
 
         PriorityNumberDAO.addPriorityNumber(pn);
