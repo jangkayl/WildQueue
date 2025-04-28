@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="720" prefWidth="1280" style="-fx-background-color: #FDFBEE;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.AdminHomepageController">
+
+    <!-- Top Section - Controls and Search -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: #550000; -fx-padding: 15;">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <!-- University Branding -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+<!--                        <Image url="@/images/cit_logo.png" />-->
+                    </ImageView>
+                    <Text style="-fx-fill: #FDFBEE; -fx-font-size: 18; -fx-font-weight: bold;" text="CIT University Queue Management System" />
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- System Controls -->
+                <Button fx:id="logoutButton" onAction="#logout" style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="🔒 Logout" />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <!-- Quick Actions -->
+                <Button onAction="#handleEnrollStudent" style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="➕ Enroll Student" />
+
+                <Button onAction="#handleRegisterTeller" style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="➕ Register Teller" />
+
+                <ToggleButton fx:id="onlineRequestsToggle" onAction="#toggleOnlineRequests" style="-fx-background-color: #F16767; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="🌐 Online Requests: DISABLED" />
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Search -->
+                <TextField fx:id="searchField" promptText="🔍 Search students..." style="-fx-pref-width: 250; -fx-pref-height: 35; -fx-font-size: 14;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center Section - Main Content -->
+    <center>
+        <TabPane style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE">
+            <!-- Dashboard Tab -->
+            <Tab text="📊 Dashboard">
+                <SplitPane dividerPositions="0.7" orientation="HORIZONTAL">
+                    <!-- Queue Management -->
+                    <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+                        <!-- Current Queue -->
+                        <VBox spacing="10" style="-fx-padding: 15;">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="📋 Active Queue" />
+                                <Button style="-fx-background-color: #3674B5; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="⏸ Pause Queue" />
+                                <Button style="-fx-background-color: #497D74; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="▶ Resume Queue" />
+                            </HBox>
+                            <TableView fx:id="queueTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+                                <!-- Table columns same as before -->
+                            </TableView>
+                        </VBox>
+
+                        <!-- Transaction Logs -->
+                        <VBox spacing="10" style="-fx-padding: 15;">
+                            <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="📜 Transaction History" />
+                            <TableView fx:id="transactionTable">
+                                <columns>
+                                    <TableColumn prefWidth="150" text="Timestamp" />
+                                    <TableColumn prefWidth="100" text="User ID" />
+                                    <TableColumn prefWidth="200" text="Action" />
+                                    <TableColumn prefWidth="300" text="Details" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </SplitPane>
+
+                    <!-- Right Panel - Notifications -->
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="🔔 Notifications" />
+                            <Button style="-fx-background-color: #F16767; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="Clear All" />
+                        </HBox>
+                        <ListView fx:id="notificationsList" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+                            <!-- Notification template with status indicator -->
+                            <VBox spacing="5" style="-fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-width: 0 0 1 0;">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Circle fill="#7D0A0A" radius="5" />
+                                    <Text style="-fx-font-weight: bold;" text="Teller #2 - Timeout Request" />
+                                    <Text style="-fx-font-size: 12; -fx-fill: #7f8c8d;" text="10:15 AM" />
+                                </HBox>
+                                <Text style="-fx-font-size: 14;" text="Reason: Bathroom break" />
+                                <HBox alignment="CENTER_RIGHT" spacing="10">
+                                    <Button style="-fx-background-color: #A7D477; -fx-text-fill: white; -fx-padding: 5 15; -fx-background-radius: 20px;" text="Approve" />
+                                    <Button style="-fx-background-color: #7D0A0A; -fx-text-fill: white; -fx-padding: 5 15; -fx-background-radius: 20px;" text="Reject" />
+                                </HBox>
+                            </VBox>
+                        </ListView>
+                    </VBox>
+                </SplitPane>
+            </Tab>
+
+            <!-- User Management Tab -->
+            <Tab text="👥 User Management">
+                <SplitPane dividerPositions="0.5" orientation="HORIZONTAL">
+                    <!-- Students -->
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="🎓 Student Management" />
+                            <Button style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-padding: 5 10; -fx-background-radius: 20px;" text="Export to CSV" />
+                        </HBox>
+                        <TableView fx:id="studentsTable">
+                            <!-- Table columns with action buttons -->
+                        </TableView>
+                    </VBox>
+
+                    <!-- Tellers -->
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="💼 Teller Management" />
+                            <Button style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-padding: 5 10; -fx-background-radius: 20px;" text="Generate Report" />
+                        </HBox>
+                        <TableView fx:id="tellersTable">
+                            <!-- Teller table columns -->
+                        </TableView>
+                    </VBox>
+                </SplitPane>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #7D0A0A; -fx-padding: 8 15;">
+            <HBox spacing="10">
+                <Circle fill="#2ecc71" radius="5" />
+                <Text style="-fx-fill: #FDFBEE; -fx-font-size: 12;" text="System Status: Operational" />
+            </HBox>
+            <Text style="-fx-fill: #EAD196; -fx-font-size: 12;" text="🕒 Last Updated: 3:45 PM" />
+            <Text style="-fx-fill: #EAD196; -fx-font-size: 12;" text="👥 Active Users: 142" />
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,9 +1,6 @@
 package com.example.wildqueue.dao;
 
-import com.example.wildqueue.models.Student;
-import com.example.wildqueue.models.Teller;
-import com.example.wildqueue.models.User;
-import com.example.wildqueue.models.UserType;
+import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
@@ -97,6 +94,13 @@ public class UserDAO {
 					);
 				} else if(Objects.equals(userType, UserType.TELLER.toString())){
 					return new Teller(
+							rs.getString("institutionalId"),
+							rs.getString("name"),
+							rs.getString("password"),
+							rs.getString("userType")
+					);
+				} else if(Objects.equals(userType, UserType.ADMIN.toString())){
+					return new Admin(
 							rs.getString("institutionalId"),
 							rs.getString("name"),
 							rs.getString("password"),

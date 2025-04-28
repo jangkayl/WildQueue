@@ -255,7 +255,6 @@ public class TellerHomepageController {
 
 	@FXML
 	private void handleWindowToggle() {
-		// Toggle window status (open/closed)
 		boolean isOpen = windowStatusText.getText().equalsIgnoreCase("OPEN");
 		windowStatusText.setText(isOpen ? "CLOSED" : "OPEN");
 		windowToggleButton.setText(isOpen ? "Open Window" : "Close Window");
@@ -263,20 +262,6 @@ public class TellerHomepageController {
 
 	@FXML
 	private void logout() {
-		Utils.showAlert(
-				Alert.AlertType.WARNING,
-				"LOGOUT",
-				"Are you sure you want to logout?",
-				"/com/example/wildqueue/login-page.fxml",
-				(Stage) logoutButton.getScene().getWindow(),
-				"Login",
-				ButtonType.OK,
-				ButtonType.CANCEL
-		).ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				QueueUpdaterService.getInstance().stopUpdateThread();
-				SessionManager.clearSession();
-			}
-		});
+		SessionManager.logout((Stage) logoutButton.getScene().getWindow());
 	}
 }
