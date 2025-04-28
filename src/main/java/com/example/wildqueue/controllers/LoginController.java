@@ -2,6 +2,7 @@ package com.example.wildqueue.controllers;
 
 import com.example.wildqueue.dao.UserDAO;
 import com.example.wildqueue.models.User;
+import com.example.wildqueue.models.UserType;
 import com.example.wildqueue.utils.Serialize;
 import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
@@ -57,21 +58,33 @@ public class LoginController {
 
         String hashedPassword = Utils.hashPassword(password);
         if (hashedPassword != null && hashedPassword.equals(user.getPassword())) {
+            SessionManager.setCurrentUser(user);
+
             System.out.println(user.getName() + " logged in successfully.");
+
+            String fxmlPath;
+            String windowTitle;
+
+            if (user.getUserType().equalsIgnoreCase(UserType.TELLER.toString())) {
+                fxmlPath = "/com/example/wildqueue/teller-homepage.fxml";
+                windowTitle = "Teller Dashboard";
+            } else {
+                fxmlPath = "/com/example/wildqueue/student-main.fxml";
+                windowTitle = "Student Dashboard";
+            }
+
             Utils.showAlert(
                     Alert.AlertType.INFORMATION,
                     "Login Success",
                     "You have successfully logged in " + user.getName() + "!",
-                    "/com/example/wildqueue/student-main.fxml",
+                    fxmlPath,
                     (Stage) loginButton.getScene().getWindow(),
-                    "Homepage",
+                    windowTitle,
                     ButtonType.OK
             );
         } else {
             showError("Invalid password.");
         }
-
-        SessionManager.setCurrentUser(user);
     }
 
     private void showError(String message) {

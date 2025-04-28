@@ -1,18 +1,23 @@
 package com.example.wildqueue.models;
 
 public class TellerWindow {
-	private Teller teller;
+	private String tellerId;
+	private String studentId;
+	private int windowNumber;
 
-	public TellerWindow(Teller teller) {
-		this.teller = teller;
+	public TellerWindow(String tellerId, String studentId, int windowNumber) {
+		this.tellerId = tellerId;
+		this.studentId = studentId;
+		this.windowNumber = windowNumber;
 	}
 
-	public Teller getTeller() {
-		return teller;
-	}
+	public int getWindowNumber() { return windowNumber; }
+	public void setWindowNumber(int windowNumber) { this.windowNumber = windowNumber; }
 
-	public void setTeller(Teller teller) {
-		this.teller = teller;
-	}
+	public String getStudentId() { return studentId; }
+	public void setStudentId(String studentId) { this.studentId = studentId; }
+
+	public String getTellerId() { return tellerId; }
+	public void setTellerId(String tellerId) { this.tellerId = tellerId; }
 }
 

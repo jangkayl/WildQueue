@@ -139,7 +139,28 @@ public class PriorityNumberDAO {
 		return priorityNumbers;
 	}
 
+	public static boolean updatePriorityNumberStatus(String priorityNumberId, PriorityStatus newStatus) {
+		String query = "UPDATE " + TABLE_NAME + " SET status = ?, lastModified = CURRENT_TIMESTAMP WHERE priorityNumber = ?";
 
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, newStatus.toString());
+			pstmt.setString(2, priorityNumberId);
+
+			int rowsUpdated = pstmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("PriorityNumber status updated successfully.");
+				return true;
+			} else {
+				System.out.println("No PriorityNumber found with the given ID.");
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public static void deletePriorityNumber(String priorityNumberId) {
 		String query = "DELETE FROM " + TABLE_NAME + " WHERE priorityNumber = ?";

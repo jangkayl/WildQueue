@@ -24,7 +24,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 10 0;">
                     <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
                         <image>
-                            <Image url="https://cdn4.iconfinder.com/data/icons/queue/100/queue-07-512.png" />
+<!--                            <Image url="https://cdn4.iconfinder.com/data/icons/queue/100/queue-07-512.png" />-->
                         </image>
                     </ImageView>
                     <VBox spacing="0">
@@ -36,7 +36,7 @@
                         <graphic>
                             <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
                                 <image>
-                                    <Image url="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" />
+<!--                                    <Image url="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" />-->
                                 </image>
                             </ImageView>
                         </graphic>

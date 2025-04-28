@@ -68,12 +68,7 @@ public class Utils {
 
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.setResizable(false);
-
 		stage.centerOnScreen();
-		stage.setOnShown(e -> {
-			stage.setX(stage.getX());
-			stage.setY(stage.getY());
-		});
 
 		Optional<ButtonType> result = alert.showAndWait();
 
@@ -128,6 +123,8 @@ public class Utils {
 			Parent root = loader.load();
 			Stage stage = (Stage) currentStage.getScene().getWindow();
 			stage.setScene(new Scene(root));
+			stage.centerOnScreen();
+			stage.setResizable(false);
 			stage.setTitle(stageTitle);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -20,7 +20,6 @@ public class QueueUpdaterService {
 	private Consumer<List<PriorityNumber>> currentSubscriber;
 	private PriorityNumber lastFetchedByNumber;
 
-
 	private QueueUpdaterService() {}
 
 	public static QueueUpdaterService getInstance() {
@@ -60,11 +59,13 @@ public class QueueUpdaterService {
 		);
 	}
 
-	private void stopUpdateThread() {
+	public void stopUpdateThread() {
 		if (updateThread != null) {
 			updateThread.interrupt();
 			isRunning = false;
 			updateThread = null;
+			currentSubscriber = null;
+			lastFetchedByNumber = null;
 		}
 	}
 

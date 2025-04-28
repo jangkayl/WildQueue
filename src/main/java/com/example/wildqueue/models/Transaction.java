@@ -28,7 +28,6 @@ public class Transaction {
 	public int getTransactionId() {
 		return transactionId;
 	}
-
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
@@ -36,7 +35,6 @@ public class Transaction {
 	public String getPriorityNumber() {
 		return priorityNumber;
 	}
-
 	public void setPriorityNumber(String priorityNumber) {
 		this.priorityNumber = priorityNumber;
 	}
@@ -44,7 +42,6 @@ public class Transaction {
 	public int getWindowNumber() {
 		return windowNumber;
 	}
-
 	public void setWindowNumber(int windowNumber) {
 		this.windowNumber = windowNumber;
 	}
@@ -52,7 +49,6 @@ public class Transaction {
 	public String getStudentId() {
 		return studentId;
 	}
-
 	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
@@ -60,7 +56,6 @@ public class Transaction {
 	public String getTellerId() {
 		return tellerId;
 	}
-
 	public void setTellerId(String tellerId) {
 		this.tellerId = tellerId;
 	}
@@ -68,7 +63,6 @@ public class Transaction {
 	public double getAmount() {
 		return amount;
 	}
-
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
@@ -76,13 +70,11 @@ public class Transaction {
 	public String getTransactionType() {
 		return transactionType;
 	}
-
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
 
 	public Date getTransactionDate() { return transactionDate; }
-
 	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
 	}
@@ -90,7 +82,6 @@ public class Transaction {
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
