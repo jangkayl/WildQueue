@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -125,10 +124,10 @@
                         </HBox>
                         <TableView fx:id="studentsTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
                             <columns>
-                                <TableColumn fx:id="studentIdCol" prefWidth="150" text="Student ID" />
-                                <TableColumn fx:id="studentNameCol" prefWidth="200" text="Name" />
-                                <TableColumn fx:id="studentEmailCol" prefWidth="150" text="Email" />
-                                <TableColumn fx:id="studentActionCol" prefWidth="100" text="Actions" />
+                                <TableColumn fx:id="studentIdCol" prefWidth="150.0" text="Student ID" />
+                                <TableColumn fx:id="studentNameCol" prefWidth="152.0" text="Name" />
+                                <TableColumn fx:id="studentEmailCol" prefWidth="176.0" text="Email" />
+                                <TableColumn fx:id="studentActionCol" prefWidth="126.0" text="Actions" />
                             </columns>
                         </TableView>
                     </VBox>
@@ -142,9 +141,9 @@
                         <TableView fx:id="tellersTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
                             <columns>
                                 <TableColumn fx:id="tellerIdCol" prefWidth="150" text="Teller ID" />
-                                <TableColumn fx:id="tellerNameCol" prefWidth="200" text="Name" />
-                                <TableColumn fx:id="tellerEmailCol" prefWidth="150" text="Email" />
-                                <TableColumn fx:id="tellerActionCol" prefWidth="100" text="Actions" />
+                                <TableColumn fx:id="tellerNameCol" prefWidth="170.0" text="Name" />
+                                <TableColumn fx:id="tellerEmailCol" prefWidth="157.0" text="Email" />
+                                <TableColumn fx:id="tellerActionCol" prefWidth="128.0" text="Actions" />
                             </columns>
                         </TableView>
                     </VBox>

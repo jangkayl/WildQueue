@@ -9,6 +9,7 @@ public class Teller extends User {
 		this.userType = userType;
 	}
 
+
 	public void updatePriorityNumber() {}
 	public void getPriorityNumber() {}
 	public void confirmTransaction() {}

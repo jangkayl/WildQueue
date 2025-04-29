@@ -122,6 +122,54 @@ public class UserDAO {
 		}
 		return null;
 	}
+	public static void updateUser(User user) {
+		String query = "UPDATE " + TABLE_NAME + " SET " +
+				"institutionalId = ?, " +
+				"email = ?, " +
+				"name = ?, " +
+				"userType = ? " +
+				"WHERE institutionalId = ?";
+		try (Connection conn = DatabaseUtil.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, user.getInstitutionalId());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getName());
+			pstmt.setString(4, user.getUserType());
+			pstmt.setString(5, user.getInstitutionalId());
+
+			int rowsUpdated = pstmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("User updated successfully.");
+			} else {
+				System.out.println("No user found with the given ID.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static boolean deleteUser(User user) {
+		String query = "DELETE FROM " + TABLE_NAME + " WHERE institutionalId = ?";
+
+		try (Connection conn = DatabaseUtil.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, user.getInstitutionalId());
+
+			int rowsAffected = pstmt.executeUpdate();
+			if (rowsAffected > 0) {
+				System.out.println("User deleted successfully.");
+				return true;
+			} else {
+				System.out.println("No user found with the given ID.");
+				return false;
+			}
+		} catch (SQLException e) {
+			System.err.println("Error deleting user: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public static List<User> getAllUsers() {
 		List<User> users = new ArrayList<>();

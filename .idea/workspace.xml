@@ -4,67 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="added teller call next and more but some bugs will be fixed tomorrow">
+    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="added recent activity transactions in teller and served today in synch with the database">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_j4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/RegisterStudentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/register_student.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/AdminHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/AdminHomepageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/PriorityNumberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/PriorityNumberDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TellerWindowDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TellerWindowDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TransactionDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/PriorityNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/PriorityNumber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/DatabaseUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/DatabaseUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/teller-homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/teller-homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/DatabaseConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/MyApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/admin-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/LoginController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/RegisterController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentDetailsFormController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHistoryController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentMainController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentProfileController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/PriorityNumberDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TellerWindowDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TransactionDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/UserDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/login-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/login-page1.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Admin.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityNumber.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Student.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Teller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/TellerWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Transaction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/UserType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/QueueUpdaterService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-details-form.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-history-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-homepage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-main.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-profile-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/teller-homepage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/transaction-history-dialog.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/DatabaseUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/PriorityNumberManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/Serialize.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/SessionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/ThreadUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/Utils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Teller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/models/Teller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/admin-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/admin-page.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page1.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user.ser" beforeDir="false" afterPath="$PROJECT_DIR$/user.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,8 +26,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Kotlin Class" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -95,6 +47,9 @@
     &quot;accountId&quot;: &quot;4821c9bb-2cf6-4ce1-959c-5fbb6f256c1f&quot;
   }
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -106,27 +61,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MyApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/WildQueue/src/main/resources/com/example/wildqueue&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MyApplication.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/L13Y12W12/Documents/WildQueue",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\WildQueue\src\main\resources\com\example\wildqueue" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\L13Y12W12\Documents\WildQueue\src\main\resources\com\example\wildqueue" />
       <recent name="E:\WildQueue\src\main\resources\com\example\wildqueue" />
     </key>
   </component>
@@ -140,6 +97,19 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="WildQueue" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="WildQueue" />
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -215,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745860322348</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added recent activity transactions in teller and served today in synch with the database">
+      <option name="closed" value="true" />
+      <created>1745890203796</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745890203796</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -235,6 +213,7 @@
     <MESSAGE value="added synch threads in tellerhomepage" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/java/com/example/wildqueue/controllers/admin/AdminHomepageController.java&#10;#&#9;src/main/java/com/example/wildqueue/dao/UserDAO.java&#10;#&#9;src/main/java/com/example/wildqueue/models/Admin.java&#10;#&#9;src/main/resources/com/example/wildqueue/admin-page.fxml&#10;#&#9;target/classes/com/example/wildqueue/admin-page.fxml&#10;#&#9;target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class&#10;#&#9;target/classes/com/example/wildqueue/dao/UserDAO.class&#10;#&#9;target/classes/com/example/wildqueue/models/Admin.class&#10;#&#9;user.ser" />
     <MESSAGE value="added teller call next and more but some bugs will be fixed tomorrow" />
-    <option name="LAST_COMMIT_MESSAGE" value="added teller call next and more but some bugs will be fixed tomorrow" />
+    <MESSAGE value="added recent activity transactions in teller and served today in synch with the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="added recent activity transactions in teller and served today in synch with the database" />
   </component>
 </project>
