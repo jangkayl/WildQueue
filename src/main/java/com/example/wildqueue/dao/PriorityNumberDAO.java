@@ -17,6 +17,7 @@ public class PriorityNumberDAO {
 		String query = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
 				"priorityNumber VARCHAR(20) NOT NULL, " +
 				"studentId VARCHAR(50) NOT NULL, " +
+				"tellerId VARCHAR(50), " +
 				"status VARCHAR(20) DEFAULT 'PENDING', " +
 				"createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
@@ -26,8 +27,12 @@ public class PriorityNumberDAO {
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     Statement stmt = conn.createStatement()) {
-			stmt.executeUpdate(query);
-			System.out.println("PRIORITY NUMBER TABLE CREATED SUCCESSFULLY.");
+			if (!DatabaseUtil.tableExists(conn, TABLE_NAME)) {
+				stmt.execute(query);
+				System.out.println("PRIORITY NUMBER TABLE CREATED SUCCESSFULLY");
+			} else {
+				System.out.println("PRIORITY NUMBER TABLE ALREADY EXISTS");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -87,6 +92,7 @@ public class PriorityNumberDAO {
 				return new PriorityNumber(
 						rs.getString("priorityNumber"),
 						rs.getString("studentId"),
+						rs.getString("tellerId"),
 						PriorityStatus.valueOf(rs.getString("status")),
 						rs.getTimestamp("createdAt"),
 						rs.getTimestamp("lastModified")
@@ -110,6 +116,7 @@ public class PriorityNumberDAO {
 				PriorityNumber pn = new PriorityNumber(
 						rs.getString("priorityNumber"),
 						rs.getString("studentId"),
+						rs.getString("tellerId"),
 						PriorityStatus.valueOf(rs.getString("status")),
 						rs.getTimestamp("createdAt"),
 						rs.getTimestamp("lastModified")
@@ -121,6 +128,30 @@ public class PriorityNumberDAO {
 		}
 
 		return priorityNumbers;
+	}
+
+	public static PriorityNumber getLatestPriorityNumber() {
+		String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY createdAt DESC LIMIT 1";
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     Statement stmt = conn.createStatement();
+		     ResultSet rs = stmt.executeQuery(query)) {
+
+			if (rs.next()) {
+				return new PriorityNumber(
+						rs.getString("priorityNumber"),
+						rs.getString("studentId"),
+						rs.getString("tellerId"),
+						PriorityStatus.valueOf(rs.getString("status")),
+						rs.getTimestamp("createdAt"),
+						rs.getTimestamp("lastModified")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public static List<PriorityNumber> getPriorityNumbersSince(String lastPriorityNumber, Timestamp lastModifiedSince) {
@@ -146,6 +177,7 @@ public class PriorityNumberDAO {
 				PriorityNumber pn = new PriorityNumber(
 						rs.getString("priorityNumber"),
 						rs.getString("studentId"),
+						rs.getString("tellerId"),
 						PriorityStatus.valueOf(rs.getString("status")),
 						rs.getTimestamp("createdAt"),
 						dbTimestamp
@@ -163,14 +195,15 @@ public class PriorityNumberDAO {
 		return priorityNumbers;
 	}
 
-	public static boolean updatePriorityNumberStatus(String priorityNumberId, PriorityStatus newStatus) {
-		String query = "UPDATE " + TABLE_NAME + " SET status = ?, lastModified = CURRENT_TIMESTAMP WHERE priorityNumber = ?";
+	public static boolean updatePriorityNumberStatus(String priorityNumberId, PriorityStatus newStatus, String tellerId) {
+		String query = "UPDATE " + TABLE_NAME + " SET status = ?, tellerId = ?, lastModified = CURRENT_TIMESTAMP WHERE priorityNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 
 			pstmt.setString(1, newStatus.toString());
-			pstmt.setString(2, priorityNumberId);
+			pstmt.setString(2, tellerId);
+			pstmt.setString(3, priorityNumberId);
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {

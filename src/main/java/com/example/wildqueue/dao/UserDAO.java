@@ -22,8 +22,12 @@ public class UserDAO {
 				"PRIMARY KEY (userId)) AUTO_INCREMENT=1000";
 
 		try (Connection conn = DatabaseUtil.getConnection(); Statement stmt = conn.createStatement()) {
-			stmt.execute(query);
-			System.out.println("USER TABLE CREATED SUCCESSFULLY");
+			if (!DatabaseUtil.tableExists(conn, TABLE_NAME)) {
+				stmt.execute(query);
+				System.out.println("USER TABLE CREATED SUCCESSFULLY");
+			} else {
+				System.out.println("USER TABLE ALREADY EXISTS");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

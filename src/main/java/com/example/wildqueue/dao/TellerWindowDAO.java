@@ -29,8 +29,12 @@ public class TellerWindowDAO {
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     Statement stmt = conn.createStatement()) {
-			stmt.executeUpdate(query);
-			System.out.println("TELLER WINDOW TABLE CREATED SUCCESSFULLY.");
+			if (!DatabaseUtil.tableExists(conn, TABLE_NAME)) {
+				stmt.execute(query);
+				System.out.println("TELLER WINDOW TABLE CREATED SUCCESSFULLY");
+			} else {
+				System.out.println("TELLER WINDOW TABLE ALREADY EXISTS");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

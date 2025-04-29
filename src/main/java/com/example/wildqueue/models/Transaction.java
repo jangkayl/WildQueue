@@ -7,6 +7,7 @@ public class Transaction {
 	private int transactionId;
 	private String priorityNumber;
 	private int windowNumber;
+	private String studentName;
 	private String studentId;
 	private String tellerId;
 	private double amount;
@@ -14,12 +15,14 @@ public class Transaction {
 	private Date transactionDate;
 	private Timestamp lastModified;
 	private String status;
+	private Timestamp calledTime;
 	private Timestamp completionDate;
 
-	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, Timestamp lastModified, String status, Timestamp completionDate) {
+	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentName, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, Timestamp lastModified, String status, Timestamp calledTime, Timestamp completionDate) {
 		this.transactionId = transactionId;
 		this.priorityNumber = priorityNumber;
 		this.windowNumber = windowNumber;
+		this.studentName = studentName;
 		this.studentId = studentId;
 		this.tellerId = tellerId;
 		this.amount = amount;
@@ -27,6 +30,7 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 		this.lastModified = lastModified;
 		this.status = status;
+		this.calledTime = calledTime;
 		this.completionDate = completionDate;
 	}
 
@@ -49,6 +53,9 @@ public class Transaction {
 		this.windowNumber = windowNumber;
 	}
 
+	public String getStudentName() { return studentName; }
+	public void setStudentName(String studentName) { this.studentName = studentName; }
+
 	public String getStudentId() {
 		return studentId;
 	}
@@ -64,7 +71,7 @@ public class Transaction {
 	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -88,12 +95,11 @@ public class Transaction {
 	public Timestamp getLastModified() { return lastModified; }
 	public void setLastModified(Timestamp lastModified) { this.lastModified = lastModified; }
 
-	public void setAmount(double amount) { this.amount = amount; }
-	public Timestamp getCompletionDate() { return completionDate; }
+	public Timestamp getCalledTime() { return calledTime; }
+	public void setCalledTime(Timestamp calledTime) { this.calledTime = calledTime; }
 
-	public void setCompletionDate(Timestamp completionDate) {
-		this.completionDate = completionDate;
-	}
+	public Timestamp getCompletionDate() { return completionDate; }
+	public void setCompletionDate(Timestamp completionDate) { this.completionDate = completionDate; }
 
 	public void printAllDetails(){
 		System.out.println("Transaction Submitted:");

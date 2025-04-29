@@ -6,13 +6,15 @@ import java.util.Date;
 public class PriorityNumber {
 	private String priorityNumber;
 	private String studentId;
+	private String tellerId;
 	private PriorityStatus status;
 	private Timestamp createdAt;
 	private Timestamp lastModified;
 
-	public PriorityNumber(String priorityNumber, String studentId, PriorityStatus status, Timestamp createdAt, Timestamp lastModified) {
+	public PriorityNumber(String priorityNumber, String studentId, String tellerId, PriorityStatus status, Timestamp createdAt, Timestamp lastModified) {
 		this.priorityNumber = priorityNumber;
 		this.studentId = studentId;
+		this.tellerId = tellerId;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.lastModified = lastModified;
@@ -26,6 +28,9 @@ public class PriorityNumber {
 
 	public String getStudentId() { return studentId; }
 	public void setStudentId(String studentId) { this.studentId = studentId; }
+
+	public String getTellerId() {return tellerId; }
+	public void setTellerId(String tellerId) { this.tellerId = tellerId; }
 
 	public PriorityStatus getStatus() { return status; }
 	public void setStatus(PriorityStatus status) { this.status = status; }

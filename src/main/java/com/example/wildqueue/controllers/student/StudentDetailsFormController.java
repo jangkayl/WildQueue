@@ -1,5 +1,6 @@
 package com.example.wildqueue.controllers.student;
 
+import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
@@ -123,13 +124,15 @@ public class StudentDetailsFormController {
 			}
 		}
 
-		String priorityNumber = generatePriorityNumberString();
-		PriorityNumber pn = new PriorityNumber(priorityNumber, currentStudentId, PriorityStatus.PENDING, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
+		PriorityNumber latestPN = PriorityNumberDAO.getLatestPriorityNumber();
+		String priorityNumber = Utils.generatePriorityNumberString(latestPN);
+		PriorityNumber pn = new PriorityNumber(priorityNumber, currentStudentId, "", PriorityStatus.PENDING, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
 
 		Transaction transaction = new Transaction(
 				0,
 				priorityNumber,
 				0,
+				currentStudentName,
 				currentStudentId,
 				null,
 				amount,
@@ -137,6 +140,7 @@ public class StudentDetailsFormController {
 				new Date(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()),
 				"Pending",
+				null,
 				null
 		);
 
@@ -163,23 +167,5 @@ public class StudentDetailsFormController {
 		}
 	}
 
-	private String generatePriorityNumberString() {
-		if (priorityNumbers == null || priorityNumbers.isEmpty()) {
-			return "Q-001";
-		}
 
-		String latestPriorityNumber = priorityNumbers.get(0).getPriorityNumber();
-
-		String[] parts = latestPriorityNumber.split("-");
-		int number = 0;
-		if (parts.length == 2) {
-			number = Integer.parseInt(parts[1]);
-		} else if (parts.length == 3) {
-			number = Integer.parseInt(parts[2]);
-		}
-
-		number++;
-
-		return "Q-" + String.format("%03d", number);
-	}
 }

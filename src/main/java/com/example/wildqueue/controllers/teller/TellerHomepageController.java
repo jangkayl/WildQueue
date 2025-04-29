@@ -8,9 +8,7 @@ import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
-import com.example.wildqueue.utils.PriorityNumberManager;
-import com.example.wildqueue.utils.SessionManager;
-import com.example.wildqueue.utils.Utils;
+import com.example.wildqueue.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -19,14 +17,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,16 +55,20 @@ public class TellerHomepageController {
 	@FXML private Text windowStatusText;
 	@FXML private Button refreshActivityButton;
 	@FXML private VBox activityContainer;
+	@FXML private VBox vbRecentActivities;
 	@FXML private HBox hbQueue;
 
 	private User currentUser;
 	private List<PriorityNumber> priorityQueue;
+	private List<Transaction> transactionList;
 	private PriorityNumber currentServingNumber;
+	private Transaction currentServing = null;
 	private int windowNumber = 1;
 
 	@FXML
 	public void initialize() {
 		loadUserData();
+		initializeCurrentServing();
 		initializePriorityQueue();
 		updateServedTodayText();
 //		setupWindowNumber();
@@ -84,11 +91,14 @@ public class TellerHomepageController {
 		windowNumberText.setText("Window " + windowNumber);
 	}
 
-	public void initializePriorityQueue() {
+	private void initializePriorityQueue() {
 		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
+		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId()));
 
+		transactionList = TransactionManager.getTransactionList();
 		priorityQueue = PriorityNumberManager.getPriorityNumberList();
 		updateQueueUI();
+		updateTransactionUI();
 
 		PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
 				priorityQueue.get(priorityQueue.size() - 1) : null;
@@ -100,12 +110,33 @@ public class TellerHomepageController {
 		updateQueueUI();
 	}
 
+	private void initializeCurrentServing(){
+		if (currentServing != null) {
+			return;
+		}
+
+		currentServing = TransactionDAO.getCurrentServing(currentUser.getInstitutionalId());
+		if (currentServing == null) {
+			return;
+		}
+
+		currentServingNumber = PriorityNumberDAO.getPriorityNumber(currentServing.getPriorityNumber());
+		if (currentServingNumber == null) {
+			return;
+		}
+
+		System.out.println("Current Serving is " + currentServingNumber.getPriorityNumber());
+		currentNumberText.setText(currentServingNumber.getPriorityNumber());
+		currentStudentText.setText(currentServingNumber.getStudentId());
+	}
+
 	private void updateServedTodayText() {
 		LocalDate today = LocalDate.now();
 
 		List<Transaction> completedTransactionsToday = TransactionDAO.getCompletedTransactionsByTeller(currentUser.getInstitutionalId())
 				.stream()
-				.filter(transaction -> transaction.getCompletionDate().toLocalDateTime().isEqual(today.atStartOfDay()))
+				.filter(transaction -> transaction.getCompletionDate() != null)
+				.filter(transaction -> transaction.getCompletionDate().toLocalDateTime().toLocalDate().isEqual(today))
 				.toList();
 
 		servedTodayText.setText(String.valueOf(completedTransactionsToday.size()));
@@ -198,6 +229,84 @@ public class TellerHomepageController {
 		return ellipsis;
 	}
 
+	private void updateTransactionUI() {
+		activityContainer.getChildren().clear();
+
+		List<ActivityEvent> activityEvents = new ArrayList<>();
+
+		for (Transaction transaction : transactionList) {
+			if (transaction.getCalledTime() != null) {
+				activityEvents.add(new ActivityEvent(
+						"CALLED",
+						transaction.getPriorityNumber(),
+						transaction.getStudentName(),
+						transaction.getStudentId(),
+						transaction.getCalledTime(),
+						Color.GOLD
+				));
+			}
+
+			if (transaction.getCompletionDate() != null) {
+				activityEvents.add(new ActivityEvent(
+						"COMPLETED",
+						transaction.getPriorityNumber(),
+						transaction.getStudentName(),
+						transaction.getStudentId(),
+						transaction.getCompletionDate(),
+						Color.LIMEGREEN
+				));
+			}
+
+			// Add transferred event if exists
+//			if (transaction.getTransferredDate() != null) {
+//				activityEvents.add(new ActivityEvent(
+//						"TRANSFERRED",
+//						transaction.getPriorityNumber(),
+//						transaction.getStudentName(),
+//						transaction.getStudentId(),
+//						transaction.getTransferredDate(),
+//						Color.SKYBLUE
+//				));
+//			}
+		}
+
+		List<ActivityEvent> recentActivities = activityEvents.stream()
+				.sorted(Comparator.comparing(ActivityEvent::getDate).reversed())
+				.limit(5)
+				.collect(Collectors.toList());
+
+		for (ActivityEvent event : recentActivities) {
+			HBox activityItem = new HBox(8);
+			activityItem.setAlignment(Pos.CENTER_LEFT);
+			activityItem.setStyle("-fx-padding: 6; -fx-background-color: #fff9f0; -fx-background-radius: 3;");
+
+			Circle statusCircle = new Circle(4);
+			statusCircle.setFill(event.getColor());
+
+			String formattedTime = new SimpleDateFormat("hh:mm a").format(event.getDate());
+
+			Text activityText = new Text(String.format("%s #%s | %s - %s (%s)",
+					event.getAction(),
+					event.getPriorityNumber(),
+					event.getStudentName(),
+					event.getStudentId(),
+					formattedTime));
+			activityText.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+			activityItem.getChildren().addAll(statusCircle, activityText);
+			activityContainer.getChildren().add(activityItem);
+		}
+	}
+
+	private String getActionText(String status) {
+		switch (status.toUpperCase()) {
+			case "PROCESSING": return "Called";
+			case "COMPLETED": return "Completed";
+			case "TRANSFERRED": return "Transferred";
+			default: return "Processed";
+		}
+	}
+
 	@FXML
 	private void handleCallButton() {
 		if (currentServingNumber != null) {
@@ -222,19 +331,25 @@ public class TellerHomepageController {
 			if (transaction != null) {
 				transaction.setWindowNumber(windowNumber);
 				transaction.setTellerId(currentUser.getInstitutionalId());
+				transaction.setCalledTime(new Timestamp(System.currentTimeMillis()));
 				transaction.setStatus(PriorityStatus.PROCESSING.toString());
 				TransactionDAO.updateTransaction(transaction);
 			}
 
-			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING);
+			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING, currentUser.getInstitutionalId());
 
 			if (success) {
 				currentNumberText.setText(currentServingNumber.getPriorityNumber());
 				currentStudentText.setText(currentServingNumber.getStudentId());
+
+				refreshTransactionUI();
+				updateTransactionUI();
+
 				updateQueueUI();
 			} else {
 				Utils.showAlert(Alert.AlertType.ERROR, "Update Failed", "Failed to update priority number status", null);
 			}
+
 		} else {
 			Utils.showAlert(Alert.AlertType.INFORMATION, "No Numbers", "There are no numbers to call.", null);
 		}
@@ -243,6 +358,21 @@ public class TellerHomepageController {
 	@FXML
 	private void handleCompleteButton() {
 		if (currentServingNumber != null) {
+			Optional<ButtonType> result = Utils.showAlert(
+					Alert.AlertType.CONFIRMATION,
+					"Confirmation",
+					"Are you sure you are done?",
+					ButtonType.YES,
+					ButtonType.NO
+			);
+
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				System.out.println("User confirmed: DONE!");
+			} else {
+				System.out.println("User cancelled.");
+				return;
+			}
+
 			currentServingNumber.setStatus(PriorityStatus.COMPLETED);
 			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
 
@@ -257,10 +387,19 @@ public class TellerHomepageController {
 			currentStudentText.setText("--");
 			currentServingNumber = null;
 
+			refreshTransactionUI();
+			updateTransactionUI();
+
+			updateServedTodayText();
 			updateQueueUI();
 		} else {
 			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
 		}
+	}
+
+	private void refreshTransactionUI(){
+		transactionList = TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId());
+		TransactionManager.setTransactionList(transactionList);
 	}
 
 	@FXML

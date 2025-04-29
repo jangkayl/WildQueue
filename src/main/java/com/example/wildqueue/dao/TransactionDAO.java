@@ -16,6 +16,7 @@ public class TransactionDAO {
 				"transactionId INT NOT NULL AUTO_INCREMENT, " +
 				"priorityNumber VARCHAR(20) NOT NULL, " +
 				"windowNumber INT NOT NULL, " +
+				"studentName VARCHAR(50) NOT NULL, " +
 				"studentId VARCHAR(50) NOT NULL, " +
 				"tellerId VARCHAR(50), " +
 				"amount DOUBLE DEFAULT 0.0, " +
@@ -23,6 +24,7 @@ public class TransactionDAO {
 				"transactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 				"status VARCHAR(20) NOT NULL, " +
+				"calledTime TIMESTAMP NULL DEFAULT NULL, " +
 				"completionDate TIMESTAMP NULL DEFAULT NULL, " +
 				"PRIMARY KEY (transactionId), " +
 				"INDEX idx_student (studentId), " +
@@ -32,8 +34,12 @@ public class TransactionDAO {
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     Statement stmt = conn.createStatement()) {
-			stmt.execute(query);
-			System.out.println("TRANSACTION TABLE CREATED SUCCESSFULLY");
+			if (!DatabaseUtil.tableExists(conn, TABLE_NAME)) {
+				stmt.execute(query);
+				System.out.println("TRANSACTION TABLE CREATED SUCCESSFULLY");
+			} else {
+				System.out.println("TRANSACTION TABLE ALREADY EXISTS");
+			}
 		} catch (SQLException e) {
 			System.err.println("Error creating transaction table:");
 			e.printStackTrace();
@@ -42,19 +48,20 @@ public class TransactionDAO {
 
 	public static int createTransaction(Transaction transaction) {
 		String query = "INSERT INTO " + TABLE_NAME +
-				"(priorityNumber, windowNumber, studentId, tellerId, amount, transactionType, status) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?)";
+				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
 			pstmt.setString(1, transaction.getPriorityNumber());
 			pstmt.setInt(2, transaction.getWindowNumber());
-			pstmt.setString(3, transaction.getStudentId());
-			pstmt.setString(4, transaction.getTellerId());
-			pstmt.setDouble(5, transaction.getAmount());
-			pstmt.setString(6, transaction.getTransactionType());
-			pstmt.setString(7, transaction.getStatus());
+			pstmt.setString(3, transaction.getStudentName());
+			pstmt.setString(4, transaction.getStudentId());
+			pstmt.setString(5, transaction.getTellerId());
+			pstmt.setDouble(6, transaction.getAmount());
+			pstmt.setString(7, transaction.getTransactionType());
+			pstmt.setString(8, transaction.getStatus());
 
 			int affectedRows = pstmt.executeUpdate();
 
@@ -88,12 +95,51 @@ public class TransactionDAO {
 							rs.getString("priorityNumber"),
 							rs.getInt("windowNumber"),
 							rs.getString("studentId"),
+							rs.getString("studentName"),
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
+							rs.getTimestamp("calledTime"),
+							rs.getTimestamp("completionDate")
+					);
+					transactions.add(transaction);
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error fetching transactions by studentId:");
+			e.printStackTrace();
+		}
+
+		return transactions;
+	}
+
+	public static List<Transaction> getTransactionsByTellerId(String tellerId) {
+		List<Transaction> transactions = new ArrayList<>();
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE tellerId = ? ORDER BY transactionDate ASC";
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, tellerId);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					Transaction transaction = new Transaction(
+							rs.getInt("transactionId"),
+							rs.getString("priorityNumber"),
+							rs.getInt("windowNumber"),
+							rs.getString("studentName"),
+							rs.getString("studentId"),
+							rs.getString("tellerId"),
+							rs.getDouble("amount"),
+							rs.getString("transactionType"),
+							rs.getTimestamp("transactionDate"),
+							rs.getTimestamp("lastModified"),
+							rs.getString("status"),
+							rs.getTimestamp("calledTime"),
 							rs.getTimestamp("completionDate")
 					);
 					transactions.add(transaction);
@@ -122,6 +168,7 @@ public class TransactionDAO {
 							rs.getInt("transactionId"),
 							rs.getString("priorityNumber"),
 							rs.getInt("windowNumber"),
+							rs.getString("studentName"),
 							rs.getString("studentId"),
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
@@ -129,6 +176,7 @@ public class TransactionDAO {
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
+							rs.getTimestamp("calledTime"),
 							rs.getTimestamp("completionDate")
 					);
 				}
@@ -158,6 +206,7 @@ public class TransactionDAO {
 							rs.getInt("transactionId"),
 							rs.getString("priorityNumber"),
 							rs.getInt("windowNumber"),
+							rs.getString("studentName"),
 							rs.getString("studentId"),
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
@@ -165,6 +214,7 @@ public class TransactionDAO {
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
+							rs.getTimestamp("calledTime"),
 							rs.getTimestamp("completionDate")
 					);
 					if (completionDateTimestamp != null) {
@@ -177,6 +227,42 @@ public class TransactionDAO {
 			e.printStackTrace();
 		}
 		return completedTransactions;
+	}
+
+	public static Transaction getCurrentServing(String tellerId) {
+		Transaction currentServing = null;
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE tellerId = ? AND status = ?";
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, tellerId);
+			pstmt.setString(2, PriorityStatus.PROCESSING.toString());
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					Transaction transaction = new Transaction(
+							rs.getInt("transactionId"),
+							rs.getString("priorityNumber"),
+							rs.getInt("windowNumber"),
+							rs.getString("studentName"),
+							rs.getString("studentId"),
+							rs.getString("tellerId"),
+							rs.getDouble("amount"),
+							rs.getString("transactionType"),
+							rs.getTimestamp("transactionDate"),
+							rs.getTimestamp("lastModified"),
+							rs.getString("status"),
+							rs.getTimestamp("calledTime"),
+							rs.getTimestamp("completionDate")
+					);
+					currentServing = transaction;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return currentServing;
 	}
 
 	public static List<Transaction> getAllTransactions() {
@@ -192,6 +278,7 @@ public class TransactionDAO {
 						rs.getInt("transactionId"),
 						rs.getString("priorityNumber"),
 						rs.getInt("windowNumber"),
+						rs.getString("studentName"),
 						rs.getString("studentId"),
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
@@ -199,6 +286,7 @@ public class TransactionDAO {
 						rs.getTimestamp("transactionDate"),
 						rs.getTimestamp("lastModified"),
 						rs.getString("status"),
+						rs.getTimestamp("calledTime"),
 						rs.getTimestamp("completionDate")
 				);
 				transactions.add(transaction);
@@ -218,7 +306,9 @@ public class TransactionDAO {
 				"tellerId = ?, " +
 				"amount = ?, " +
 				"transactionType = ?, " +
-				"status = ? " +
+				"status = ?, " +
+				"calledTime = ?, " +
+				"completionDate = ? " +
 				"WHERE transactionId = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
@@ -231,7 +321,9 @@ public class TransactionDAO {
 			pstmt.setDouble(5, transaction.getAmount());
 			pstmt.setString(6, transaction.getTransactionType());
 			pstmt.setString(7, transaction.getStatus());
-			pstmt.setInt(8, transaction.getTransactionId());
+			pstmt.setTimestamp(8, transaction.getCalledTime());
+			pstmt.setTimestamp(9, transaction.getCompletionDate());
+			pstmt.setInt(10, transaction.getTransactionId());
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {

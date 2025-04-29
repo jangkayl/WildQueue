@@ -1,5 +1,6 @@
 package com.example.wildqueue.utils;
 
+import com.example.wildqueue.models.PriorityNumber;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 public class Utils {
@@ -33,6 +35,24 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static String generatePriorityNumberString(PriorityNumber priorityNumber) {
+		if (priorityNumber == null) {
+			return "Q-001";
+		}
+
+		String[] parts = priorityNumber.getPriorityNumber().split("-");
+		int number = 0;
+		if (parts.length == 2) {
+			number = Integer.parseInt(parts[1]);
+		} else if (parts.length == 3) {
+			number = Integer.parseInt(parts[2]);
+		}
+
+		number++;
+
+		return "Q-" + String.format("%03d", number);
 	}
 
 	public static Optional<ButtonType> showAlert(

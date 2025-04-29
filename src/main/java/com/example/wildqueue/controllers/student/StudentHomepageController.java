@@ -121,8 +121,8 @@ public class StudentHomepageController {
 
     public void generatePriorityNumber(String priorityNumber, String purpose, PriorityNumber pn) {
 	    Transaction transaction = new Transaction(
-                0, priorityNumber, 0, SessionManager.getCurrentUser().getInstitutionalId(),
-                null, 0, purpose, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null
+                0, priorityNumber, 0, SessionManager.getCurrentUser().getName(), SessionManager.getCurrentUser().getInstitutionalId(),
+                null, 0, purpose, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null, null
         );
 
         PriorityNumberDAO.addPriorityNumber(pn);

@@ -84,7 +84,7 @@
                         <Circle fill="#800000" radius="6" style="-fx-text-alignment: center;" />
                         <Text fx:id="waitingCountText" style="-fx-font-size: 12px; -fx-fill: #800000;" text="Waiting: 0" />
                     </HBox>
-                    <HBox fx:id="hbQueue" alignment="CENTER" spacing="5" style="-fx-padding: 0 0 10 0;"/>
+                    <HBox fx:id="hbQueue" alignment="CENTER" spacing="5" style="-fx-padding: 0 0 10 0;" />
                 </VBox>
             </HBox>
 
@@ -108,7 +108,7 @@
             </VBox>
 
             <!-- Recent Activity Section - Scaled down -->
-            <VBox alignment="TOP_LEFT" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); -fx-min-width: 520;">
+            <VBox fx:id="vbRecentActivities" alignment="TOP_LEFT" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); -fx-min-width: 520;">
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Text style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #800000;" text="RECENT ACTIVITY" />
                     <Button fx:id="refreshActivityButton" style="-fx-background-color: transparent; -fx-text-fill: #800000; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0;" text="Refresh" />
