@@ -87,6 +87,7 @@ public class TellerHomepageController {
 
 	private void setupWindowNumber() {
 		windowNumber = TellerWindowDAO.getWindowNumberByTellerId(currentUser.getInstitutionalId());
+
 		windowNumberText.setText("Window " + windowNumber);
 	}
 
