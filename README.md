@@ -57,15 +57,22 @@ This project isn’t just an academic requirement — it’s a **real solution f
 
 
 Class Diagram
+----------------------------------------------------------------------------------
 ![LinTech drawio](https://github.com/user-attachments/assets/81a437de-230b-4d8f-b3ce-43830022725e)
+
+Update Class Diagram
+----------------------------------------------------------------------------------
+![WildQueue drawio](https://github.com/user-attachments/assets/ad7109b0-4c7b-421d-bd79-13780a733342)
 
 
 Use-Case Diagram
+----------------------------------------------------------------------------------
 ![QueueManagementApp drawio](https://github.com/user-attachments/assets/791f3af1-f401-4e89-bde2-a1af5e7b98ac)
 
 
 
 WASHO members :
+----------------------------------------------------------------------------------
 
 Alido, Jexter A.
 
