@@ -161,7 +161,8 @@ public class StudentDetailsFormController {
 				mainController.getHomepageController().generatePriorityNumber(
 						priorityNumber,
 						transactionType,
-						pn
+						pn,
+						amount
 				);
 			}
 		}

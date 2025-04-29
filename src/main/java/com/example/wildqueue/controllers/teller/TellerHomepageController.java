@@ -8,6 +8,7 @@ import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
+import com.example.wildqueue.services.TransactionUpdaterService;
 import com.example.wildqueue.utils.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -28,10 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TellerHomepageController {
@@ -70,6 +68,7 @@ public class TellerHomepageController {
 		loadUserData();
 		initializeCurrentServing();
 		initializePriorityQueue();
+		initializeTransactions();
 		updateServedTodayText();
 //		setupWindowNumber();
 	}
@@ -93,12 +92,9 @@ public class TellerHomepageController {
 
 	private void initializePriorityQueue() {
 		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId()));
 
-		transactionList = TransactionManager.getTransactionList();
 		priorityQueue = PriorityNumberManager.getPriorityNumberList();
 		updateQueueUI();
-		updateTransactionUI();
 
 		PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
 				priorityQueue.get(priorityQueue.size() - 1) : null;
@@ -108,6 +104,22 @@ public class TellerHomepageController {
 		queueUpdaterService.subscribe(this::handleQueueUpdates);
 
 		updateQueueUI();
+	}
+
+	private void initializeTransactions() {
+		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId()));
+
+		transactionList = TransactionManager.getTransactionList();
+		updateTransactionUI();
+
+		Transaction lastFetched = !transactionList.isEmpty() ?
+				transactionList.get(transactionList.size() - 1) : null;
+
+		TransactionUpdaterService transactionUpdaterService = TransactionUpdaterService.getInstance();
+		transactionUpdaterService.setLastFetched(lastFetched);
+		transactionUpdaterService.subscribe(this::handleTransactionUpdates);
+
+		updateTransactionUI();
 	}
 
 	private void initializeCurrentServing(){
@@ -163,6 +175,48 @@ public class TellerHomepageController {
 
 		if (needsUpdate) {
 			updateQueueUI();
+		}
+	}
+
+	private void handleTransactionUpdates(List<Transaction> updatedTransactions) {
+		boolean needsUpdate = false;
+
+		for (Transaction updatedTransaction : updatedTransactions) {
+			Optional<Transaction> existingTransaction = transactionList.stream()
+					.filter(t -> t.getTransactionId() == updatedTransaction.getTransactionId())
+					.findFirst();
+
+			if (existingTransaction.isPresent()) {
+				if (!Objects.equals(existingTransaction.get().getStatus(), updatedTransaction.getStatus()) ||
+						!Objects.equals(existingTransaction.get().getCalledTime(), updatedTransaction.getCalledTime()) ||
+						!Objects.equals(existingTransaction.get().getCompletionDate(), updatedTransaction.getCompletionDate())) {
+
+					existingTransaction.get().setStatus(updatedTransaction.getStatus());
+					existingTransaction.get().setCalledTime(updatedTransaction.getCalledTime());
+					existingTransaction.get().setCompletionDate(updatedTransaction.getCompletionDate());
+					needsUpdate = true;
+				}
+			} else {
+				transactionList.add(updatedTransaction);
+				needsUpdate = true;
+			}
+		}
+
+		if (needsUpdate) {
+			updateTransactionUI();
+
+			if (currentServingNumber != null) {
+				Optional<Transaction> currentTransaction = transactionList.stream()
+						.filter(t -> t.getPriorityNumber().equals(currentServingNumber.getPriorityNumber()))
+						.findFirst();
+
+				if (currentTransaction.isPresent() &&
+						currentTransaction.get().getStatus().equals(PriorityStatus.COMPLETED.toString())) {
+					currentNumberText.setText("--");
+					currentStudentText.setText("--");
+					currentServingNumber = null;
+				}
+			}
 		}
 	}
 
@@ -257,7 +311,6 @@ public class TellerHomepageController {
 				));
 			}
 
-			// Add transferred event if exists
 //			if (transaction.getTransferredDate() != null) {
 //				activityEvents.add(new ActivityEvent(
 //						"TRANSFERRED",
@@ -295,15 +348,6 @@ public class TellerHomepageController {
 
 			activityItem.getChildren().addAll(statusCircle, activityText);
 			activityContainer.getChildren().add(activityItem);
-		}
-	}
-
-	private String getActionText(String status) {
-		switch (status.toUpperCase()) {
-			case "PROCESSING": return "Called";
-			case "COMPLETED": return "Completed";
-			case "TRANSFERRED": return "Transferred";
-			default: return "Processed";
 		}
 	}
 

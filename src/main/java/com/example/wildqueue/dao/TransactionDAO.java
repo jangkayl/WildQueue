@@ -1,12 +1,15 @@
 package com.example.wildqueue.dao;
 
+import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.utils.DatabaseUtil;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class TransactionDAO {
 	private static final String TABLE_NAME = "transactions";
@@ -90,6 +93,7 @@ public class TransactionDAO {
 
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
+					System.out.println("Transaction by student : " + rs.getString("priorityNumber"));
 					Transaction transaction = new Transaction(
 							rs.getInt("transactionId"),
 							rs.getString("priorityNumber"),
@@ -263,6 +267,109 @@ public class TransactionDAO {
 			e.printStackTrace();
 		}
 		return currentServing;
+	}
+
+	public static List<Transaction> getTransactionsSince(String lastPriorityNumber, Timestamp lastModifiedSince) {
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber > ? OR lastModified > ? ORDER BY priorityNumber ASC";
+
+		List<Transaction> transactions = new ArrayList<>();
+
+		try (Connection conn = DatabaseUtil.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+			stmt.setString(1, lastPriorityNumber);
+			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
+			ResultSet rs = stmt.executeQuery();
+
+			System.out.println("Formatted Timestamp Transaction: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
+			while (rs.next()) {
+				System.out.println("--------------------");
+				System.out.println("PRIORITY NUM");
+				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
+				Transaction transaction = new Transaction(
+						rs.getInt("transactionId"),
+						rs.getString("priorityNumber"),
+						rs.getInt("windowNumber"),
+						rs.getString("studentName"),
+						rs.getString("studentId"),
+						rs.getString("tellerId"),
+						rs.getDouble("amount"),
+						rs.getString("transactionType"),
+						rs.getTimestamp("transactionDate"),
+						rs.getTimestamp("lastModified"),
+						rs.getString("status"),
+						rs.getTimestamp("calledTime"),
+						rs.getTimestamp("completionDate")
+				);
+				transactions.add(transaction);
+
+				System.out.println("Fetched Transaction: " + transaction.getPriorityNumber());
+				System.out.println("Status: " + transaction.getStatus());
+				System.out.println("Last Modified: " + rs.getTimestamp("lastModified"));
+				System.out.println("----");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transactions;
+	}
+
+	public static List<Transaction> getStudentTransactionsSince(String studentId, Timestamp lastModifiedSince) {
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE studentId = ? OR lastModified > ? ORDER BY priorityNumber ASC";
+
+		List<Transaction> transactions = new ArrayList<>();
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setString(1, studentId);
+			stmt.setTimestamp(2, lastModifiedSince);
+
+			ResultSet rs = stmt.executeQuery();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			System.out.println("Last modified date: " + lastModifiedSince);
+
+			while (rs.next()) {
+				Timestamp dbTimestamp = rs.getTimestamp("lastModified");
+
+				String formattedDbTimestamp = sdf.format(dbTimestamp);
+				String formattedQueryTimestamp = sdf.format(lastModifiedSince);
+
+				System.out.println("Comparing DB: " + formattedDbTimestamp + " vs Query: " + formattedQueryTimestamp);
+
+				Transaction transaction = new Transaction(
+						rs.getInt("transactionId"),
+						rs.getString("priorityNumber"),
+						rs.getInt("windowNumber"),
+						rs.getString("studentName"),
+						rs.getString("studentId"),
+						rs.getString("tellerId"),
+						rs.getDouble("amount"),
+						rs.getString("transactionType"),
+						rs.getTimestamp("transactionDate"),
+						dbTimestamp,
+						rs.getString("status"),
+						rs.getTimestamp("calledTime"),
+						rs.getTimestamp("completionDate")
+				);
+				transactions.add(transaction);
+
+				System.out.println("Fetched Transaction: " + transaction.getPriorityNumber());
+				System.out.println("Status: " + transaction.getStatus());
+				System.out.println("Last Modified: " + formattedDbTimestamp);
+				System.out.println("----");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transactions;
 	}
 
 	public static List<Transaction> getAllTransactions() {

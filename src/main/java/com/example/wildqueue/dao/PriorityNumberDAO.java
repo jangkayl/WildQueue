@@ -169,10 +169,12 @@ public class PriorityNumberDAO {
 			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
 			ResultSet rs = stmt.executeQuery();
 
+			System.out.println("Formatted Timestamp Prio Num: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
 			while (rs.next()) {
-				Timestamp dbTimestamp = rs.getTimestamp("lastModified");
-				String formattedTimestamp = sdf.format(dbTimestamp);
-				System.out.println("Comparing DB: " + formattedTimestamp + " vs Query: " + sdf.format(lastModifiedSince));
+				System.out.println("--------------------");
+				System.out.println("PRIORITY NUM");
+				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 				PriorityNumber pn = new PriorityNumber(
 						rs.getString("priorityNumber"),
@@ -180,13 +182,13 @@ public class PriorityNumberDAO {
 						rs.getString("tellerId"),
 						PriorityStatus.valueOf(rs.getString("status")),
 						rs.getTimestamp("createdAt"),
-						dbTimestamp
+						rs.getTimestamp("lastModified")
 				);
 				priorityNumbers.add(pn);
 
 				System.out.println("Fetched Priority Number: " + pn.getPriorityNumber());
 				System.out.println("Status: " + pn.getStatus());
-				System.out.println("Last Modified: " + formattedTimestamp);
+				System.out.println("Last Modified: " + rs.getTimestamp("lastModified"));
 				System.out.println("----");
 			}
 		} catch (SQLException e) {

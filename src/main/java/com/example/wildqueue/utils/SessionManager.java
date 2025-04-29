@@ -2,6 +2,7 @@ package com.example.wildqueue.utils;
 
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
+import com.example.wildqueue.services.TransactionUpdaterService;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
@@ -36,6 +37,7 @@ public class SessionManager {
 		).ifPresent(response -> {
 			if (response == ButtonType.OK) {
 				QueueUpdaterService.getInstance().stopUpdateThread();
+				TransactionUpdaterService.getInstance().stopUpdateThread();
 				SessionManager.clearSession();
 			}
 		});
