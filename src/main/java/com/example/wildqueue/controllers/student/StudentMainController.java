@@ -1,8 +1,10 @@
 package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.dao.PriorityNumberDAO;
+import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.utils.PriorityNumberManager;
 import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.TransactionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -25,13 +27,7 @@ public class StudentMainController {
 	@FXML
 	public void initialize() throws IOException {
 		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
-		loader.load();
-
-		homepageController = loader.getController();
-		homepageController.initializePriorityQueue();
-		homepageController.setupExistingTransactionIfAny();
+		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(SessionManager.getCurrentUser().getInstitutionalId()));
 
 		navigateToHome();
 	}

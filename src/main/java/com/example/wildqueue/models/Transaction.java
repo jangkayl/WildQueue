@@ -102,7 +102,8 @@ public class Transaction {
 	public void setCompletionDate(Timestamp completionDate) { this.completionDate = completionDate; }
 
 	public void printAllDetails(){
-		System.out.println("Transaction Submitted:");
+		System.out.println("---------------------------------------");
+		System.out.println("Transaction Details:");
 		System.out.println("Priority Number: " + getPriorityNumber());
 		System.out.println("Window Number: " + getWindowNumber());
 		System.out.println("Student ID: " + getStudentId());
@@ -111,5 +112,6 @@ public class Transaction {
 		System.out.println("Type: " + getTransactionType());
 		System.out.println("Date: " + getTransactionDate());
 		System.out.println("Status: " + getStatus());
+		System.out.println("---------------------------------------");
 	}
 }

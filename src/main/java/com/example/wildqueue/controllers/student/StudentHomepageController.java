@@ -41,7 +41,7 @@ public class StudentHomepageController {
     public void initialize() {
         Utils.scrollPaneSetup(scrollPane);
 
-        this.currentUser = SessionManager.getCurrentUser();
+        currentUser = SessionManager.getCurrentUser();
 
         if (currentUser == null) {
             System.err.println("Error: No user logged in");
@@ -67,9 +67,7 @@ public class StudentHomepageController {
         updatePriorityQueueUI();
     }
 
-    private void initializeTransactions() {
-        TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(currentUser.getInstitutionalId()));
-
+    public void initializeTransactions() {
         transactionList = TransactionManager.getTransactionList();
         updateTransactionUI();
 
