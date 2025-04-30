@@ -24,6 +24,7 @@ public class TransactionDAO {
 				"tellerId VARCHAR(50), " +
 				"amount DOUBLE DEFAULT 0.0, " +
 				"transactionType VARCHAR(30) NOT NULL, " +
+				"transactionDetails VARCHAR(255) NOT NULL, " +
 				"transactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 				"status VARCHAR(20) NOT NULL, " +
@@ -51,8 +52,8 @@ public class TransactionDAO {
 
 	public static int createTransaction(Transaction transaction) {
 		String query = "INSERT INTO " + TABLE_NAME +
-				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status, transactionDetails) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -65,6 +66,7 @@ public class TransactionDAO {
 			pstmt.setDouble(6, transaction.getAmount());
 			pstmt.setString(7, transaction.getTransactionType());
 			pstmt.setString(8, transaction.getStatus());
+			pstmt.setString(9, transaction.getTransactionDetails());
 
 			int affectedRows = pstmt.executeUpdate();
 
@@ -85,6 +87,7 @@ public class TransactionDAO {
 	public static List<Transaction> getTransactionsByStudentId(String studentId) {
 		List<Transaction> transactions = new ArrayList<>();
 		String query = "SELECT * FROM " + TABLE_NAME + " WHERE studentId = ? ORDER BY transactionDate ASC";
+		System.out.println("Student id para: " + studentId);
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -103,6 +106,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -140,6 +144,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -177,6 +182,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -215,6 +221,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -254,6 +261,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -282,6 +290,7 @@ public class TransactionDAO {
 
 			stmt.setString(1, lastPriorityNumber);
 			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
 			ResultSet rs = stmt.executeQuery();
 
 			System.out.println("Formatted Timestamp Transaction: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
@@ -300,6 +309,7 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
 						rs.getTimestamp("lastModified"),
 						rs.getString("status"),
@@ -320,29 +330,27 @@ public class TransactionDAO {
 	}
 
 	public static List<Transaction> getStudentTransactionsSince(String studentId, Timestamp lastModifiedSince) {
-		String query = "SELECT * FROM " + TABLE_NAME + " WHERE studentId = ? OR lastModified > ? ORDER BY priorityNumber ASC";
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE studentId = ? AND lastModified > ? ORDER BY priorityNumber ASC";
 
 		List<Transaction> transactions = new ArrayList<>();
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
 			stmt.setString(1, studentId);
-			stmt.setTimestamp(2, lastModifiedSince);
+			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 			ResultSet rs = stmt.executeQuery();
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-			System.out.println("Last modified date: " + lastModifiedSince);
+			System.out.println("Formatted Timestamp Transaction: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 			while (rs.next()) {
-				Timestamp dbTimestamp = rs.getTimestamp("lastModified");
-
-				String formattedDbTimestamp = sdf.format(dbTimestamp);
-				String formattedQueryTimestamp = sdf.format(lastModifiedSince);
-
-				System.out.println("Comparing DB: " + formattedDbTimestamp + " vs Query: " + formattedQueryTimestamp);
+				System.out.println("--------------------");
+				System.out.println("PRIORITY NUM");
+				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 				Transaction transaction = new Transaction(
 						rs.getInt("transactionId"),
@@ -353,8 +361,9 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
-						dbTimestamp,
+						rs.getTimestamp("lastModified"),
 						rs.getString("status"),
 						rs.getTimestamp("calledTime"),
 						rs.getTimestamp("completionDate")
@@ -363,7 +372,7 @@ public class TransactionDAO {
 
 				System.out.println("Fetched Transaction: " + transaction.getPriorityNumber());
 				System.out.println("Status: " + transaction.getStatus());
-				System.out.println("Last Modified: " + formattedDbTimestamp);
+				System.out.println("Last Modified: " + rs.getTimestamp("lastModified"));
 				System.out.println("----");
 			}
 		} catch (SQLException e) {
@@ -390,6 +399,7 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
 						rs.getTimestamp("lastModified"),
 						rs.getString("status"),

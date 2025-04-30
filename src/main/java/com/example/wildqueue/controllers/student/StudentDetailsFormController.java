@@ -137,6 +137,7 @@ public class StudentDetailsFormController {
 				null,
 				amount,
 				transactionType,
+				additionalDetails,
 				new Date(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()),
 				"Pending",
@@ -161,6 +162,7 @@ public class StudentDetailsFormController {
 				mainController.getHomepageController().generatePriorityNumber(
 						priorityNumber,
 						transactionType,
+						additionalDetails,
 						pn,
 						amount
 				);
@@ -169,4 +171,11 @@ public class StudentDetailsFormController {
 	}
 
 
+	public List<PriorityNumber> getPriorityNumbers() {
+		return priorityNumbers;
+	}
+
+	public void setPriorityNumbers(List<PriorityNumber> priorityNumbers) {
+		this.priorityNumbers = priorityNumbers;
+	}
 }

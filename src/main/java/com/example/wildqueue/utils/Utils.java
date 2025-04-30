@@ -3,6 +3,7 @@ package com.example.wildqueue.utils;
 import com.example.wildqueue.models.PriorityNumber;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -165,4 +166,20 @@ public class Utils {
 
 		return Integer.compare(n1, n2);
 	}
+
+	public static void addClickListener(Node node, Runnable action, long thresholdMs) {
+		final long[] pressTime = new long[1];
+
+		node.setOnMousePressed(e -> pressTime[0] = System.currentTimeMillis());
+
+		node.setOnMouseReleased(e -> {
+			long releaseTime = System.currentTimeMillis();
+			long duration = releaseTime - pressTime[0];
+
+			if (duration < thresholdMs) {
+				action.run();
+			}
+		});
+	}
+
 }

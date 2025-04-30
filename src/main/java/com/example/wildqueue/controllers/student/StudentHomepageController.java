@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -41,7 +42,7 @@ public class StudentHomepageController {
     public void initialize() {
         Utils.scrollPaneSetup(scrollPane);
 
-        this.currentUser = SessionManager.getCurrentUser();
+        currentUser = SessionManager.getCurrentUser();
 
         if (currentUser == null) {
             System.err.println("Error: No user logged in");
@@ -49,13 +50,12 @@ public class StudentHomepageController {
         }
 
         initializePriorityQueue();
-        initializeTransactions();
         setupExistingTransactionIfAny();
+        initializeTransactions();
     }
 
     public void initializePriorityQueue() {
         priorityQueue = PriorityNumberManager.getPriorityNumberList();
-        updatePriorityQueueUI();
 
         PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
                 priorityQueue.get(priorityQueue.size() - 1) : null;
@@ -67,11 +67,8 @@ public class StudentHomepageController {
         updatePriorityQueueUI();
     }
 
-    private void initializeTransactions() {
-        TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(currentUser.getInstitutionalId()));
-
+    public void initializeTransactions() {
         transactionList = TransactionManager.getTransactionList();
-        updateTransactionUI();
 
         Transaction lastFetched = !transactionList.isEmpty() ?
                 transactionList.get(transactionList.size() - 1) : null;
@@ -166,10 +163,10 @@ public class StudentHomepageController {
         }
     }
 
-    public void generatePriorityNumber(String priorityNumber, String purpose, PriorityNumber pn, double amount) {
+    public void generatePriorityNumber(String priorityNumber, String purpose, String additionalDetails, PriorityNumber pn, double amount) {
 	    Transaction transaction = new Transaction(
                 0, priorityNumber, 0, SessionManager.getCurrentUser().getName(), SessionManager.getCurrentUser().getInstitutionalId(),
-                null, amount, purpose, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null, null
+                null, amount, purpose, additionalDetails, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null, null
         );
 
         PriorityNumberDAO.addPriorityNumber(pn);
@@ -180,7 +177,7 @@ public class StudentHomepageController {
             priorityQueue.add(pn);
             currentTicketNumber.setText(priorityNumber);
             ticketDetailText.setText("Purpose: " + purpose + "\nStudent: " + SessionManager.getCurrentUser().getInstitutionalId() +
-                    "\nGenerated: " + java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss")));
+                    "\nGenerated: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
             getNumberButton.setDisable(true);
             getNumberButton.setText("NUMBER ISSUED");
@@ -251,7 +248,10 @@ public class StudentHomepageController {
             details.append("Status: Waiting in queue");
         }
 
-        ticketDetailText.setText(details.toString());
+        String newDetails = details.toString();
+        if (!ticketDetailText.getText().equals(newDetails)) {
+            ticketDetailText.setText(newDetails);
+        }
         getNumberButton.setDisable(true);
         getNumberButton.setText("NUMBER ISSUED");
     }

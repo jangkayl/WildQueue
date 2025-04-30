@@ -1,12 +1,16 @@
 package com.example.wildqueue.services;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.Transaction;
+import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.ThreadUtils;
+import com.example.wildqueue.utils.TransactionManager;
 import com.example.wildqueue.utils.Utils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.function.Consumer;
 
@@ -83,13 +87,24 @@ public class TransactionUpdaterService {
         Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 6500);
         System.out.println("Checking for updates since: " + lastModifiedSince);
 
-        List<Transaction> updatedTransaction = TransactionDAO.getTransactionsSince(
-                lastFetched.getPriorityNumber(),
-                lastModifiedSince
-        );
+        List<Transaction> updatedTransaction;
+
+        if(Objects.equals(SessionManager.getCurrentUser().getUserType(), "STUDENT")){
+            updatedTransaction = TransactionDAO.getStudentTransactionsSince(
+                    SessionManager.getCurrentUser().getInstitutionalId(),
+                    lastModifiedSince
+            );
+        } else {
+            updatedTransaction = TransactionDAO.getTransactionsSince(
+                    lastFetched.getPriorityNumber(),
+                    lastModifiedSince
+            );
+        }
 
         if (!updatedTransaction.isEmpty()) {
             String latestFetchedPriority = updatedTransaction.get(updatedTransaction.size() - 1).getPriorityNumber();
+
+            updatedTransaction.forEach(TransactionManager::addOrUpdateTransaction);
 
             if (Utils.comparePriorityNumbers(lastFetched.getPriorityNumber(), latestFetchedPriority) <= 0) {
                 synchronized (this) {

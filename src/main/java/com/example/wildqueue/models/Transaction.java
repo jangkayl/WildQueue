@@ -12,13 +12,14 @@ public class Transaction {
 	private String tellerId;
 	private double amount;
 	private String transactionType;
+	private String transactionDetails;
 	private Date transactionDate;
 	private Timestamp lastModified;
 	private String status;
 	private Timestamp calledTime;
 	private Timestamp completionDate;
 
-	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentName, String studentId, String tellerId, double amount, String transactionType, Date transactionDate, Timestamp lastModified, String status, Timestamp calledTime, Timestamp completionDate) {
+	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentName, String studentId, String tellerId, double amount, String transactionType, String transactionDetails, Date transactionDate, Timestamp lastModified, String status, Timestamp calledTime, Timestamp completionDate) {
 		this.transactionId = transactionId;
 		this.priorityNumber = priorityNumber;
 		this.windowNumber = windowNumber;
@@ -27,6 +28,7 @@ public class Transaction {
 		this.tellerId = tellerId;
 		this.amount = amount;
 		this.transactionType = transactionType;
+		this.transactionDetails = transactionDetails;
 		this.transactionDate = transactionDate;
 		this.lastModified = lastModified;
 		this.status = status;
@@ -82,6 +84,9 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
+	public String getTransactionDetails() { return transactionDetails; }
+	public void setTransactionDetails(String transactionDetails) { this.transactionDetails = transactionDetails; }
+
 	public Date getTransactionDate() { return transactionDate; }
 	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
@@ -102,7 +107,8 @@ public class Transaction {
 	public void setCompletionDate(Timestamp completionDate) { this.completionDate = completionDate; }
 
 	public void printAllDetails(){
-		System.out.println("Transaction Submitted:");
+		System.out.println("---------------------------------------");
+		System.out.println("Transaction Details:");
 		System.out.println("Priority Number: " + getPriorityNumber());
 		System.out.println("Window Number: " + getWindowNumber());
 		System.out.println("Student ID: " + getStudentId());
@@ -111,5 +117,6 @@ public class Transaction {
 		System.out.println("Type: " + getTransactionType());
 		System.out.println("Date: " + getTransactionDate());
 		System.out.println("Status: " + getStatus());
+		System.out.println("---------------------------------------");
 	}
 }

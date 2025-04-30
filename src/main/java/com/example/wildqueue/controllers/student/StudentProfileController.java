@@ -20,8 +20,6 @@ public class StudentProfileController {
 	public void initialize() {
 		Utils.scrollPaneSetup(scrollPane);
 
-		scrollPane.getStyleClass().add("edge-to-edge");
-
 		loadUserData();
 	}
 

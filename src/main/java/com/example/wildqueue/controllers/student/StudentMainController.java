@@ -1,8 +1,11 @@
 package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.dao.PriorityNumberDAO;
+import com.example.wildqueue.dao.TransactionDAO;
+import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.utils.PriorityNumberManager;
 import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.TransactionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -20,24 +23,19 @@ public class StudentMainController {
 	@FXML private Text homeText;
 	@FXML private Text historyText;
 	@FXML private Text profileText;
-	public StudentHomepageController homepageController;
+	private StudentHomepageController homepageController;
+	private StudentHistoryController historyController;
 
 	@FXML
 	public void initialize() throws IOException {
-		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
-		loader.load();
-
-		homepageController = loader.getController();
-		homepageController.initializePriorityQueue();
-		homepageController.setupExistingTransactionIfAny();
-
 		navigateToHome();
 	}
 
 	@FXML
 	protected void navigateToHome() {
+		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
+		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(SessionManager.getCurrentUser().getInstitutionalId()));
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
 			AnchorPane homeContent = loader.load();
@@ -58,10 +56,15 @@ public class StudentMainController {
 
 
 	@FXML
-	private void navigateToHistory() {
+	protected void navigateToHistory() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-history-view.fxml"));
 			AnchorPane historyContent = loader.load();
+
+			historyController = loader.getController();
+			historyController.setMainController(this);
+
+			historyContent.getProperties().put("controller", historyController);
 			contentPane.getChildren().clear();
 			contentPane.getChildren().add(historyContent);
 			setActiveTab(historyTab, historyText);
@@ -98,6 +101,21 @@ public class StudentMainController {
 
 		} catch (IOException e) {
 			System.err.println("Error loading transaction content:");
+			e.printStackTrace();
+		}
+	}
+
+	public void showTransactionDetails(Transaction transaction) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/transaction-detail-page.fxml"));
+			AnchorPane detailsPane = loader.load();
+
+			TransactionDetailController transactionController = loader.getController();
+			transactionController.setTransaction(transaction);
+			transactionController.setMainController(this);
+
+			contentPane.getChildren().setAll(detailsPane);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

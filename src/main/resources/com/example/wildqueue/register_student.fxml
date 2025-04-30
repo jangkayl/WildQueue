@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -13,90 +12,88 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.RegisterStudentController">
+<AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.RegisterStudentController">
 
-    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-
-        <VBox alignment="CENTER" spacing="10">
+    <VBox alignment="CENTER" spacing="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <VBox alignment="CENTER" prefWidth="600" spacing="20" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-background-radius: 0 0 20 20; -fx-padding: 40 0 50 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);">
             <StackPane>
-                <Circle fill="#3f51b5" radius="40" stroke="#303f9f" strokeWidth="2" />
-                <Text fill="white" fontSmoothingType="LCD">
+                <Text fill="#34f72a" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
                     <font>
-                        <Font name="Arial" size="24" />
+                        <Font name="Arial" size="30" />
                     </font>
                     <text>✓</text>
                 </Text>
             </StackPane>
-            <Text fill="#333" fontSmoothingType="LCD">
+            <Text fill="white" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
                 <font>
-                    <Font name="Arial Bold" size="24" />
+                    <Font name="Arial Bold" size="28" />
                 </font>
                 <text>Register Student</text>
             </Text>
-            <Text fill="#666">
+            <Text fill="#FFD700" style="-fx-font-weight: 300;">
                 <font>
                     <Font name="Arial" size="14" />
                 </font>
-                <text>Fill in the student details</text>
+                <text>Enter student details</text>
             </Text>
         </VBox>
 
-        <GridPane alignment="CENTER" hgap="15" vgap="5">
-            <padding><Insets bottom="10" left="25" right="25" top="10" /></padding>
-
+        <GridPane alignment="CENTER" hgap="15" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 30;" vgap="10">
             <!-- Full Name -->
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Full Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="fullNameField" prefWidth="300" promptText="Enter student's full name" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label fx:id="nameError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Full Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="fullNameField" prefWidth="350" promptText="Enter student's full name" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="nameError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Email -->
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Institutional Email" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="emailField" prefWidth="300" promptText="Enter student's institutional email" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="emailError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="3" wrapText="true" maxWidth="Infinity" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Institutional Email" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="emailField" prefWidth="350" promptText="Enter student's institutional email" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="emailError" maxWidth="Infinity" style="-fx-text-fill: #e53935; -fx-font-size: 11;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <!-- Institutional ID -->
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Student ID" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="institutionalIdField" prefWidth="300" promptText="Enter student's ID" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Student ID" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id="institutionalIdField" prefWidth="350" promptText="Enter student's ID" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="institutionalIdError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
             <!-- Password -->
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <PasswordField fx:id="passwordField" prefWidth="300" promptText="Create a password" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <PasswordField fx:id="passwordField" prefWidth="350" promptText="Create a password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label fx:id="passwordError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
             <!-- Confirm Password -->
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <PasswordField fx:id="confirmPasswordField" prefWidth="300" promptText="Re-enter password" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <PasswordField fx:id="confirmPasswordField" prefWidth="350" promptText="Re-enter password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label fx:id="confirmError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
             <!-- Register Button -->
-            <Button fx:id="registerButton" defaultButton="true" onAction="#handleRegister" prefWidth="300" style="-fx-background-color: #3f51b5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="REGISTER STUDENT" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Button fx:id="registerButton" defaultButton="true" onAction="#handleRegister" prefWidth="350" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 12; -fx-font-size: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);" text="REGISTER STUDENT" GridPane.columnIndex="1" GridPane.rowIndex="10">
+
+            </Button>
 
             <columnConstraints>
-                <ColumnConstraints maxWidth="150.0" minWidth="100.0" prefWidth="120.0" />
-                <ColumnConstraints maxWidth="350.0" minWidth="300.0" prefWidth="300.0" />
+                <ColumnConstraints maxWidth="150" minWidth="120" prefWidth="130" />
+                <ColumnConstraints maxWidth="400" minWidth="350" prefWidth="350" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
+                <RowConstraints minHeight="40" prefHeight="40" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="40" prefHeight="40" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="40" prefHeight="40" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="40" prefHeight="40" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="40" prefHeight="40" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="45" prefHeight="45" />
             </rowConstraints>
         </GridPane>
 
-        <HBox alignment="CENTER" spacing="20">
-            <Hyperlink fx:id="backLink" style="-fx-text-fill: #3f51b5; -fx-font-weight: bold; -fx-border-color: transparent;" text="Back to Admin Panel" />
+        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 30 0;">
+            <Hyperlink fx:id="backLink" style="-fx-text-fill: #800000; -fx-font-weight: bold; -fx-border-color: transparent; -fx-underline: false; -fx-cursor: hand;" text="Back to Admin Panel" />
+            <Text fill="#FFD700" style="-fx-font-weight: bold;" text="→" />
         </HBox>
     </VBox>
 </AnchorPane>
