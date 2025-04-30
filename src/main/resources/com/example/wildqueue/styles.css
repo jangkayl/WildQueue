@@ -63,3 +63,43 @@
 .alert .button:hover {
     -fx-background-color: #388e3c;
 }
+
+
+
+/* Transaction Card */
+.transaction-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-padding: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 0, 4, 0, 4);
+}
+
+/* Status Indicators */
+.status-completed {
+    -fx-fill: #4CAF50;
+}
+
+.status-processing {
+    -fx-fill: #FFC107;
+}
+
+.status-pending {
+    -fx-fill: #2196F3;
+}
+
+/* Timeline Lines */
+.timeline-line {
+    -fx-stroke: #E9ECEF;
+    -fx-stroke-width: 2;
+}
+
+/* Detail Labels */
+.detail-label {
+    -fx-font-size: 14px;
+    -fx-fill: #6C757D;
+}
+
+.detail-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}

@@ -24,6 +24,7 @@ public class TransactionDAO {
 				"tellerId VARCHAR(50), " +
 				"amount DOUBLE DEFAULT 0.0, " +
 				"transactionType VARCHAR(30) NOT NULL, " +
+				"transactionDetails VARCHAR(255) NOT NULL, " +
 				"transactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 				"status VARCHAR(20) NOT NULL, " +
@@ -51,8 +52,8 @@ public class TransactionDAO {
 
 	public static int createTransaction(Transaction transaction) {
 		String query = "INSERT INTO " + TABLE_NAME +
-				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status, transactionDetails) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -65,6 +66,7 @@ public class TransactionDAO {
 			pstmt.setDouble(6, transaction.getAmount());
 			pstmt.setString(7, transaction.getTransactionType());
 			pstmt.setString(8, transaction.getStatus());
+			pstmt.setString(9, transaction.getTransactionDetails());
 
 			int affectedRows = pstmt.executeUpdate();
 
@@ -103,6 +105,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -140,6 +143,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -177,6 +181,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -215,6 +220,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -254,6 +260,7 @@ public class TransactionDAO {
 							rs.getString("tellerId"),
 							rs.getDouble("amount"),
 							rs.getString("transactionType"),
+							rs.getString("transactionDetails"),
 							rs.getTimestamp("transactionDate"),
 							rs.getTimestamp("lastModified"),
 							rs.getString("status"),
@@ -300,6 +307,7 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
 						rs.getTimestamp("lastModified"),
 						rs.getString("status"),
@@ -353,6 +361,7 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
 						dbTimestamp,
 						rs.getString("status"),
@@ -390,6 +399,7 @@ public class TransactionDAO {
 						rs.getString("tellerId"),
 						rs.getDouble("amount"),
 						rs.getString("transactionType"),
+						rs.getString("transactionDetails"),
 						rs.getTimestamp("transactionDate"),
 						rs.getTimestamp("lastModified"),
 						rs.getString("status"),

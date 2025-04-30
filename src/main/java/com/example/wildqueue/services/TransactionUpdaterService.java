@@ -2,6 +2,7 @@ package com.example.wildqueue.services;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.utils.ThreadUtils;
+import com.example.wildqueue.utils.TransactionManager;
 import com.example.wildqueue.utils.Utils;
 
 import java.sql.Timestamp;
@@ -90,6 +91,8 @@ public class TransactionUpdaterService {
 
         if (!updatedTransaction.isEmpty()) {
             String latestFetchedPriority = updatedTransaction.get(updatedTransaction.size() - 1).getPriorityNumber();
+
+            updatedTransaction.forEach(TransactionManager::addOrUpdateTransaction);
 
             if (Utils.comparePriorityNumbers(lastFetched.getPriorityNumber(), latestFetchedPriority) <= 0) {
                 synchronized (this) {

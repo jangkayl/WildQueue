@@ -29,6 +29,16 @@ public class RegisterStudentController {
 	@FXML private Label passwordError;
 	@FXML private Label confirmError;
 	@FXML private Button registerButton;
+	@FXML private Hyperlink backLink;  // Added Hyperlink reference
+
+	@FXML
+	private void initialize() {
+		// Set up the close link action
+		backLink.setOnAction(event -> {
+			Stage stage = (Stage) backLink.getScene().getWindow();
+			stage.close();
+		});
+	}
 
 	@FXML
 	private void handleRegister() {

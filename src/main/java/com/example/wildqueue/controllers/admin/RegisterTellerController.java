@@ -1,48 +1,37 @@
-package com.example.wildqueue.controllers;
+package com.example.wildqueue.controllers.admin;
 
 import com.example.wildqueue.dao.UserDAO;
-import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.util.Optional;
 
-public class RegisterStudentController {
+public class RegisterTellerController {
     @FXML private TextField fullNameField;
     @FXML private TextField emailField;
     @FXML private TextField institutionalIdField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
-    @FXML private Hyperlink backlink;
-
     @FXML private Label nameError;
     @FXML private Label emailError;
     @FXML private Label institutionalIdError;
     @FXML private Label passwordError;
     @FXML private Label confirmError;
+    @FXML private Button registerButton;
+    @FXML private Hyperlink backLink;
 
-    public void initialize() {
-        backlink.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/admin-page.fxml"));
-                Parent root = loader.load();
-
-                Stage stage = (Stage) backlink.getScene().getWindow();
-
-                stage.setScene(new Scene(root));
-                stage.setTitle("Admin");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    @FXML
+    private void initialize() {
+        // Set up the close link action
+        backLink.setOnAction(event -> {
+            Stage stage = (Stage) backLink.getScene().getWindow();
+            stage.close();
         });
     }
 
@@ -99,21 +88,23 @@ public class RegisterStudentController {
         if (isValid) {
             System.out.println("Full Name: " + fullName);
             System.out.println("Email: " + email);
-            System.out.println("Username: " + institutionalId);
+            System.out.println("Institutional ID: " + institutionalId);
             System.out.println("Password: " + password);
 
             String hashedPassword = Utils.hashPassword(password);
-            UserDAO.addUser(institutionalId, email, fullName, hashedPassword, "STUDENT");
+            UserDAO.addUser(institutionalId, email, fullName, hashedPassword, "TELLER");
 
-            Utils.showAlert(
+            Optional<ButtonType> result = Utils.showAlert(
                     Alert.AlertType.INFORMATION,
                     "Registration Success",
-                    "You have successfully registered!",
-                    "/com/example/wildqueue/admin-page.fxml",
-                    (Stage) backlink.getScene().getWindow(),
-                    "Register Student",
+                    "Teller has been successfully registered!",
                     ButtonType.OK
             );
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Stage stage = (Stage) registerButton.getScene().getWindow();
+                stage.close();
+            }
         }
     }
 

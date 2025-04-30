@@ -281,7 +281,23 @@ public class AdminHomepageController {
 
 	@FXML
 	private void handleRegisterTeller(ActionEvent event) {
-		// TODO: Implement teller registration logic
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/register-teller.fxml"));
+			Parent root = loader.load();
+
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Enroll New Student");
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Utils.showAlert(
+					Alert.AlertType.ERROR,
+					"Error",
+					"Failed to open the registration form.",
+					ButtonType.OK
+			);
+		}
 	}
 
 	@FXML

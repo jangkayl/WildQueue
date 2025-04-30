@@ -137,6 +137,7 @@ public class StudentDetailsFormController {
 				null,
 				amount,
 				transactionType,
+				additionalDetails,
 				new Date(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()),
 				"Pending",
@@ -161,6 +162,7 @@ public class StudentDetailsFormController {
 				mainController.getHomepageController().generatePriorityNumber(
 						priorityNumber,
 						transactionType,
+						additionalDetails,
 						pn,
 						amount
 				);

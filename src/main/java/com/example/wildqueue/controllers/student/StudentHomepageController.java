@@ -41,7 +41,7 @@ public class StudentHomepageController {
     public void initialize() {
         Utils.scrollPaneSetup(scrollPane);
 
-        this.currentUser = SessionManager.getCurrentUser();
+        currentUser = SessionManager.getCurrentUser();
 
         if (currentUser == null) {
             System.err.println("Error: No user logged in");
@@ -67,9 +67,7 @@ public class StudentHomepageController {
         updatePriorityQueueUI();
     }
 
-    private void initializeTransactions() {
-        TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(currentUser.getInstitutionalId()));
-
+    public void initializeTransactions() {
         transactionList = TransactionManager.getTransactionList();
         updateTransactionUI();
 
@@ -166,10 +164,10 @@ public class StudentHomepageController {
         }
     }
 
-    public void generatePriorityNumber(String priorityNumber, String purpose, PriorityNumber pn, double amount) {
+    public void generatePriorityNumber(String priorityNumber, String purpose, String additionalDetails, PriorityNumber pn, double amount) {
 	    Transaction transaction = new Transaction(
                 0, priorityNumber, 0, SessionManager.getCurrentUser().getName(), SessionManager.getCurrentUser().getInstitutionalId(),
-                null, amount, purpose, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null, null
+                null, amount, purpose, additionalDetails, new Date(), new Timestamp(System.currentTimeMillis()), PriorityStatus.PENDING.toString(), null, null
         );
 
         PriorityNumberDAO.addPriorityNumber(pn);

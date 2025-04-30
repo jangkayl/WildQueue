@@ -2,6 +2,8 @@ package com.example.wildqueue.utils;
 
 import com.example.wildqueue.models.Transaction;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TransactionManager {
 	private static List<Transaction> transactionList;
@@ -9,7 +11,7 @@ public class TransactionManager {
 	private TransactionManager() {}
 
 	public static void setTransactionList(List<Transaction> transactions) {
-		System.out.println("Priority Numbers are set");
+		System.out.println("Transactions are set");
 		transactionList = transactions;
 	}
 
@@ -24,5 +26,21 @@ public class TransactionManager {
 		return null;
 	}
 
-	public static Transaction getLatestTransaction(){ return transactionList.get(0); }
+	public static void updateTransaction(Transaction updatedTransaction) {
+		transactionList = transactionList.stream()
+				.map(t -> t.getTransactionId() == updatedTransaction.getTransactionId() ? updatedTransaction : t)
+				.collect(Collectors.toList());
+	}
+
+	public static void addOrUpdateTransaction(Transaction transaction) {
+		Optional<Transaction> existing = transactionList.stream()
+				.filter(t -> t.getTransactionId() == transaction.getTransactionId())
+				.findFirst();
+
+		if (existing.isPresent()) {
+			updateTransaction(transaction);
+		} else {
+			transactionList.add(transaction);
+		}
+	}
 }
