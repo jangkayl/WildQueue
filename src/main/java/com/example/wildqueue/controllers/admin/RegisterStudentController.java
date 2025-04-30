@@ -1,6 +1,7 @@
 package com.example.wildqueue.controllers.admin;
 
 import com.example.wildqueue.dao.UserDAO;
+import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class RegisterStudentController {
 	@FXML private TextField fullNameField;
@@ -21,27 +23,20 @@ public class RegisterStudentController {
 	@FXML private TextField institutionalIdField;
 	@FXML private PasswordField passwordField;
 	@FXML private PasswordField confirmPasswordField;
-	@FXML private Hyperlink backlink;
-
 	@FXML private Label nameError;
 	@FXML private Label emailError;
 	@FXML private Label institutionalIdError;
 	@FXML private Label passwordError;
 	@FXML private Label confirmError;
+	@FXML private Button registerButton;
+	@FXML private Hyperlink backLink;  // Added Hyperlink reference
 
-	public void initialize() {
-		backlink.setOnAction(event -> {
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/admin-page.fxml"));
-				Parent root = loader.load();
-
-				Stage stage = (Stage) backlink.getScene().getWindow();
-
-				stage.setScene(new Scene(root));
-				stage.setTitle("Admin");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	@FXML
+	private void initialize() {
+		// Set up the close link action
+		backLink.setOnAction(event -> {
+			Stage stage = (Stage) backLink.getScene().getWindow();
+			stage.close();
 		});
 	}
 
@@ -104,15 +99,17 @@ public class RegisterStudentController {
 			String hashedPassword = Utils.hashPassword(password);
 			UserDAO.addUser(institutionalId, email, fullName, hashedPassword, "STUDENT");
 
-			Utils.showAlert(
+			Optional<ButtonType> result = Utils.showAlert(
 					Alert.AlertType.INFORMATION,
 					"Registration Success",
 					"You have successfully registered!",
-					"/com/example/wildqueue/admin-page.fxml",
-					(Stage) backlink.getScene().getWindow(),
-					"Register Student",
 					ButtonType.OK
 			);
+
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				Stage stage = (Stage) registerButton.getScene().getWindow();
+				stage.close();
+			}
 		}
 	}
 
