@@ -7,20 +7,13 @@ import com.example.wildqueue.utils.TransactionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +21,6 @@ import java.util.stream.Collectors;
 public class StudentHistoryController {
 	@FXML private ScrollPane scrollPane;
 	@FXML private VBox historyContainer;
-	@FXML private AnchorPane rootPane;
 
 	@FXML
 	public void initialize() {
@@ -89,25 +81,6 @@ public class StudentHistoryController {
 		return dateGroup;
 	}
 
-	public void showTransactionDetails(Transaction transaction) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/transaction-detail-page.fxml"));
-			AnchorPane detailsPane = loader.load();
-
-			TransactionDetailController controller = loader.getController();
-			controller.setTransaction(transaction);
-			controller.setHistoryController(this);
-
-			rootPane.getChildren().setAll(detailsPane);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void goBackToHistory() {
-		loadTransactionHistory();
-	}
-
 	private HBox createTransactionItem(Transaction transaction) {
 		HBox item = new HBox();
 		item.setStyle("-fx-padding: 10 0;");
@@ -147,12 +120,8 @@ public class StudentHistoryController {
 		detailsBox.getChildren().addAll(queueNumber, calledText, completedText);
 
 		item.getChildren().addAll(windowBox, detailsBox);
-		item.setOnMouseClicked(e -> showTransactionDetails(transaction));
-
 		return item;
 	}
-
-
 
 	private VBox createEmptyState() {
 		VBox emptyState = new VBox();
