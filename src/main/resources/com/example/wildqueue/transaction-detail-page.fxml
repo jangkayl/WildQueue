@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="650" prefWidth="360" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.TransactionDetailController">
+
+    <!-- Header with back button -->
+    <HBox alignment="CENTER_LEFT" prefHeight="60" spacing="10" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 2, 0, 3);" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <Button fx:id="backButton" onAction="#goBack" style="-fx-background-color: transparent; -fx-padding: 10;">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                    <Image url="https://cdn-icons-png.flaticon.com/128/2722/2722991.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #800000;" text="Transaction Details" textAlignment="CENTER" wrappingWidth="268.287109375" />
+    </HBox>
+
+    <!-- Main Content -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #F8F9FA;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60">
+        <VBox alignment="TOP_CENTER" spacing="20">
+            <!-- Transaction Card -->
+            <VBox alignment="CENTER" spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 0, 4, 0, 4);">
+                <!-- Status Indicator -->
+                <HBox alignment="CENTER" spacing="10">
+                    <Circle fx:id="statusCircle" fill="#4CAF50" radius="8" />
+                    <Text fx:id="statusText" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #4CAF50;" text="COMPLETED" />
+                </HBox>
+
+                <!-- Queue Number -->
+                <Text fx:id="queueNumberText" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #800000;" text="Q-001" />
+
+                <!-- Timeline -->
+                <VBox spacing="10" style="-fx-padding: 0 20;">
+                    <!-- Generated -->
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <VBox alignment="CENTER" minWidth="80" spacing="2">
+                            <Text style="-fx-font-size: 12px; -fx-fill: #6C757D;" text="Generated" />
+                            <Text fx:id="generatedTimeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="10:30 AM" />
+                        </VBox>
+                        <Line endX="150" startX="0" stroke="#E9ECEF" strokeWidth="2" />
+                    </HBox>
+
+                    <!-- Called -->
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <VBox alignment="CENTER" minWidth="80" spacing="2">
+                            <Text style="-fx-font-size: 12px; -fx-fill: #6C757D;" text="Called" />
+                            <Text fx:id="calledTimeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="10:45 AM" />
+                        </VBox>
+                        <Line endX="150" startX="0" stroke="#E9ECEF" strokeWidth="2" />
+                    </HBox>
+
+                    <!-- Completed -->
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <VBox alignment="CENTER" minWidth="80" spacing="2">
+                            <Text style="-fx-font-size: 12px; -fx-fill: #6C757D;" text="Completed" />
+                            <Text fx:id="completedTimeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="10:50 AM" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Details Card -->
+            <VBox alignment="TOP_LEFT" spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;                          -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 0, 4, 0, 4);">
+                <Text style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #800000;" text="Transaction Details" />
+
+                <!-- Details Grid -->
+                <GridPane hgap="15" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="100" />
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <!-- Window -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Window:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Text fx:id="windowText" style="-fx-font-size: 14px; -fx-font-weight: bold;" text="1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <!-- Student -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Student:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Text fx:id="studentText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <!-- ID -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Student ID:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Text fx:id="studentIdText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <!-- Purpose -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Purpose:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Text fx:id="purposeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                    <!-- Amount -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Amount:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Text fx:id="amountText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                    <!-- Description -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Label fx:id="descriptionText" style="-fx-font-size: 14px; -fx-font-weight: bold;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>
