@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.shape.Circle;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class TransactionDetailController {
 	@FXML private ScrollPane scrollPane;
@@ -26,6 +27,8 @@ public class TransactionDetailController {
 	@FXML private Label descriptionText;
 	@FXML private Button backButton;
 	@FXML private Circle statusCircle;
+	@FXML private Text tellerIdText;
+	@FXML private Text txtAmount;
 
 	private Transaction transaction;
 	private StudentMainController mainController;
@@ -55,9 +58,22 @@ public class TransactionDetailController {
 		studentText.setText(transaction.getStudentName());
 		studentIdText.setText(transaction.getStudentId());
 		purposeText.setText(transaction.getTransactionType());
-		amountText.setText(String.format("₱%,.2f", transaction.getAmount()));
-		descriptionText.setText(transaction.getTransactionDetails());
+		tellerIdText.setText(transaction.getTellerId() != null ? transaction.getTellerId() : "--");
 
+		if (Objects.equals(transaction.getTransactionType(), "Payment")) {
+			amountText.setText(String.format("₱%,.2f", transaction.getAmount()));
+			txtAmount.setVisible(true);
+			txtAmount.setManaged(true);
+			amountText.setVisible(true);
+			amountText.setManaged(true);
+		} else {
+			txtAmount.setVisible(false);
+			txtAmount.setManaged(false);
+			amountText.setVisible(false);
+			amountText.setManaged(false);
+		}
+
+		descriptionText.setText(transaction.getTransactionDetails());
 		generatedTimeText.setText(timeFormat.format(transaction.getTransactionDate()));
 
 		if (transaction.getCalledTime() != null) {

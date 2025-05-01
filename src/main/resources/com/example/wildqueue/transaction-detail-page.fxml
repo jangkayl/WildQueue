@@ -83,6 +83,15 @@
                         <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="100" />
                         <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
                     </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
 
                     <!-- Window -->
                     <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Window:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -96,25 +105,21 @@
                     <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Student ID:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                     <Text fx:id="studentIdText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
+                    <!-- Teller ID -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Teller ID:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Text fx:id="tellerIdText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
                     <!-- Purpose -->
-                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Purpose:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                    <Text fx:id="purposeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Purpose:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Text fx:id="purposeText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                     <!-- Amount -->
-                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Amount:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                    <Text fx:id="amountText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <Text fx:id="txtAmount" style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Amount:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Text fx:id="amountText" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                     <!-- Description -->
-                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                    <Label fx:id="descriptionText" style="-fx-font-size: 14px; -fx-font-weight: bold;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+                    <Text style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <Label fx:id="descriptionText" style="-fx-font-size: 14px; -fx-font-weight: bold;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 </GridPane>
             </VBox>
         </VBox>

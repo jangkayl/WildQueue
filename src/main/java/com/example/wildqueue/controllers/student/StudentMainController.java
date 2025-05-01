@@ -27,14 +27,14 @@ public class StudentMainController {
 
 	@FXML
 	public void initialize() throws IOException {
+		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
+		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(SessionManager.getCurrentUser().getInstitutionalId()));
+
 		navigateToHome();
 	}
 
 	@FXML
 	protected void navigateToHome() {
-		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(SessionManager.getCurrentUser().getInstitutionalId()));
-
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-homepage.fxml"));
 			AnchorPane homeContent = loader.load();
