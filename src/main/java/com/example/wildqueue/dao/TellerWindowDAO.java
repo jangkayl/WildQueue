@@ -1,16 +1,14 @@
 package com.example.wildqueue.dao;
 
-import com.example.wildqueue.models.Teller;
-import com.example.wildqueue.models.TellerWindow;
-import com.example.wildqueue.models.User;
+import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.DatabaseUtil;
 import com.example.wildqueue.utils.SessionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
 public class TellerWindowDAO {
 	private static final String TABLE_NAME = "teller_window";
@@ -40,6 +38,48 @@ public class TellerWindowDAO {
 		}
 	}
 
+	public static List<TellerWindow> getWindowSince(Timestamp lastModifiedSince) {
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE lastModified > ? ORDER BY windowNumber ASC";
+
+		List<TellerWindow> tellerWindows = new ArrayList<>();
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+			stmt.setTimestamp(1, Timestamp.valueOf(sdf.format(lastModifiedSince)));
+			ResultSet rs = stmt.executeQuery();
+
+			System.out.println("Formatted Timestamp Window: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
+			while (rs.next()) {
+				System.out.println("--------------------");
+				System.out.println("TELLER WINDOW");
+				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
+
+				TellerWindow window = new TellerWindow(
+						rs.getString("tellerId"),
+						rs.getString("studentId"),
+						rs.getInt("windowNumber"),
+						rs.getTimestamp("createdAt"),
+						rs.getTimestamp("lastModified")
+				);
+				tellerWindows.add(window);
+
+				System.out.println("Fetched Window Number: " + window.getWindowNumber());
+				System.out.println("StudentId: " + window.getStudentId());
+				System.out.println("TellerId: " + window.getTellerId());
+				System.out.println("Last Modified: " + rs.getTimestamp("lastModified"));
+				System.out.println("----");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tellerWindows;
+	}
+
 	public static void insertTellerWindow(TellerWindow tellerWindow) {
 		String query = "INSERT INTO " + TABLE_NAME + " (windowNumber, tellerId, studentId) VALUES (?, ?, ?)";
 
@@ -65,7 +105,7 @@ public class TellerWindowDAO {
 				if (rs.next()) {
 					String tellerId = rs.getString("tellerId");
 					String studentId = rs.getString("studentId");
-					return new TellerWindow(tellerId, studentId, windowNumber);
+					return new TellerWindow(tellerId, studentId, windowNumber, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
 				}
 			}
 		} catch (SQLException e) {
