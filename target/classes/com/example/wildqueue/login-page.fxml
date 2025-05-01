@@ -16,10 +16,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.LoginController">
+<AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.LoginController">
 
-    <VBox alignment="CENTER" layoutY="64.0" prefHeight="636.0" prefWidth="400.0" spacing="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0">
-        <VBox alignment="TOP_CENTER" prefHeight="228.0" prefWidth="400" spacing="20" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-background-radius: 0 0 20 20; -fx-padding: 40 0 50 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);">
+    <VBox alignment="CENTER" layoutY="64.0" prefHeight="636.0" prefWidth="400.0" spacing="50.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" prefHeight="228.0" prefWidth="360.0" spacing="20.0" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-background-radius: 0 0 20 20; -fx-padding: 40 0 50 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);">
             <StackPane>
                 <Text fill="#07ff28" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
                     <font>
@@ -42,14 +42,14 @@
             </Text>
         </VBox>
 
-        <GridPane alignment="CENTER" hgap="15" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 30;" vgap="15">
+        <GridPane alignment="CENTER" hgap="12.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 30;" vgap="13.0">
             <!-- Institutional ID -->
             <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Institutional ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="institutionalIdField" prefWidth="280" promptText="Enter your institutional ID" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <TextField fx:id="institutionalIdField" prefWidth="280" promptText="Enter your institutional ID" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 8; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
             <!-- Password -->
             <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <PasswordField fx:id="passwordField" prefWidth="280" promptText="Enter your password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="passwordField" prefWidth="280" promptText="Enter your password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 8; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Remember Me -->
             <HBox alignment="CENTER_LEFT" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -57,12 +57,12 @@
             </HBox>
 
             <!-- Login Button -->
-            <Button fx:id="loginButton" defaultButton="true" onAction="#handleLogin" prefWidth="280" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 12; -fx-font-size: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);" text="LOGIN" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="loginButton" defaultButton="true" onAction="#handleLogin" prefWidth="280" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9; -fx-font-size: 14; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);" text="LOGIN" GridPane.columnIndex="1" GridPane.rowIndex="3">
             </Button>
 
             <columnConstraints>
-                <ColumnConstraints maxWidth="120" minWidth="80" prefWidth="100" />
-                <ColumnConstraints maxWidth="300" minWidth="200" prefWidth="280" />
+                <ColumnConstraints maxWidth="120.0" minWidth="80.0" prefWidth="91.0" />
+                <ColumnConstraints maxWidth="300.0" minWidth="193.0" prefWidth="194.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="40" prefHeight="40" />
@@ -80,5 +80,6 @@
             <Hyperlink fx:id="createAccountLink" style="-fx-text-fill: #800000; -fx-font-weight: bold; -fx-border-color: transparent; -fx-underline: false; -fx-cursor: hand;" text="Create Account" />
             <Text fill="#FFD700" style="-fx-font-weight: bold;" text="→" />
         </HBox>
+
     </VBox>
 </AnchorPane>

@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="done fix synch bugs on teller and student side, also done queue and transaction threads.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="da42fda6-bc0a-4277-b1da-a504b8d68dc2" name="Changes" comment="fixed some ui changes in login-page and register-page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/login-page.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/register-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/register-page.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/RegisterStudentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/RegisterStudentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.ser" beforeDir="false" afterPath="$PROJECT_DIR$/user.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/login-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/login-page.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register-page.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.MyApplication.executor": "Run",
+    "Application.MyApplication.executor": "Debug",
     "Downloaded.Files.Path.Enabled": "false",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -192,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745938284226</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fixed some ui changes in login-page and register-page">
+      <option name="closed" value="true" />
+      <created>1746031898736</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1746031898736</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +220,7 @@
     <MESSAGE value="added recent activity transactions in teller and served today in synch with the database" />
     <MESSAGE value="fixed some bugs" />
     <MESSAGE value="done fix synch bugs on teller and student side, also done queue and transaction threads." />
-    <option name="LAST_COMMIT_MESSAGE" value="done fix synch bugs on teller and student side, also done queue and transaction threads." />
+    <MESSAGE value="fixed some ui changes in login-page and register-page" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed some ui changes in login-page and register-page" />
   </component>
 </project>

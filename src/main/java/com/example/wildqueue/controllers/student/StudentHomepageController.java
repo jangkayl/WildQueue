@@ -144,7 +144,7 @@ public class StudentHomepageController {
             this.currentUser = SessionManager.getCurrentUser();
         }
 
-        List<Transaction> transactions = TransactionDAO.getTransactionsByStudentId(currentUser.getInstitutionalId());
+        List<Transaction> transactions = TransactionManager.getTransactionList();
 
         if (!transactions.isEmpty()) {
             Transaction transactionQueue = transactions.get(0);
