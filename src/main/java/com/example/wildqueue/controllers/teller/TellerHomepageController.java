@@ -65,7 +65,8 @@ public class TellerHomepageController {
 
 	@FXML
 	public void initialize() {
-		loadUserData();
+		loadData();
+
 		initializeCurrentServing();
 		initializePriorityQueue();
 		initializeTransactions();
@@ -73,7 +74,7 @@ public class TellerHomepageController {
 //		setupWindowNumber();
 	}
 
-	private void loadUserData() {
+	private void loadData() {
 		currentUser = SessionManager.getCurrentUser();
 
 		if (currentUser != null) {
@@ -83,6 +84,9 @@ public class TellerHomepageController {
 			tellerNameLabel.setText("Guest");
 			tellerNameSidebar.setText("Guest");
 		}
+
+		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
+		TransactionManager.setTransactionList(TransactionDAO.getAllTransactions());
 	}
 
 	private void setupWindowNumber() {
@@ -92,8 +96,6 @@ public class TellerHomepageController {
 	}
 
 	private void initializePriorityQueue() {
-		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-
 		priorityQueue = PriorityNumberManager.getPriorityNumberList();
 		updateQueueUI();
 
@@ -108,8 +110,6 @@ public class TellerHomepageController {
 	}
 
 	private void initializeTransactions() {
-		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId()));
-
 		transactionList = TransactionManager.getTransactionList();
 		updateTransactionUI();
 
@@ -128,12 +128,12 @@ public class TellerHomepageController {
 			return;
 		}
 
-		currentServing = TransactionDAO.getCurrentServing(currentUser.getInstitutionalId());
+		currentServing = TransactionManager.getTransactionById(currentUser.getInstitutionalId());
 		if (currentServing == null) {
 			return;
 		}
 
-		currentServingNumber = PriorityNumberDAO.getPriorityNumber(currentServing.getPriorityNumber());
+		currentServingNumber = PriorityNumberManager.getPriorityNumberById(currentServing.getPriorityNumber());
 		if (currentServingNumber == null) {
 			return;
 		}
@@ -387,9 +387,7 @@ public class TellerHomepageController {
 				currentNumberText.setText(currentServingNumber.getPriorityNumber());
 				currentStudentText.setText(currentServingNumber.getStudentId());
 
-				refreshTransactionUI();
 				updateTransactionUI();
-
 				updateQueueUI();
 			} else {
 				Utils.showAlert(Alert.AlertType.ERROR, "Update Failed", "Failed to update priority number status", null);
@@ -432,9 +430,7 @@ public class TellerHomepageController {
 			currentStudentText.setText("--");
 			currentServingNumber = null;
 
-			refreshTransactionUI();
 			updateTransactionUI();
-
 			updateServedTodayText();
 			updateQueueUI();
 		} else {
@@ -442,13 +438,8 @@ public class TellerHomepageController {
 		}
 	}
 
-	private void refreshTransactionUI(){
-		transactionList = TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId());
-		TransactionManager.setTransactionList(transactionList);
-	}
-
-	@FXML
-	private void handleTransferButton() {
+//	@FXML
+//	private void handleTransferButton() {
 //		if (currentServingNumber != null) {
 //			currentServingNumber.setStatus(PriorityStatus.PENDING);
 //			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
@@ -461,10 +452,10 @@ public class TellerHomepageController {
 //		} else {
 //			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
 //		}
-	}
+//	}
 
-	@FXML
-	private void handlePriorityButton() {
+//	@FXML
+//	private void handlePriorityButton() {
 //		// Find the next priority number
 //		Optional<PriorityNumber> nextPriority = priorityQueue.stream()
 //				.filter(pn -> PriorityStatus.PRIORITY.toString().equalsIgnoreCase(pn.getStatus().toString()))
@@ -484,24 +475,24 @@ public class TellerHomepageController {
 //		} else {
 //			Utils.showAlert(Alert.AlertType.INFORMATION, "No Priority Numbers", "There are no priority numbers to call.", null);
 //		}
-	}
+//	}
 
-	@FXML
-	private void handleRecallButton() {
-		if (currentServingNumber != null) {
-			currentNumberText.setText(currentServingNumber.getPriorityNumber());
-			currentStudentText.setText(currentServingNumber.getStudentId());
-		} else {
-			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
-		}
-	}
-
-	@FXML
-	private void handleWindowToggle() {
-		boolean isOpen = windowStatusText.getText().equalsIgnoreCase("OPEN");
-		windowStatusText.setText(isOpen ? "CLOSED" : "OPEN");
-		windowToggleButton.setText(isOpen ? "Open Window" : "Close Window");
-	}
+//	@FXML
+//	private void handleRecallButton() {
+//		if (currentServingNumber != null) {
+//			currentNumberText.setText(currentServingNumber.getPriorityNumber());
+//			currentStudentText.setText(currentServingNumber.getStudentId());
+//		} else {
+//			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
+//		}
+//	}
+//
+//	@FXML
+//	private void handleWindowToggle() {
+//		boolean isOpen = windowStatusText.getText().equalsIgnoreCase("OPEN");
+//		windowStatusText.setText(isOpen ? "CLOSED" : "OPEN");
+//		windowToggleButton.setText(isOpen ? "Open Window" : "Close Window");
+//	}
 
 	@FXML
 	private void logout() {

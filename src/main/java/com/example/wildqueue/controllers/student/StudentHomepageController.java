@@ -144,10 +144,10 @@ public class StudentHomepageController {
             this.currentUser = SessionManager.getCurrentUser();
         }
 
-        List<Transaction> transactions = TransactionManager.getTransactionList();
+        transactionList = TransactionManager.getTransactionList();
 
-        if (!transactions.isEmpty()) {
-            Transaction transactionQueue = transactions.get(0);
+        if (!transactionList.isEmpty()) {
+            Transaction transactionQueue = transactionList.get(0);
             setupExistingTransaction(transactionQueue);
         }
     }
@@ -175,36 +175,17 @@ public class StudentHomepageController {
         if (transactionId > 0) {
             transaction.setTransactionId(transactionId);
             priorityQueue.add(pn);
-            currentTicketNumber.setText(priorityNumber);
-            ticketDetailText.setText("Purpose: " + purpose + "\nStudent: " + SessionManager.getCurrentUser().getInstitutionalId() +
-                    "\nGenerated: " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-
-            getNumberButton.setDisable(true);
-            getNumberButton.setText("NUMBER ISSUED");
-            scrollPane.requestFocus();
+            transactionList.add(transaction);
+            TransactionManager.setTransactionList(transactionList);
 
             updatePriorityQueueUI();
+            updateTransactionUI();
         }
     }
 
     private void setupExistingTransaction(Transaction transaction) {
         if (PriorityNumberManager.getPriorityNumberById(currentUser.getInstitutionalId()) != null && "Pending".equalsIgnoreCase(transaction.getStatus())) {
-            currentTicketNumber.setText(transaction.getPriorityNumber());
-            LocalDateTime localDateTime = transaction.getTransactionDate()
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-
-            String formattedTime = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-            ticketDetailText.setText(
-                    "Purpose: " + transaction.getTransactionType() + "\n" +
-                            "Student: " + transaction.getStudentId() + "\n" +
-                            "Generated: " + formattedTime
-            );
-            getNumberButton.setDisable(true);
-            getNumberButton.setText("NUMBER ISSUED");
-            scrollPane.requestFocus();
+            updateTransactionUI();
         }
     }
 
@@ -254,6 +235,7 @@ public class StudentHomepageController {
         }
         getNumberButton.setDisable(true);
         getNumberButton.setText("NUMBER ISSUED");
+        scrollPane.requestFocus();
     }
 
     public void updatePriorityQueueUI() {
