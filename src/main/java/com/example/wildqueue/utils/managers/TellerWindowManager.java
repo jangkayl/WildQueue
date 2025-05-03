@@ -21,7 +21,6 @@ public class TellerWindowManager {
 	public static TellerWindow getTellerCurrentWindow() {
 		for (TellerWindow tellerWindow : tellerWindowLists) {
 			if (Objects.equals(tellerWindow.getTellerId(), SessionManager.getCurrentUser().getInstitutionalId())) {
-				System.out.println("Naa current Window " + tellerWindow.getWindowNumber());
 				return tellerWindow;
 			}
 		}
@@ -36,6 +35,22 @@ public class TellerWindowManager {
 		}
 		return null;
 	}
+
+	public static boolean hasCurrentTransaction(){
+		for (TellerWindow tellerWindow : tellerWindowLists) {
+			System.out.println("teller windows " + tellerWindow.getWindowNumber() + " id " + tellerWindow.getTellerId() + " userId " + tellerWindow.getStudentId());
+		}
+		for (TellerWindow tellerWindow : tellerWindowLists) {
+			if (tellerWindow.getStudentId() != null
+					&& !tellerWindow.getStudentId().isEmpty()
+					&& Objects.equals(tellerWindow.getTellerId(), SessionManager.getCurrentUser().getInstitutionalId())) {
+				System.out.println("TRUE");
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public static void updateTellerWindow(TellerWindow updatedTellerWindow) {
 		tellerWindowLists = tellerWindowLists.stream()

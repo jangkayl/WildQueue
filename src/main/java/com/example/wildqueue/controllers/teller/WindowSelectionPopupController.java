@@ -2,8 +2,6 @@ package com.example.wildqueue.controllers.teller;
 
 import com.example.wildqueue.dao.TellerWindowDAO;
 import com.example.wildqueue.models.TellerWindow;
-import com.example.wildqueue.services.QueueUpdaterService;
-import com.example.wildqueue.services.TransactionUpdaterService;
 import com.example.wildqueue.utils.Utils;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TellerWindowManager;
@@ -35,6 +33,15 @@ public class WindowSelectionPopupController {
 	private int selectedWindow = 0;
 	private Stage stage;
 	private boolean confirmed = false;
+	private static WindowSelectionPopupController instance;
+
+	public WindowSelectionPopupController() {
+		instance = this;
+	}
+
+	public static WindowSelectionPopupController getInstance() {
+		return instance;
+	}
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -85,12 +92,19 @@ public class WindowSelectionPopupController {
 				ButtonType.OK,
 				ButtonType.CANCEL
 		).ifPresent(response -> {
-			if (response == ButtonType.OK) {
+			if (response == ButtonType.OK && !TellerWindowManager.hasCurrentTransaction()) {
 				TellerWindow currentWindow = Objects.requireNonNull(TellerWindowManager.getTellerCurrentWindow());
 				TellerWindowManager.addOrUpdateTellerWindow(currentWindow);
 				TellerWindowDAO.removeTeller(currentWindow.getWindowNumber());
+				stage.close();
+			} else if(response == ButtonType.OK && TellerWindowManager.hasCurrentTransaction()){
+				Utils.showAlert(
+						Alert.AlertType.WARNING,
+						"Pending Transaction",
+						"Please continue your transaction first!",
+						ButtonType.OK
+				);
 			}
-			stage.close();
 		});
 	}
 
@@ -121,6 +135,10 @@ public class WindowSelectionPopupController {
 			confirmButton.setDisable(true);
 			return;
 		}
+
+		leaveButton.setDisable(true);
+		window1Card.setDisable(false);
+		window2Card.setDisable(false);
 
 		if (window1Available) {
 			window1Status.setText("Available");

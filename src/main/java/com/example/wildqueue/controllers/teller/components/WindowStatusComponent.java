@@ -1,5 +1,6 @@
 package com.example.wildqueue.controllers.teller.components;
 
+import com.example.wildqueue.controllers.teller.WindowSelectionPopupController;
 import com.example.wildqueue.models.TellerWindow;
 import com.example.wildqueue.services.WindowUpdaterService;
 import com.example.wildqueue.utils.managers.SessionManager;
@@ -66,12 +67,14 @@ public class WindowStatusComponent {
 				}
 			} else {
 				tellerWindows.add(updatedWindow);
+				TellerWindowManager.addOrUpdateTellerWindow(updatedWindow);
 				needsUpdate = true;
 			}
 		}
 
 		if (needsUpdate) {
 			updateTellerWindowUI();
+			WindowSelectionPopupController.getInstance().updateWindowStatus(Objects.equals(tellerWindows.get(0).getTellerId(), ""), Objects.equals(tellerWindows.get(1).getTellerId(), ""));
 		}
 	}
 }

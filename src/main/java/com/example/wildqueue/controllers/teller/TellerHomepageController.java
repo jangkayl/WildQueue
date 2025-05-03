@@ -55,7 +55,7 @@ public class TellerHomepageController {
 	private List<TellerWindow> tellerWindows;
 	private PriorityNumber currentServingNumber;
 	private Transaction currentServing;
-	private int windowNumber = 0;
+	private int windowNumber;
 
 	@FXML
 	public void initialize() {
@@ -76,7 +76,7 @@ public class TellerHomepageController {
 		}
 
 		priorityQueue = PriorityNumberDAO.getAllPriorityNumbers();
-		transactionList = TransactionDAO.getAllTransactions();
+		transactionList = TransactionDAO.getTransactionsByTellerId(currentUser.getInstitutionalId());
 		tellerWindows = TellerWindowDAO.getAllTellerWindows();
 
 		PriorityNumberManager.setPriorityNumberList(priorityQueue);
@@ -97,6 +97,7 @@ public class TellerHomepageController {
 		WindowStatusComponent windowStatusComponent = new WindowStatusComponent(tellerWindows, windowNumberText, windowStatusText);
 		windowStatusComponent.initializeTellerWindows();
 		tellerWindows = TellerWindowManager.getTellerWindowLists();
+		windowNumber = Objects.requireNonNull(TellerWindowManager.getTellerCurrentWindow()).getWindowNumber();
 	}
 
 	private void updateServedTodayText() {
@@ -271,6 +272,13 @@ public class TellerHomepageController {
 			}
 
 			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING, currentUser.getInstitutionalId());
+			TellerWindowDAO.assignStudentToWindow(windowNumber, currentServingNumber.getStudentId());
+
+			TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
+			if(newUpdate != null){
+				newUpdate.setStudentId(currentServingNumber.getStudentId());
+				TellerWindowManager.addOrUpdateTellerWindow(newUpdate);
+			}
 
 			if (success) {
 				currentNumberText.setText(currentServingNumber.getPriorityNumber());
@@ -299,6 +307,15 @@ public class TellerHomepageController {
 			);
 
 			if (result.isPresent() && result.get() == ButtonType.YES) {
+				TellerWindowDAO.removeStudentFromWindow(windowNumber);
+
+				TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
+				if(newUpdate != null){
+					newUpdate.setStudentId("");
+					TellerWindowManager.addOrUpdateTellerWindow(newUpdate);
+					System.out.println("New update " + newUpdate.getStudentId());
+				}
+
 				System.out.println("User confirmed: DONE!");
 			} else {
 				System.out.println("User cancelled.");

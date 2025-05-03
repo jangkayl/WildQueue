@@ -79,57 +79,6 @@ public class TellerWindowDAO {
 		return tellerWindows;
 	}
 
-	public static void insertTellerWindow(TellerWindow tellerWindow) {
-		String query = "INSERT INTO " + TABLE_NAME + " (windowNumber, tellerId, studentId) VALUES (?, ?, ?)";
-
-		try (Connection conn = DatabaseUtil.getConnection();
-		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setInt(1, tellerWindow.getWindowNumber());
-			pstmt.setString(2, tellerWindow.getTellerId());
-			pstmt.setString(3, tellerWindow.getStudentId());
-			pstmt.executeUpdate();
-			System.out.println("TELLER WINDOW INSERTED SUCCESSFULLY.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static TellerWindow getTellerWindowByNumber(int windowNumber) {
-		String query = "SELECT windowNumber, tellerId, studentId FROM " + TABLE_NAME + " WHERE windowNumber = ?";
-
-		try (Connection conn = DatabaseUtil.getConnection();
-		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setInt(1, windowNumber);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					String tellerId = rs.getString("tellerId");
-					String studentId = rs.getString("studentId");
-					return new TellerWindow(tellerId, studentId, windowNumber, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static int getWindowNumberByTellerId(String tellerId) {
-		String query = "SELECT windowNumber FROM " + TABLE_NAME + " WHERE tellerId = ?";
-
-		try (Connection conn = DatabaseUtil.getConnection();
-		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setString(1, tellerId);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					return rs.getInt("windowNumber");
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
-
 	public static List<TellerWindow> getAllTellerWindows() {
 		List<TellerWindow> tellerWindows = new ArrayList<>();
 		String query = "SELECT * FROM " + TABLE_NAME;

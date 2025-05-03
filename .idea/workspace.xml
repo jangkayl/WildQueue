@@ -6,83 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="89d9c144-2473-4aff-82b3-5d45ce9e05bb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/MyApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/AdminHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/AdminHomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/RegisterStudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/admin/RegisterStudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentDetailsFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHistoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentHomepageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentMainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/student/StudentProfileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/TellerHomepageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/WindowSelectionPopupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/WindowSelectionPopupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/components/WindowStatusComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/controllers/teller/components/WindowStatusComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TellerWindowDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/dao/TellerWindowDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/services/TransactionUpdaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/services/TransactionUpdaterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/services/WindowUpdaterService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/PriorityNumberManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/managers/PriorityNumberManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/managers/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/TransactionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/managers/TransactionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/student-homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/student-homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/teller-homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/wildqueue/teller-homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/DatabaseConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/MyApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/admin-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/LoginController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/RegisterController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/AdminHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/RegisterStudentController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/admin/RegisterTellerController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentDetailsFormController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHistoryController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentMainController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/StudentProfileController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/student/TransactionDetailController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/PriorityNumberDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TellerWindowDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TransactionDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/UserDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/login-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Admin.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityNumber.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/PriorityStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Student.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Teller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/TellerWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/Transaction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/models/UserType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register-teller.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/register_student.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/AbstractUpdaterService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/QueueUpdaterService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/TransactionUpdaterService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/services/WindowUpdaterService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-details-form.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-history-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-homepage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-main.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/student-profile-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/teller-homepage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/transaction-detail-page.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/transaction-history-dialog.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/ActivityEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/DatabaseUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/PriorityNumberManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/Serialize.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/SessionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/ThreadUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/TransactionManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/Utils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.ser" beforeDir="false" afterPath="$PROJECT_DIR$/user.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/managers/TellerWindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/wildqueue/utils/managers/TellerWindowManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/TellerHomepageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/WindowSelectionPopupController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/WindowSelectionPopupController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/components/WindowStatusComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/controllers/teller/components/WindowStatusComponent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TellerWindowDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/dao/TellerWindowDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/managers/TellerWindowManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/wildqueue/utils/managers/TellerWindowManager.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
