@@ -2,8 +2,8 @@ package com.example.wildqueue.services;
 
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.Transaction;
-import com.example.wildqueue.utils.SessionManager;
-import com.example.wildqueue.utils.TransactionManager;
+import com.example.wildqueue.utils.managers.SessionManager;
+import com.example.wildqueue.utils.managers.TransactionManager;
 
 import java.sql.Timestamp;
 import java.util.List;

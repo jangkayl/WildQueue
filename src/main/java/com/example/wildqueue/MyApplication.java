@@ -8,7 +8,7 @@ import com.example.wildqueue.models.Student;
 import com.example.wildqueue.models.Teller;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.utils.Serialize;
-import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.managers.SessionManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

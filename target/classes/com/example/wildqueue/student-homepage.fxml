@@ -36,7 +36,7 @@
                         <graphic>
                             <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
                                 <image>
-<!--                                    <Image url="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" />-->
+                                    <Image url="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-512.png" />
                                 </image>
                             </ImageView>
                         </graphic>

@@ -1,17 +1,22 @@
 package com.example.wildqueue.controllers.teller;
 
+import com.example.wildqueue.controllers.teller.components.ActivityLogComponent;
+import com.example.wildqueue.controllers.teller.components.QueueDisplayComponent;
+import com.example.wildqueue.controllers.teller.components.WindowStatusComponent;
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TellerWindowDAO;
 import com.example.wildqueue.dao.TransactionDAO;
-import com.example.wildqueue.models.PriorityNumber;
-import com.example.wildqueue.models.PriorityStatus;
-import com.example.wildqueue.models.Transaction;
-import com.example.wildqueue.models.User;
-import com.example.wildqueue.services.QueueUpdaterService;
-import com.example.wildqueue.services.TransactionUpdaterService;
+import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.*;
+import com.example.wildqueue.utils.managers.PriorityNumberManager;
+import com.example.wildqueue.utils.managers.SessionManager;
+import com.example.wildqueue.utils.managers.TellerWindowManager;
+import com.example.wildqueue.utils.managers.TransactionManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -21,57 +26,42 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TellerHomepageController {
 	@FXML private Label tellerNameLabel;
 	@FXML private Button logoutButton;
 	@FXML private Text tellerNameSidebar;
 	@FXML private Text windowNumberText;
-	@FXML private Button callButton;
-	@FXML private Button completeButton;
-	@FXML private Button transferButton;
 	@FXML private Button windowToggleButton;
-	@FXML private Button priorityButton;
-	@FXML private Button recallButton;
-	@FXML private Button notifyButton;
-	@FXML private Button viewHistoryButton;
 	@FXML private Text currentNumberText;
 	@FXML private Text currentStudentText;
 	@FXML private Text waitingCountText;
 	@FXML private Text servedTodayText;
-	@FXML private Text avgTimeText;
 	@FXML private Text windowStatusText;
-	@FXML private Button refreshActivityButton;
 	@FXML private VBox activityContainer;
-	@FXML private VBox vbRecentActivities;
 	@FXML private HBox hbQueue;
 
 	private User currentUser;
 	private List<PriorityNumber> priorityQueue;
 	private List<Transaction> transactionList;
+	private List<TellerWindow> tellerWindows;
 	private PriorityNumber currentServingNumber;
-	private Transaction currentServing = null;
-	private int windowNumber = 1;
+	private Transaction currentServing;
+	private int windowNumber = 0;
 
 	@FXML
 	public void initialize() {
 		loadData();
-
-		initializeCurrentServing();
-		initializePriorityQueue();
-		initializeTransactions();
+		loadComponents();
 		updateServedTodayText();
-//		setupWindowNumber();
 	}
 
 	private void loadData() {
@@ -85,62 +75,28 @@ public class TellerHomepageController {
 			tellerNameSidebar.setText("Guest");
 		}
 
-		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
-		TransactionManager.setTransactionList(TransactionDAO.getAllTransactions());
+		priorityQueue = PriorityNumberDAO.getAllPriorityNumbers();
+		transactionList = TransactionDAO.getAllTransactions();
+		tellerWindows = TellerWindowDAO.getAllTellerWindows();
+
+		PriorityNumberManager.setPriorityNumberList(priorityQueue);
+		TransactionManager.setTransactionList(transactionList);
+		TellerWindowManager.setTellerWindowLists(tellerWindows);
 	}
 
-	private void setupWindowNumber() {
-		windowNumber = TellerWindowDAO.getWindowNumberByTellerId(currentUser.getInstitutionalId());
-
-		windowNumberText.setText("Window " + windowNumber);
-	}
-
-	private void initializePriorityQueue() {
+	private void loadComponents(){
+		QueueDisplayComponent queueDisplayComponent = new QueueDisplayComponent(currentServing, currentServingNumber, currentNumberText, currentStudentText, priorityQueue, this);
+		queueDisplayComponent.initializeCurrentServing();
+		queueDisplayComponent.initializePriorityQueue();
 		priorityQueue = PriorityNumberManager.getPriorityNumberList();
-		updateQueueUI();
 
-		PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
-				priorityQueue.get(priorityQueue.size() - 1) : null;
-
-		QueueUpdaterService queueUpdaterService = QueueUpdaterService.getInstance();
-		queueUpdaterService.setLastFetched(lastFetched);
-		queueUpdaterService.subscribe(this::handleQueueUpdates);
-
-		updateQueueUI();
-	}
-
-	private void initializeTransactions() {
+		ActivityLogComponent activityLogComponent = new ActivityLogComponent(transactionList, activityContainer, currentServingNumber, currentNumberText, currentStudentText);
+		activityLogComponent.initializeTransactions();
 		transactionList = TransactionManager.getTransactionList();
-		updateTransactionUI();
 
-		Transaction lastFetched = !transactionList.isEmpty() ?
-				transactionList.get(transactionList.size() - 1) : null;
-
-		TransactionUpdaterService transactionUpdaterService = TransactionUpdaterService.getInstance();
-		transactionUpdaterService.setLastFetched(lastFetched);
-		transactionUpdaterService.subscribe(this::handleTransactionUpdates);
-
-		updateTransactionUI();
-	}
-
-	private void initializeCurrentServing(){
-		if (currentServing != null) {
-			return;
-		}
-
-		currentServing = TransactionManager.getTransactionById(currentUser.getInstitutionalId());
-		if (currentServing == null) {
-			return;
-		}
-
-		currentServingNumber = PriorityNumberManager.getPriorityNumberById(currentServing.getPriorityNumber());
-		if (currentServingNumber == null) {
-			return;
-		}
-
-		System.out.println("Current Serving is " + currentServingNumber.getPriorityNumber());
-		currentNumberText.setText(currentServingNumber.getPriorityNumber());
-		currentStudentText.setText(currentServingNumber.getStudentId());
+		WindowStatusComponent windowStatusComponent = new WindowStatusComponent(tellerWindows, windowNumberText, windowStatusText);
+		windowStatusComponent.initializeTellerWindows();
+		tellerWindows = TellerWindowManager.getTellerWindowLists();
 	}
 
 	private void updateServedTodayText() {
@@ -155,73 +111,7 @@ public class TellerHomepageController {
 		servedTodayText.setText(String.valueOf(completedTransactionsToday.size()));
 	}
 
-	private void handleQueueUpdates(List<PriorityNumber> updatedNumbers) {
-		boolean needsUpdate = false;
-
-		for (PriorityNumber updatedNumber : updatedNumbers) {
-			Optional<PriorityNumber> existingNumber = priorityQueue.stream()
-					.filter(pn -> pn.getPriorityNumber().equals(updatedNumber.getPriorityNumber()))
-					.findFirst();
-
-			if (existingNumber.isPresent()) {
-				if (!existingNumber.get().getStatus().equals(updatedNumber.getStatus())) {
-					existingNumber.get().setStatus(updatedNumber.getStatus());
-					needsUpdate = true;
-				}
-			} else {
-				priorityQueue.add(updatedNumber);
-				needsUpdate = true;
-			}
-		}
-
-		if (needsUpdate) {
-			updateQueueUI();
-		}
-	}
-
-	private void handleTransactionUpdates(List<Transaction> updatedTransactions) {
-		boolean needsUpdate = false;
-
-		for (Transaction updatedTransaction : updatedTransactions) {
-			Optional<Transaction> existingTransaction = transactionList.stream()
-					.filter(t -> t.getTransactionId() == updatedTransaction.getTransactionId())
-					.findFirst();
-
-			if (existingTransaction.isPresent()) {
-				if (!Objects.equals(existingTransaction.get().getStatus(), updatedTransaction.getStatus()) ||
-						!Objects.equals(existingTransaction.get().getCalledTime(), updatedTransaction.getCalledTime()) ||
-						!Objects.equals(existingTransaction.get().getCompletionDate(), updatedTransaction.getCompletionDate())) {
-
-					existingTransaction.get().setStatus(updatedTransaction.getStatus());
-					existingTransaction.get().setCalledTime(updatedTransaction.getCalledTime());
-					existingTransaction.get().setCompletionDate(updatedTransaction.getCompletionDate());
-					needsUpdate = true;
-				}
-			} else {
-				transactionList.add(updatedTransaction);
-				needsUpdate = true;
-			}
-		}
-
-		if (needsUpdate) {
-			updateTransactionUI();
-
-			if (currentServingNumber != null) {
-				Optional<Transaction> currentTransaction = transactionList.stream()
-						.filter(t -> t.getPriorityNumber().equals(currentServingNumber.getPriorityNumber()))
-						.findFirst();
-
-				if (currentTransaction.isPresent() &&
-						currentTransaction.get().getStatus().equals(PriorityStatus.COMPLETED.toString())) {
-					currentNumberText.setText("--");
-					currentStudentText.setText("--");
-					currentServingNumber = null;
-				}
-			}
-		}
-	}
-
-	private void updateQueueUI() {
+	public void updateQueueUI() {
 		List<PriorityNumber> pendingQueue = priorityQueue.stream()
 				.filter(pn -> PriorityStatus.PENDING.toString().equalsIgnoreCase(pn.getStatus().toString()))
 				.toList();
@@ -311,23 +201,12 @@ public class TellerHomepageController {
 						Color.LIMEGREEN
 				));
 			}
-
-//			if (transaction.getTransferredDate() != null) {
-//				activityEvents.add(new ActivityEvent(
-//						"TRANSFERRED",
-//						transaction.getPriorityNumber(),
-//						transaction.getStudentName(),
-//						transaction.getStudentId(),
-//						transaction.getTransferredDate(),
-//						Color.SKYBLUE
-//				));
-//			}
 		}
 
 		List<ActivityEvent> recentActivities = activityEvents.stream()
 				.sorted(Comparator.comparing(ActivityEvent::getDate).reversed())
 				.limit(5)
-				.collect(Collectors.toList());
+				.toList();
 
 		for (ActivityEvent event : recentActivities) {
 			HBox activityItem = new HBox(8);
@@ -354,6 +233,16 @@ public class TellerHomepageController {
 
 	@FXML
 	private void handleCallButton() {
+		if (!hasWindowAssignment()) {
+			Utils.showAlert(
+					Alert.AlertType.WARNING,
+					"No Window Assignment",
+					"You must be assigned to a window before calling numbers",
+					ButtonType.OK
+			);
+			return;
+		}
+
 		if (currentServingNumber != null) {
 			Utils.showAlert(
 					Alert.AlertType.WARNING,
@@ -438,61 +327,60 @@ public class TellerHomepageController {
 		}
 	}
 
-//	@FXML
-//	private void handleTransferButton() {
-//		if (currentServingNumber != null) {
-//			currentServingNumber.setStatus(PriorityStatus.PENDING);
-//			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
-//
-//			currentNumberText.setText("--");
-//			currentStudentText.setText("--");
-//			currentServingNumber = null;
-//
-//			updateQueueUI();
-//		} else {
-//			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
-//		}
-//	}
+	@FXML
+	private void handleWindowToggle() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/window-select-popup.fxml"));
+			Parent root = loader.load();
 
-//	@FXML
-//	private void handlePriorityButton() {
-//		// Find the next priority number
-//		Optional<PriorityNumber> nextPriority = priorityQueue.stream()
-//				.filter(pn -> PriorityStatus.PRIORITY.toString().equalsIgnoreCase(pn.getStatus().toString()))
-//				.findFirst();
-//
-//		if (nextPriority.isPresent()) {
-//			currentServingNumber = nextPriority.get();
-//			currentServingNumber.setStatus(PriorityStatus.SERVING);
-//			currentServingNumber.setWindowNumber(windowNumber);
-//
-//			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
-//
-//			currentNumberText.setText(currentServingNumber.getPriorityNumber());
-//			currentStudentText.setText(currentServingNumber.getStudentId());
-//
-//			updateQueueUI();
-//		} else {
-//			Utils.showAlert(Alert.AlertType.INFORMATION, "No Priority Numbers", "There are no priority numbers to call.", null);
-//		}
-//	}
+			WindowSelectionPopupController controller = loader.getController();
+			boolean window1Available = isWindowAvailable(1);
+			boolean window2Available = isWindowAvailable(2);
 
-//	@FXML
-//	private void handleRecallButton() {
-//		if (currentServingNumber != null) {
-//			currentNumberText.setText(currentServingNumber.getPriorityNumber());
-//			currentStudentText.setText(currentServingNumber.getStudentId());
-//		} else {
-//			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
-//		}
-//	}
-//
-//	@FXML
-//	private void handleWindowToggle() {
-//		boolean isOpen = windowStatusText.getText().equalsIgnoreCase("OPEN");
-//		windowStatusText.setText(isOpen ? "CLOSED" : "OPEN");
-//		windowToggleButton.setText(isOpen ? "Open Window" : "Close Window");
-//	}
+			controller.updateWindowStatus(window1Available, window2Available);
+
+			Stage dialog = new Stage();
+			dialog.initModality(Modality.APPLICATION_MODAL);
+			dialog.initOwner(windowToggleButton.getScene().getWindow());
+			dialog.setTitle("Select Window");
+			controller.setStage(dialog);
+
+			Scene scene = new Scene(root);
+			dialog.setScene(scene);
+			dialog.showAndWait();
+
+			if (controller.isConfirmed()) {
+				windowNumber = controller.getSelectedWindow();
+				windowNumberText.setText("Window " + windowNumber);
+				windowStatusText.setText("OPEN");
+
+				TellerWindowDAO.assignTeller(windowNumber, currentUser.getInstitutionalId());
+				TellerWindow currentTellerWindow = TellerWindowManager.getTellerWindowById(windowNumber);
+
+				if(currentTellerWindow != null){
+					currentTellerWindow.setTellerId(SessionManager.getCurrentUser().getInstitutionalId());
+					TellerWindowManager.addOrUpdateTellerWindow(currentTellerWindow);
+				}
+
+				Utils.showAlert(Alert.AlertType.INFORMATION, "Success",
+						"Window " + windowNumber + " has been assigned to you", ButtonType.OK);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			Utils.showAlert(Alert.AlertType.ERROR, "Error", "Could not load window selection dialog", null);
+		}
+	}
+
+	private boolean hasWindowAssignment() {
+		return tellerWindows.stream()
+				.anyMatch(window -> window.getTellerId() != null &&
+						window.getTellerId().equals(currentUser.getInstitutionalId()));
+	}
+
+	private boolean isWindowAvailable(int windowId) {
+		TellerWindow window = TellerWindowManager.getTellerWindowById(windowId);
+		return window != null && Objects.equals(window.getTellerId(), "");
+	}
 
 	@FXML
 	private void logout() {

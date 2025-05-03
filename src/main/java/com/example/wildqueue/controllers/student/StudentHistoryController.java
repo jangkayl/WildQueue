@@ -2,9 +2,8 @@ package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
-import com.example.wildqueue.utils.TransactionManager;
+import com.example.wildqueue.utils.managers.TransactionManager;
 import com.example.wildqueue.utils.Utils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;

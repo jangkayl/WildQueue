@@ -19,4 +19,5 @@ module com.example.WildQueue {
 	exports com.example.wildqueue.services to javafx.fxml;
 	exports com.example.wildqueue.controllers.teller;
 	exports com.example.wildqueue.controllers.admin;
+	exports com.example.wildqueue.utils.managers to javafx.fxml;
 }

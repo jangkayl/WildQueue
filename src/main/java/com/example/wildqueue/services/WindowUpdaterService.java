@@ -1,10 +1,9 @@
 package com.example.wildqueue.services;
 
-import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TellerWindowDAO;
-import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.models.TellerWindow;
-import com.example.wildqueue.utils.Utils;
+import com.example.wildqueue.utils.managers.TellerWindowManager;
+import com.example.wildqueue.utils.managers.TransactionManager;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,5 +29,6 @@ public class WindowUpdaterService extends AbstractUpdaterService<TellerWindow, I
 
 	@Override
 	protected void onItemsUpdated(List<TellerWindow> updatedItems) {
+		updatedItems.forEach(TellerWindowManager::addOrUpdateTellerWindow);
 	}
 }

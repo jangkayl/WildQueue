@@ -1,8 +1,7 @@
 package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.models.User;
-import com.example.wildqueue.services.QueueUpdaterService;
-import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

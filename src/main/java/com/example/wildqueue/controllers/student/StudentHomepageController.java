@@ -9,6 +9,9 @@ import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
 import com.example.wildqueue.services.TransactionUpdaterService;
 import com.example.wildqueue.utils.*;
+import com.example.wildqueue.utils.managers.PriorityNumberManager;
+import com.example.wildqueue.utils.managers.SessionManager;
+import com.example.wildqueue.utils.managers.TransactionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +21,6 @@ import javafx.scene.text.Text;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

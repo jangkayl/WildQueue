@@ -5,7 +5,7 @@ import com.example.wildqueue.models.Student;
 import com.example.wildqueue.models.Teller;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.models.UserType;
-import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

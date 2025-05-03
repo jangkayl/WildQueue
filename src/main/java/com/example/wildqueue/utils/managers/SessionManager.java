@@ -1,8 +1,11 @@
-package com.example.wildqueue.utils;
+package com.example.wildqueue.utils.managers;
 
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
 import com.example.wildqueue.services.TransactionUpdaterService;
+import com.example.wildqueue.services.WindowUpdaterService;
+import com.example.wildqueue.utils.Serialize;
+import com.example.wildqueue.utils.Utils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
@@ -38,6 +41,7 @@ public class SessionManager {
 			if (response == ButtonType.OK) {
 				QueueUpdaterService.getInstance().stopUpdateThread();
 				TransactionUpdaterService.getInstance().stopUpdateThread();
+				WindowUpdaterService.getInstance().stopUpdateThread();
 				SessionManager.clearSession();
 			}
 		});

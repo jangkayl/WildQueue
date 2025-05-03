@@ -1,7 +1,6 @@
 package com.example.wildqueue.controllers;
 
 import com.example.wildqueue.dao.UserDAO;
-import com.example.wildqueue.utils.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

@@ -54,7 +54,7 @@
                 <Button fx:id="callButton" onAction="#handleCallButton" prefHeight="41.0" prefWidth="181.0" style="-fx-background-color: #FFD700; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 3; -fx-padding: 8 10; -fx-cursor: hand; -fx-min-width: 170;" text="CALL NEXT" />
                 <Button fx:id="completeButton" onAction="#handleCompleteButton" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 3; -fx-padding: 8 10; -fx-cursor: hand; -fx-min-width: 170;" text="COMPLETE CURRENT" />
                 <Button fx:id="transferButton" prefHeight="41.0" prefWidth="182.0" style="-fx-background-color: #5bc0de; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 3; -fx-padding: 8 10; -fx-cursor: hand; -fx-min-width: 170;" text="TRANSFER" />
-                <Button fx:id="windowToggleButton" prefHeight="41.0" prefWidth="183.0" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 3; -fx-padding: 8 10; -fx-cursor: hand; -fx-min-width: 170;" text="OPEN WINDOW" />
+                <Button fx:id="windowToggleButton" onAction="#handleWindowToggle" prefHeight="41.0" prefWidth="183.0" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 3; -fx-padding: 8 10; -fx-cursor: hand; -fx-min-width: 170;" text="OPEN WINDOW" />
 
                 <Separator style="-fx-background-color: #FFD700; -fx-padding: 5 0;" />
 

@@ -1,4 +1,4 @@
-package com.example.wildqueue.utils;
+package com.example.wildqueue.utils.managers;
 
 import com.example.wildqueue.models.Transaction;
 import java.util.List;

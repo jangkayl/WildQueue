@@ -4,8 +4,8 @@ import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
-import com.example.wildqueue.utils.PriorityNumberManager;
-import com.example.wildqueue.utils.SessionManager;
+import com.example.wildqueue.utils.managers.PriorityNumberManager;
+import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class StudentDetailsFormController {
 	@FXML public ScrollPane scrollPane;

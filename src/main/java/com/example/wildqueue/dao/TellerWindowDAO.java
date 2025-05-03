@@ -2,7 +2,6 @@ package com.example.wildqueue.dao;
 
 import com.example.wildqueue.models.*;
 import com.example.wildqueue.utils.DatabaseUtil;
-import com.example.wildqueue.utils.SessionManager;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -131,6 +130,34 @@ public class TellerWindowDAO {
 		return -1;
 	}
 
+	public static List<TellerWindow> getAllTellerWindows() {
+		List<TellerWindow> tellerWindows = new ArrayList<>();
+		String query = "SELECT * FROM " + TABLE_NAME;
+
+		try (Connection conn = DatabaseUtil.getConnection();
+		     PreparedStatement pstmt = conn.prepareStatement(query);
+		     ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				TellerWindow window = new TellerWindow(
+						rs.getString("tellerId"),
+						rs.getString("studentId"),
+						rs.getInt("windowNumber"),
+						rs.getTimestamp("createdAt"),
+						rs.getTimestamp("lastModified")
+				);
+
+				tellerWindows.add(window);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return tellerWindows;
+	}
+
+
 	public static void assignStudentToWindow(int windowNumber, String studentId) {
 		String query = "UPDATE " + TABLE_NAME + " SET studentId = ? WHERE windowNumber = ?";
 
@@ -202,7 +229,7 @@ public class TellerWindowDAO {
 	}
 
 	public static void removeTeller(int windowNumber) {
-		String query = "UPDATE " + TABLE_NAME + " SET tellerId = NULL WHERE windowNumber = ?";
+		String query = "UPDATE " + TABLE_NAME + " SET tellerId = '' WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
