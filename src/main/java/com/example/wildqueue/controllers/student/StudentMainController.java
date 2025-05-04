@@ -1,10 +1,12 @@
 package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.dao.PriorityNumberDAO;
+import com.example.wildqueue.dao.TellerWindowDAO;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
+import com.example.wildqueue.utils.managers.TellerWindowManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +31,7 @@ public class StudentMainController {
 	public void initialize() throws IOException {
 		PriorityNumberManager.setPriorityNumberList(PriorityNumberDAO.getAllPriorityNumbers());
 		TransactionManager.setTransactionList(TransactionDAO.getTransactionsByStudentId(SessionManager.getCurrentUser().getInstitutionalId()));
+		TellerWindowManager.setTellerWindowLists(TellerWindowDAO.getAllTellerWindows());
 
 		navigateToHome();
 	}

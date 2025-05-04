@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -65,14 +64,16 @@
                         <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #5E0A15; -fx-background-radius: 12; -fx-padding: 15; -fx-border-radius: 12; -fx-border-color: #E2E8F0; -fx-border-width: 1;" GridPane.columnIndex="0">
                             <Text style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-fill: #B38B5B;" text="WINDOW 1" />
                             <Text fx:id="window1Number" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: white;" text="-" />
-                            <Text style="-fx-font-size: 10px; -fx-fill: #D9C7A7;" text="Estimated wait: 5 min" />
+                            <Text fx:id="window1Duration" style="-fx-font-size: 10px; -fx-fill: #D9C7A7;" text="Duration time: 10 min" />
+                            <Text fx:id="window1Status" style="-fx-font-size: 13px; -fx-fill: #D9C7A7; -fx-font-weight: bold;" text="CLOSED" />
                         </VBox>
 
                         <!-- Window 2 -->
                         <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #5E0A15; -fx-background-radius: 12; -fx-padding: 15; -fx-border-radius: 12; -fx-border-color: #E2E8F0; -fx-border-width: 1;" GridPane.columnIndex="1">
                             <Text style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-fill: #B38B5B;" text="WINDOW 2" />
                             <Text fx:id="window2Number" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: white;" text="-" />
-                            <Text style="-fx-font-size: 10px; -fx-fill: #D9C7A7;" text="Estimated wait: 3 min" />
+                            <Text fx:id="window2Duration" style="-fx-font-size: 10px; -fx-fill: #D9C7A7;" text="Duration time: 10 min" />
+                            <Text fx:id="window2Status" style="-fx-font-size: 13px; -fx-fill: #D9C7A7; -fx-font-weight: bold;" text="CLOSED" />
                         </VBox>
 
                         <!-- Queue Status -->

@@ -1,16 +1,16 @@
 package com.example.wildqueue.controllers.student;
 
+import com.example.wildqueue.controllers.teller.WindowSelectionPopupController;
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TransactionDAO;
-import com.example.wildqueue.models.PriorityNumber;
-import com.example.wildqueue.models.PriorityStatus;
-import com.example.wildqueue.models.Transaction;
-import com.example.wildqueue.models.User;
+import com.example.wildqueue.models.*;
 import com.example.wildqueue.services.QueueUpdaterService;
 import com.example.wildqueue.services.TransactionUpdaterService;
+import com.example.wildqueue.services.WindowUpdaterService;
 import com.example.wildqueue.utils.*;
 import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
+import com.example.wildqueue.utils.managers.TellerWindowManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,6 +26,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class StudentHomepageController {
+    public Text window1Status;
+    public Text window2Status;
+    @FXML private Text window1Duration;
+    @FXML private Text window2Duration;
     @FXML private ScrollPane scrollPane;
     @FXML private Text window1Number;
     @FXML private Text window2Number;
@@ -39,6 +43,7 @@ public class StudentHomepageController {
     private User currentUser;
     private List<PriorityNumber> priorityQueue;
     private List<Transaction> transactionList;
+    private List<TellerWindow> tellerWindows;
 
 	@FXML
     public void initialize() {
@@ -54,9 +59,10 @@ public class StudentHomepageController {
         initializePriorityQueue();
         setupExistingTransactionIfAny();
         initializeTransactions();
+        initializeWindow();
     }
 
-    public void initializePriorityQueue() {
+    private void initializePriorityQueue() {
         priorityQueue = PriorityNumberManager.getPriorityNumberList();
 
         PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
@@ -69,7 +75,7 @@ public class StudentHomepageController {
         updatePriorityQueueUI();
     }
 
-    public void initializeTransactions() {
+    private void initializeTransactions() {
         transactionList = TransactionManager.getTransactionList();
 
         Transaction lastFetched = !transactionList.isEmpty() ?
@@ -80,6 +86,50 @@ public class StudentHomepageController {
         transactionUpdaterService.subscribe(this::handleTransactionUpdates);
 
         updateTransactionUI();
+    }
+
+    private void initializeWindow(){
+        tellerWindows = TellerWindowManager.getTellerWindowLists();
+
+        TellerWindow lastFetched = !tellerWindows.isEmpty() ?
+                tellerWindows.get(tellerWindows.size() - 1) : null;
+
+        WindowUpdaterService windowUpdaterService = WindowUpdaterService.getInstance();
+        windowUpdaterService.setLastFetched(lastFetched);
+        windowUpdaterService.subscribe(this::handleTellerWindowUpdated);
+
+        updateTellerWindowUI();
+    }
+
+    private void handleTellerWindowUpdated(List<TellerWindow> updatedWindows) {
+        boolean needsUpdate = false;
+
+            for (TellerWindow updatedWindow : updatedWindows) {
+                Optional<TellerWindow> existingWindow = tellerWindows.stream()
+                        .filter(window -> window.getWindowNumber() == updatedWindow.getWindowNumber())
+                        .findFirst();
+
+                if (existingWindow.isPresent()) {
+                    if (!Objects.equals(existingWindow.get().getTellerId(), updatedWindow.getTellerId()) ||
+                            !Objects.equals(existingWindow.get().getStudentId(), updatedWindow.getStudentId()) ||
+                            !Objects.equals(existingWindow.get().getPriorityNumber(), updatedWindow.getPriorityNumber())) {
+
+                        existingWindow.get().setTellerId(updatedWindow.getTellerId());
+                        existingWindow.get().setStudentId(updatedWindow.getStudentId());
+                        existingWindow.get().setPriorityNumber(updatedWindow.getPriorityNumber());
+
+                        needsUpdate = true;
+                    }
+                } else {
+                    tellerWindows.add(updatedWindow);
+                    TellerWindowManager.addOrUpdateTellerWindow(updatedWindow);
+                    needsUpdate = true;
+                }
+            }
+
+        if (needsUpdate) {
+            updateTellerWindowUI();
+        }
     }
 
     private void handleTransactionUpdates(List<Transaction> updatedTransactions) {
@@ -141,7 +191,7 @@ public class StudentHomepageController {
         }
     }
 
-    public void setupExistingTransactionIfAny() {
+    private void setupExistingTransactionIfAny() {
         if(currentUser == null){
             this.currentUser = SessionManager.getCurrentUser();
         }
@@ -190,6 +240,35 @@ public class StudentHomepageController {
             updateTransactionUI();
         }
     }
+
+    public void updateTellerWindowUI() {
+        for (TellerWindow window : tellerWindows) {
+            int windowNumber = window.getWindowNumber();
+            String tellerId = window.getTellerId();
+            String studentId = window.getStudentId();
+            String priorityNumber = window.getPriorityNumber();
+
+            String statusText;
+            if (tellerId == null || tellerId.isEmpty()) {
+                statusText = "CLOSED";
+            } else if (studentId == null || studentId.isEmpty()) {
+                statusText = "VACANT";
+            } else {
+                statusText = "OCCUPIED";
+            }
+
+            String numberText = (priorityNumber != null && !priorityNumber.isEmpty()) ? priorityNumber : "-";
+
+            if (windowNumber == 1) {
+                window1Status.setText(statusText);
+                window1Number.setText(numberText);
+            } else if (windowNumber == 2) {
+                window2Status.setText(statusText);
+                window2Number.setText(numberText);
+            }
+        }
+    }
+
 
     private void updateTransactionUI() {
         Optional<Transaction> activeTransaction = transactionList.stream()

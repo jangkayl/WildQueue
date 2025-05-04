@@ -17,6 +17,7 @@ public class TellerWindowDAO {
 				"windowNumber INT NOT NULL, " +
 				"tellerId VARCHAR(50), " +
 				"studentId VARCHAR(50), " +
+				"priorityNumber VARCHAR(50), " +
 				"createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
 				"PRIMARY KEY (windowNumber), " +
@@ -62,6 +63,7 @@ public class TellerWindowDAO {
 						rs.getString("tellerId"),
 						rs.getString("studentId"),
 						rs.getInt("windowNumber"),
+						rs.getString("priorityNumber"),
 						rs.getTimestamp("createdAt"),
 						rs.getTimestamp("lastModified")
 				);
@@ -92,6 +94,7 @@ public class TellerWindowDAO {
 						rs.getString("tellerId"),
 						rs.getString("studentId"),
 						rs.getInt("windowNumber"),
+						rs.getString("priorityNumber"),
 						rs.getTimestamp("createdAt"),
 						rs.getTimestamp("lastModified")
 				);
@@ -107,13 +110,14 @@ public class TellerWindowDAO {
 	}
 
 
-	public static void assignStudentToWindow(int windowNumber, String studentId) {
-		String query = "UPDATE " + TABLE_NAME + " SET studentId = ? WHERE windowNumber = ?";
+	public static void assignStudentToWindow(int windowNumber, String studentId, String priorityNumber) {
+		String query = "UPDATE " + TABLE_NAME + " SET studentId = ?, priorityNumber = ? WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, studentId);
-			pstmt.setInt(2, windowNumber);
+			pstmt.setString(2, priorityNumber);
+			pstmt.setInt(3, windowNumber);
 			int rowsAffected = pstmt.executeUpdate();
 			if (rowsAffected > 0) {
 				System.out.println("STUDENT ASSIGNED TO WINDOW SUCCESSFULLY.");
@@ -126,7 +130,7 @@ public class TellerWindowDAO {
 	}
 
 	public static void removeStudentFromWindow(int windowNumber) {
-		String query = "UPDATE " + TABLE_NAME + " SET studentId = NULL WHERE windowNumber = ?";
+		String query = "UPDATE " + TABLE_NAME + " SET studentId = NULL, priorityNumber = NULL WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {

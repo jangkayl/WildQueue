@@ -69,7 +69,7 @@ public abstract class AbstractUpdaterService<T, ID> {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 6500);
+		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 7000);
 		System.out.println("Checking for updates since: " + lastModifiedSince);
 
 		List<T> updatedItems = fetchUpdatedItems(lastFetched, lastModifiedSince);

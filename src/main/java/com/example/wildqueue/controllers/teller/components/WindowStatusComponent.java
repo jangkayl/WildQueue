@@ -24,7 +24,6 @@ public class WindowStatusComponent {
 
 	public void initializeTellerWindows() {
 		tellerWindows = TellerWindowManager.getTellerWindowLists();
-		updateTellerWindowUI();
 
 		TellerWindow lastFetched = !tellerWindows.isEmpty() ?
 				tellerWindows.get(tellerWindows.size() - 1) : null;
@@ -36,7 +35,7 @@ public class WindowStatusComponent {
 		updateTellerWindowUI();
 	}
 
-	public void updateTellerWindowUI() {
+	private void updateTellerWindowUI() {
 		for (TellerWindow window : tellerWindows) {
 			if (window.getTellerId() != null && window.getTellerId().equals(SessionManager.getCurrentUser().getInstitutionalId())) {
 				windowNumberText.setText("Window " + window.getWindowNumber());
@@ -49,7 +48,7 @@ public class WindowStatusComponent {
 		windowStatusText.setText("CLOSED");
 	}
 
-	public void handleTellerWindowUpdated(List<TellerWindow> updatedWindows) {
+	private void handleTellerWindowUpdated(List<TellerWindow> updatedWindows) {
 		boolean needsUpdate = false;
 
 		for (TellerWindow updatedWindow : updatedWindows) {

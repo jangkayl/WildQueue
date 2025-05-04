@@ -1,7 +1,10 @@
 package com.example.wildqueue.utils.managers;
 
 import com.example.wildqueue.models.PriorityNumber;
+import com.example.wildqueue.models.PriorityStatus;
+
 import java.util.List;
+import java.util.Objects;
 
 public class PriorityNumberManager {
 	private static List<PriorityNumber> priorityNumberList;
@@ -24,5 +27,12 @@ public class PriorityNumberManager {
 		return null;
 	}
 
-	public static PriorityNumber getLatestPriorityNumber(){ return priorityNumberList.get(0); }
+	public static PriorityNumber getPriorityNumberByTellerId(String tellerId){
+		for (PriorityNumber priorityNumber : priorityNumberList) {
+			if (Objects.equals(priorityNumber.getTellerId(), tellerId) && priorityNumber.getTellerId() != null && priorityNumber.getStatus() == PriorityStatus.PROCESSING) {
+				return priorityNumber;
+			}
+		}
+		return null;
+	}
 }

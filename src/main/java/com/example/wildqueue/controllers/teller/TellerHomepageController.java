@@ -62,6 +62,16 @@ public class TellerHomepageController {
 		loadData();
 		loadComponents();
 		updateServedTodayText();
+
+		TellerWindow currentWindow = TellerWindowManager.getTellerCurrentWindow();
+		if (currentWindow != null) {
+			windowNumber = currentWindow.getWindowNumber();
+			windowNumberText.setText("Window " + windowNumber);
+			windowStatusText.setText("OPEN");
+		} else {
+			windowNumberText.setText("No Window Assigned");
+			windowStatusText.setText("CLOSED");
+		}
 	}
 
 	private void loadData() {
@@ -82,6 +92,12 @@ public class TellerHomepageController {
 		PriorityNumberManager.setPriorityNumberList(priorityQueue);
 		TransactionManager.setTransactionList(transactionList);
 		TellerWindowManager.setTellerWindowLists(tellerWindows);
+
+		currentServingNumber = PriorityNumberManager.getPriorityNumberByTellerId(currentUser.getInstitutionalId());
+		if(currentServingNumber != null) {
+			currentNumberText.setText(currentServingNumber.getPriorityNumber());
+			currentStudentText.setText(currentServingNumber.getStudentId());
+		}
 	}
 
 	private void loadComponents(){
@@ -97,7 +113,6 @@ public class TellerHomepageController {
 		WindowStatusComponent windowStatusComponent = new WindowStatusComponent(tellerWindows, windowNumberText, windowStatusText);
 		windowStatusComponent.initializeTellerWindows();
 		tellerWindows = TellerWindowManager.getTellerWindowLists();
-		windowNumber = Objects.requireNonNull(TellerWindowManager.getTellerCurrentWindow()).getWindowNumber();
 	}
 
 	private void updateServedTodayText() {
@@ -272,10 +287,11 @@ public class TellerHomepageController {
 			}
 
 			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING, currentUser.getInstitutionalId());
-			TellerWindowDAO.assignStudentToWindow(windowNumber, currentServingNumber.getStudentId());
+			TellerWindowDAO.assignStudentToWindow(windowNumber, currentServingNumber.getStudentId(), currentServingNumber.getPriorityNumber());
 
 			TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
 			if(newUpdate != null){
+				newUpdate.setPriorityNumber(currentServingNumber.getPriorityNumber());
 				newUpdate.setStudentId(currentServingNumber.getStudentId());
 				TellerWindowManager.addOrUpdateTellerWindow(newUpdate);
 			}
@@ -311,6 +327,7 @@ public class TellerHomepageController {
 
 				TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
 				if(newUpdate != null){
+					newUpdate.setPriorityNumber("");
 					newUpdate.setStudentId("");
 					TellerWindowManager.addOrUpdateTellerWindow(newUpdate);
 					System.out.println("New update " + newUpdate.getStudentId());
