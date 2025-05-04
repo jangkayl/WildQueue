@@ -26,6 +26,15 @@ public class TransactionManager {
 		return null;
 	}
 
+	public static Transaction getTransactionByPriorityNumber(String priorityNumber){
+		for (Transaction transaction : transactionList) {
+			if (transaction.getPriorityNumber().equals(priorityNumber)) {
+				return transaction;
+			}
+		}
+		return null;
+	}
+
 	public static void updateTransaction(Transaction updatedTransaction) {
 		transactionList = transactionList.stream()
 				.map(t -> t.getTransactionId() == updatedTransaction.getTransactionId() ? updatedTransaction : t)

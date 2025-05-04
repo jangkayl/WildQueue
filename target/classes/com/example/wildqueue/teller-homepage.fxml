@@ -71,7 +71,7 @@
             <!-- Status Cards Row -->
             <HBox alignment="CENTER" spacing="20">
                 <!-- Now Serving Card -->
-                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); -fx-min-width: 250;">
+                <VBox fx:id="vbNowServing" alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); -fx-min-width: 250;">
                     <Text style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #800000;" text="NOW SERVING" />
                     <Text fx:id="currentNumberText" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-fill: #FFD700;" text="---" />
                     <Text fx:id="currentStudentText" style="-fx-font-size: 16px; -fx-fill: #777;" text="No student currently" />
@@ -111,7 +111,7 @@
             <VBox fx:id="vbRecentActivities" alignment="TOP_LEFT" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); -fx-min-width: 520;">
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Text style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #800000;" text="RECENT ACTIVITY" />
-                    <Button fx:id="refreshActivityButton" style="-fx-background-color: transparent; -fx-text-fill: #800000; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0;" text="Refresh" />
+                    <Button fx:id="showAllActivities" onAction="#handleShowAllActivities" style="-fx-background-color: transparent; -fx-text-fill: #800000; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 0;" text="Show All" />
                 </HBox>
 
                 <VBox fx:id="activityContainer" spacing="8" style="-fx-padding: 8 0 0 0;">

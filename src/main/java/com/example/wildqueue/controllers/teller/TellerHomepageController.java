@@ -1,5 +1,6 @@
 package com.example.wildqueue.controllers.teller;
 
+import com.example.wildqueue.controllers.student.TransactionDetailController;
 import com.example.wildqueue.controllers.teller.components.ActivityLogComponent;
 import com.example.wildqueue.controllers.teller.components.QueueDisplayComponent;
 import com.example.wildqueue.controllers.teller.components.WindowStatusComponent;
@@ -12,15 +13,18 @@ import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TellerWindowManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -36,6 +40,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TellerHomepageController {
+	@FXML private Button showAllActivities;
+	@FXML private VBox vbNowServing;
 	@FXML private Label tellerNameLabel;
 	@FXML private Button logoutButton;
 	@FXML private Text tellerNameSidebar;
@@ -72,6 +78,18 @@ public class TellerHomepageController {
 			windowNumberText.setText("No Window Assigned");
 			windowStatusText.setText("CLOSED");
 		}
+
+		vbNowServing.setOnMouseClicked(event -> {
+			if (currentServingNumber != null) {
+				Transaction currentTransaction = TransactionManager.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
+				if (currentTransaction != null) {
+					showTransactionDetails(currentTransaction);
+				}
+			}
+		});
+
+		vbNowServing.setOnMouseEntered(event -> vbNowServing.setCursor(Cursor.HAND));
+		vbNowServing.setOnMouseExited(event -> vbNowServing.setCursor(Cursor.DEFAULT));
 	}
 
 	private void loadData() {
@@ -405,6 +423,24 @@ public class TellerHomepageController {
 		}
 	}
 
+	public void showTransactionDetails(Transaction transaction) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/transaction-detail-page.fxml"));
+			AnchorPane detailsPane = loader.load();
+
+			TransactionDetailController transactionController = loader.getController();
+			transactionController.setTransaction(transaction);
+
+			Stage newStage = new Stage();
+			newStage.setScene(new Scene(detailsPane));
+			newStage.setTitle("Transaction Details");
+
+			newStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private boolean hasWindowAssignment() {
 		return tellerWindows.stream()
 				.anyMatch(window -> window.getTellerId() != null &&
@@ -419,5 +455,21 @@ public class TellerHomepageController {
 	@FXML
 	private void logout() {
 		SessionManager.logout((Stage) logoutButton.getScene().getWindow());
+	}
+
+	@FXML
+	private void handleShowAllActivities() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/recent-activities-page.fxml"));
+			Parent root = loader.load();
+
+			Stage stage = new Stage();
+			stage.setTitle("Recent Activities");
+			stage.setResizable(false);
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

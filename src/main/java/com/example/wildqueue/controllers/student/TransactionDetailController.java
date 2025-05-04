@@ -1,7 +1,9 @@
 package com.example.wildqueue.controllers.student;
 
 import com.example.wildqueue.models.Transaction;
+import com.example.wildqueue.models.UserType;
 import com.example.wildqueue.utils.Utils;
+import com.example.wildqueue.utils.managers.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.shape.Circle;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class TransactionDetailController {
 	@FXML private ScrollPane scrollPane;
@@ -36,6 +39,9 @@ public class TransactionDetailController {
 	@FXML
 	public void initialize(){
 		Utils.scrollPaneSetup(scrollPane);
+
+		if(Objects.equals(SessionManager.getCurrentUser().getUserType(), UserType.TELLER.toString()))
+			backButton.setVisible(false);
 	}
 
 	public void setTransaction(Transaction transaction) {
@@ -50,8 +56,10 @@ public class TransactionDetailController {
 	private void updateUI() {
 		if (transaction == null) return;
 
-		SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+
+		SimpleDateFormat utcFormat = new SimpleDateFormat("hh:mm a");
+		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 		queueNumberText.setText(transaction.getPriorityNumber());
 		windowText.setText(String.valueOf(transaction.getWindowNumber()));
@@ -74,7 +82,7 @@ public class TransactionDetailController {
 		}
 
 		descriptionText.setText(transaction.getTransactionDetails());
-		generatedTimeText.setText(timeFormat.format(transaction.getTransactionDate()));
+		generatedTimeText.setText(utcFormat.format(transaction.getTransactionDate()));
 
 		if (transaction.getCalledTime() != null) {
 			calledTimeText.setText(timeFormat.format(transaction.getCalledTime()));
