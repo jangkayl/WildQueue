@@ -15,9 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.RegisterStudentController">
+<AnchorPane prefHeight="720" prefWidth="500" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.RegisterStudentController">
 
-    <VBox alignment="CENTER" spacing="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <VBox alignment="CENTER" prefWidth="600" spacing="20" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-background-radius: 0 0 20 20; -fx-padding: 40 0 50 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);">
             <StackPane>
                 <Text fill="#34f72a" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
@@ -41,7 +41,7 @@
             </Text>
         </VBox>
 
-        <GridPane alignment="CENTER" hgap="15" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 30;" vgap="10">
+        <GridPane alignment="CENTER" hgap="1.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 30;" vgap="1.0">
             <!-- Full Name -->
             <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Full Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="fullNameField" prefWidth="350" promptText="Enter student's full name" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 10; -fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="0" />

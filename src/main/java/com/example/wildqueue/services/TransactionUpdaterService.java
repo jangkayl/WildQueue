@@ -1,7 +1,9 @@
 package com.example.wildqueue.services;
 
 import com.example.wildqueue.dao.TransactionDAO;
+import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
+import com.example.wildqueue.models.UserType;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
 
@@ -20,7 +22,7 @@ public class TransactionUpdaterService extends AbstractUpdaterService<Transactio
 
     @Override
     protected List<Transaction> fetchUpdatedItems(Transaction lastFetched, Timestamp lastModifiedSince) {
-        if (Objects.equals(SessionManager.getCurrentUser().getUserType(), "STUDENT")) {
+        if (Objects.equals(SessionManager.getCurrentUser().getUserType(), UserType.STUDENT.toString())) {
             return TransactionDAO.getStudentTransactionsSince(
                     SessionManager.getCurrentUser().getInstitutionalId(),
                     lastModifiedSince

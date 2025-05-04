@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720" prefWidth="1280" style="-fx-background-color: #FDFBEE;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.AdminHomepageController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FDFBEE;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.AdminHomepageController">
 
     <!-- Top Section - Controls and Search -->
     <top>
@@ -69,7 +69,13 @@
                                 <Button style="-fx-background-color: #497D74; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="▶ Resume Queue" />
                             </HBox>
                             <TableView fx:id="queueTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
-                                <!-- Table columns same as before -->
+                                <columns>
+                                    <TableColumn fx:id="queueNumberCol" prefWidth="100" text="Queue #" />
+                                    <TableColumn fx:id="queueStudentIdCol" prefWidth="150" text="Student ID" />
+                                    <TableColumn fx:id="queueStudentNameCol" prefWidth="200" text="Student Name" />
+                                    <TableColumn fx:id="queueStatusCol" prefWidth="120" text="Status" />
+                                    <TableColumn fx:id="queueTimeCol" prefWidth="150" text="Time" />
+                                </columns>
                             </TableView>
                         </VBox>
 
@@ -78,10 +84,13 @@
                             <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="📜 Transaction History" />
                             <TableView fx:id="transactionTable">
                                 <columns>
-                                    <TableColumn prefWidth="150" text="Timestamp" />
-                                    <TableColumn prefWidth="100" text="User ID" />
-                                    <TableColumn prefWidth="200" text="Action" />
-                                    <TableColumn prefWidth="300" text="Details" />
+                                    <TableColumn fx:id="transIdCol" prefWidth="80" text="ID" />
+                                    <TableColumn fx:id="transNumberCol" prefWidth="100" text="Queue #" />
+                                    <TableColumn fx:id="transStudentCol" prefWidth="150" text="Student" />
+                                    <TableColumn fx:id="transTypeCol" prefWidth="120" text="Type" />
+                                    <TableColumn fx:id="transStatusCol" prefWidth="100" text="Status" />
+                                    <TableColumn fx:id="transCalledCol" prefWidth="150" text="Called Time" />
+                                    <TableColumn fx:id="transCompletedCol" prefWidth="150" text="Completed Time" />
                                 </columns>
                             </TableView>
                         </VBox>

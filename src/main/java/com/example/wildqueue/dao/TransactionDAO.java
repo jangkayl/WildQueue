@@ -192,7 +192,7 @@ public class TransactionDAO {
 				}
 			}
 		} catch (SQLException e) {
-			System.err.println("Error fetching transaction by priorityNumber:");
+			System.err.println("Error fetching transaction by transaction:");
 			e.printStackTrace();
 		}
 
@@ -240,43 +240,6 @@ public class TransactionDAO {
 		return completedTransactions;
 	}
 
-	public static Transaction getCurrentServing(String tellerId) {
-		Transaction currentServing = null;
-		String query = "SELECT * FROM " + TABLE_NAME + " WHERE tellerId = ? AND status = ?";
-
-		try (Connection conn = DatabaseUtil.getConnection();
-		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-			pstmt.setString(1, tellerId);
-			pstmt.setString(2, PriorityStatus.PROCESSING.toString());
-
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					Transaction transaction = new Transaction(
-							rs.getInt("transactionId"),
-							rs.getString("priorityNumber"),
-							rs.getInt("windowNumber"),
-							rs.getString("studentName"),
-							rs.getString("studentId"),
-							rs.getString("tellerId"),
-							rs.getDouble("amount"),
-							rs.getString("transactionType"),
-							rs.getString("transactionDetails"),
-							rs.getTimestamp("transactionDate"),
-							rs.getTimestamp("lastModified"),
-							rs.getString("status"),
-							rs.getTimestamp("calledTime"),
-							rs.getTimestamp("completionDate")
-					);
-					currentServing = transaction;
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return currentServing;
-	}
-
 	public static List<Transaction> getTransactionsSince(String lastPriorityNumber, Timestamp lastModifiedSince) {
 		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber > ? OR lastModified > ? ORDER BY priorityNumber ASC";
 
@@ -297,7 +260,7 @@ public class TransactionDAO {
 
 			while (rs.next()) {
 				System.out.println("--------------------");
-				System.out.println("PRIORITY NUM");
+				System.out.println("TRANSACTION NUM");
 				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 				Transaction transaction = new Transaction(
@@ -349,7 +312,7 @@ public class TransactionDAO {
 
 			while (rs.next()) {
 				System.out.println("--------------------");
-				System.out.println("PRIORITY NUM");
+				System.out.println("TRANSACTION NUM");
 				System.out.println("Comparing DB: " + rs.getTimestamp("lastModified") + " vs Query: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
 
 				Transaction transaction = new Transaction(

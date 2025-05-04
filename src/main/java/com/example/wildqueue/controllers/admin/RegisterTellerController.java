@@ -28,7 +28,6 @@ public class RegisterTellerController {
 
     @FXML
     private void initialize() {
-        // Set up the close link action
         backLink.setOnAction(event -> {
             Stage stage = (Stage) backLink.getScene().getWindow();
             stage.close();
