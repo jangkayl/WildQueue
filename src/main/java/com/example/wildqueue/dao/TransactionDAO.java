@@ -27,7 +27,7 @@ public class TransactionDAO {
 				"transactionDetails VARCHAR(255) NOT NULL, " +
 				"transactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 				"lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
-				"status VARCHAR(20) NOT NULL, " +
+				"status VARCHAR(20) DEFAULT 'PENDING', " +
 				"calledTime TIMESTAMP NULL DEFAULT NULL, " +
 				"completionDate TIMESTAMP NULL DEFAULT NULL, " +
 				"PRIMARY KEY (transactionId), " +

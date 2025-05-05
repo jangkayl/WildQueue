@@ -1,6 +1,5 @@
 package com.example.wildqueue.controllers.student;
 
-import com.example.wildqueue.controllers.teller.WindowSelectionPopupController;
 import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.*;
@@ -145,7 +144,8 @@ public class StudentHomepageController {
 
         for (Transaction updatedTransaction : studentTransactions) {
             if (updatedTransaction.getPriorityNumber().equals(currentTicketNumber.getText())) {
-                if (PriorityStatus.COMPLETED.toString().equalsIgnoreCase(updatedTransaction.getStatus())) {
+                if (PriorityStatus.COMPLETED.toString().equalsIgnoreCase(updatedTransaction.getStatus()) ||
+                        PriorityStatus.CANCELLED.toString().equals(updatedTransaction.getStatus())) {
                     getNumberButton.setDisable(false);
                     getNumberButton.setText("GET NUMBER");
                     currentTicketNumber.setText("--");
@@ -272,7 +272,9 @@ public class StudentHomepageController {
 
     private void updateTransactionUI() {
         Optional<Transaction> activeTransaction = transactionList.stream()
-                .filter(t -> !PriorityStatus.COMPLETED.toString().equalsIgnoreCase(t.getStatus()))
+                .filter(t ->
+                        !PriorityStatus.COMPLETED.toString().equalsIgnoreCase(t.getStatus()) &&
+                        !PriorityStatus.CANCELLED.toString().equalsIgnoreCase(t.getStatus()))
                 .findFirst();
 
         if (activeTransaction.isEmpty()) {

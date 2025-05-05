@@ -37,7 +37,9 @@ public class StudentHistoryController {
 		historyContainer.setStyle("-fx-padding: 15 20 20 20; -fx-background: #F8F9FA;");
 
 		List<Transaction> transactionList = TransactionManager.getTransactionList().stream()
-				.filter(t -> PriorityStatus.COMPLETED.toString().equalsIgnoreCase(t.getStatus()))
+				.filter(t ->
+						PriorityStatus.COMPLETED.toString().equalsIgnoreCase(t.getStatus())
+						|| PriorityStatus.CANCELLED.toString().equalsIgnoreCase(t.getStatus()))
 				.sorted((t1, t2) -> t2.getTransactionDate().compareTo(t1.getTransactionDate()))
 				.toList();
 

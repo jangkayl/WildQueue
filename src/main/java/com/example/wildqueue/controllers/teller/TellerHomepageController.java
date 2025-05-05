@@ -40,7 +40,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class TellerHomepageController {
-	@FXML private Button showAllActivities;
 	@FXML private VBox vbNowServing;
 	@FXML private Label tellerNameLabel;
 	@FXML private Button logoutButton;
@@ -363,6 +362,56 @@ public class TellerHomepageController {
 			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
 			if (transaction != null) {
 				transaction.setStatus(PriorityStatus.COMPLETED.toString());
+				transaction.setCompletionDate(new Timestamp(System.currentTimeMillis()));
+				TransactionDAO.updateTransaction(transaction);
+			}
+
+			currentNumberText.setText("--");
+			currentStudentText.setText("--");
+			currentServingNumber = null;
+
+			updateTransactionUI();
+			updateServedTodayText();
+			updateQueueUI();
+		} else {
+			Utils.showAlert(Alert.AlertType.WARNING, "No Active Number", "There is no number currently being served.", null);
+		}
+	}
+
+	@FXML
+	private void handleCancelButton() {
+		if (currentServingNumber != null) {
+			Optional<ButtonType> result = Utils.showAlert(
+					Alert.AlertType.WARNING,
+					"Cancellation",
+					"Are you sure you want to cancel?",
+					ButtonType.YES,
+					ButtonType.NO
+			);
+
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				TellerWindowDAO.removeStudentFromWindow(windowNumber);
+
+				TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
+				if(newUpdate != null){
+					newUpdate.setPriorityNumber("");
+					newUpdate.setStudentId("");
+					TellerWindowManager.addOrUpdateTellerWindow(newUpdate);
+					System.out.println("New update " + newUpdate.getStudentId());
+				}
+
+				System.out.println("User confirmed: DONE!");
+			} else {
+				System.out.println("User cancelled.");
+				return;
+			}
+
+			currentServingNumber.setStatus(PriorityStatus.CANCELLED);
+			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
+
+			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
+			if (transaction != null) {
+				transaction.setStatus(PriorityStatus.CANCELLED.toString());
 				transaction.setCompletionDate(new Timestamp(System.currentTimeMillis()));
 				TransactionDAO.updateTransaction(transaction);
 			}

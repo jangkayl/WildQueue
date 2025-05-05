@@ -1,5 +1,6 @@
 package com.example.wildqueue.controllers.teller;
 
+import com.example.wildqueue.models.PriorityStatus;
 import com.example.wildqueue.models.Transaction;
 import com.example.wildqueue.utils.managers.TransactionManager;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,10 @@ public class RecentActivitiesController implements Initializable {
 	private void loadRecentActivities() {
 		List<Transaction> transactions = TransactionManager.getTransactionList();
 		transactions = transactions.stream()
-				.sorted((t1, t2) -> t2.getCalledTime().compareTo(t1.getCalledTime()))
+				.sorted(Comparator.comparing(
+						Transaction::getCalledTime,
+						Comparator.nullsLast(Comparator.naturalOrder())
+				).reversed())
 				.toList();
 
 		countLabel.setText("Showing " + transactions.size() + " activities");
@@ -57,10 +62,13 @@ public class RecentActivitiesController implements Initializable {
 			statusContainer.setMinWidth(30);
 
 			Circle statusCircle = new Circle(6);
-			String statusText = "";
-			Color statusColor = Color.GRAY;
+			String statusText;
+			Color statusColor;
 
-			if (transaction.getCompletionDate() != null) {
+			if (Objects.equals(transaction.getStatus(), PriorityStatus.CANCELLED.toString())) {
+				statusText = "CANCELLED";
+				statusColor = Color.RED;
+			} else if (transaction.getCompletionDate() != null) {
 				statusText = "COMPLETED";
 				statusColor = Color.LIMEGREEN;
 			} else if (transaction.getCalledTime() != null) {

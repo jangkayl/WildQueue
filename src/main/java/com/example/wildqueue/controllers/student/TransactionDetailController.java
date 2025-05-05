@@ -104,6 +104,10 @@ public class TransactionDetailController {
 				statusText.setStyle("-fx-fill: #4CAF50;");
 				statusCircle.setFill(Color.valueOf("#4CAF50"));
 				break;
+			case "CANCELLED":
+				statusText.setStyle("-fx-fill: #db4139;");
+				statusCircle.setFill(Color.valueOf("#db4139"));
+				break;
 			case "PROCESSING":
 				statusText.setStyle("-fx-fill: #FFC107;");
 				statusCircle.setFill(Color.valueOf("#FFC107"));

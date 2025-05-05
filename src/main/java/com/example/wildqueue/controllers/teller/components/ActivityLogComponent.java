@@ -52,7 +52,18 @@ public class ActivityLogComponent {
 		List<ActivityEvent> activityEvents = new ArrayList<>();
 
 		for (Transaction transaction : transactionList) {
-			if (transaction.getCalledTime() != null) {
+			if(Objects.equals(transaction.getStatus(), PriorityStatus.CANCELLED.toString())){
+				activityEvents.add(new ActivityEvent(
+						"CANCELLED",
+						transaction.getPriorityNumber(),
+						transaction.getStudentName(),
+						transaction.getStudentId(),
+						transaction.getCalledTime(),
+						Color.RED
+				));
+			}
+
+			if (transaction.getCalledTime() != null && !Objects.equals(transaction.getStatus(), PriorityStatus.CANCELLED.toString())) {
 				activityEvents.add(new ActivityEvent(
 						"CALLED",
 						transaction.getPriorityNumber(),
@@ -63,7 +74,7 @@ public class ActivityLogComponent {
 				));
 			}
 
-			if (transaction.getCompletionDate() != null) {
+			if (transaction.getCompletionDate() != null && !Objects.equals(transaction.getStatus(), PriorityStatus.CANCELLED.toString())) {
 				activityEvents.add(new ActivityEvent(
 						"COMPLETED",
 						transaction.getPriorityNumber(),
