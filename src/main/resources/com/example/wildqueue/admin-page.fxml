@@ -7,8 +7,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -43,12 +41,7 @@
 
                 <Button onAction="#handleRegisterTeller" style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="➕ Register Teller" />
 
-                <ToggleButton fx:id="onlineRequestsToggle" onAction="#toggleOnlineRequests" style="-fx-background-color: #F16767; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 20px;" text="🌐 Online Requests: DISABLED" />
-
                 <Region HBox.hgrow="ALWAYS" />
-
-                <!-- Search -->
-                <TextField fx:id="searchField" promptText="🔍 Search students..." style="-fx-pref-width: 250; -fx-pref-height: 35; -fx-font-size: 14;" />
             </HBox>
         </VBox>
     </top>
@@ -65,8 +58,6 @@
                         <VBox spacing="10" style="-fx-padding: 15;">
                             <HBox alignment="CENTER_LEFT" spacing="10">
                                 <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="📋 Active Queue" />
-                                <Button style="-fx-background-color: #3674B5; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="⏸ Pause Queue" />
-                                <Button style="-fx-background-color: #497D74; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 20px;" text="▶ Resume Queue" />
                             </HBox>
                             <TableView fx:id="queueTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
                                 <columns>
@@ -129,7 +120,6 @@
                     <VBox spacing="10" style="-fx-padding: 15;">
                         <HBox alignment="CENTER_LEFT" spacing="10">
                             <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="🎓 Student Management" />
-                            <Button style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-padding: 5 10; -fx-background-radius: 20px;" text="Export to CSV" />
                         </HBox>
                         <TableView fx:id="studentsTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
                             <columns>
@@ -145,7 +135,6 @@
                     <VBox spacing="10" style="-fx-padding: 15;">
                         <HBox alignment="CENTER_LEFT" spacing="10">
                             <Text style="-fx-font-size: 16; -fx-font-weight: bold; -fx-fill: #7D0A0A;" text="💼 Teller Management" />
-                            <Button style="-fx-background-color: #EAD196; -fx-text-fill: black; -fx-padding: 5 10; -fx-background-radius: 20px;" text="Generate Report" />
                         </HBox>
                         <TableView fx:id="tellersTable" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
                             <columns>
