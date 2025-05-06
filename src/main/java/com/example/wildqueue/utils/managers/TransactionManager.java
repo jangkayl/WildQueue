@@ -26,6 +26,10 @@ public class TransactionManager {
 		return null;
 	}
 
+	public static Transaction getLatestTransaction(){
+		return transactionList.get(transactionList.size() - 1);
+	}
+
 	public static Transaction getTransactionByPriorityNumber(String priorityNumber){
 		for (Transaction transaction : transactionList) {
 			if (transaction.getPriorityNumber().equals(priorityNumber)) {

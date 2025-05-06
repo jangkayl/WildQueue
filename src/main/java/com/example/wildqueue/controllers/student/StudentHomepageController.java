@@ -56,8 +56,8 @@ public class StudentHomepageController {
         }
 
         initializePriorityQueue();
-        setupExistingTransactionIfAny();
         initializeTransactions();
+        setupExistingTransactionIfAny();
         initializeWindow();
     }
 
@@ -134,33 +134,24 @@ public class StudentHomepageController {
     private void handleTransactionUpdates(List<Transaction> updatedTransactions) {
         boolean needsUpdate = false;
 
-        List<Transaction> studentTransactions = updatedTransactions.stream()
-                .filter(t -> currentUser.getInstitutionalId().equals(t.getStudentId()))
-                .toList();
+        for (Transaction updatedTransaction : updatedTransactions) {
+            Optional<Transaction> existingTransaction = transactionList.stream()
+                    .filter(t -> Objects.equals(t.getPriorityNumber(), updatedTransaction.getPriorityNumber()))
+                    .findFirst();
 
-        if (studentTransactions.isEmpty()) {
-            return;
-        }
+            if (existingTransaction.isPresent()) {
+                if (!Objects.equals(existingTransaction.get().getStatus(), updatedTransaction.getStatus()) ||
+                        !Objects.equals(existingTransaction.get().getCalledTime(), updatedTransaction.getCalledTime()) ||
+                        !Objects.equals(existingTransaction.get().getCompletionDate(), updatedTransaction.getCompletionDate())) {
 
-        for (Transaction updatedTransaction : studentTransactions) {
-            if (updatedTransaction.getPriorityNumber().equals(currentTicketNumber.getText())) {
-                if (PriorityStatus.COMPLETED.toString().equalsIgnoreCase(updatedTransaction.getStatus()) ||
-                        PriorityStatus.CANCELLED.toString().equals(updatedTransaction.getStatus())) {
-                    getNumberButton.setDisable(false);
-                    getNumberButton.setText("GET NUMBER");
-                    currentTicketNumber.setText("--");
-                    ticketDetailText.setText("");
-                    ticketDetailText.setText("No current ticket");
+                    existingTransaction.get().setStatus(updatedTransaction.getStatus());
+                    existingTransaction.get().setCalledTime(updatedTransaction.getCalledTime());
+                    existingTransaction.get().setCompletionDate(updatedTransaction.getCompletionDate());
                     needsUpdate = true;
                 }
-                else if (PriorityStatus.PROCESSING.toString().equalsIgnoreCase(updatedTransaction.getStatus())) {
-                    transactionList.add(updatedTransaction);
-                    TransactionManager.addOrUpdateTransaction(updatedTransaction);
-
-                    ticketDetailText.setText(ticketDetailText.getText() + "\nStatus: Being served at window " +
-                            updatedTransaction.getWindowNumber());
-                    needsUpdate = true;
-                }
+            } else {
+                TransactionManager.addOrUpdateTransaction(updatedTransaction);
+                needsUpdate = true;
             }
         }
 
@@ -282,12 +273,12 @@ public class StudentHomepageController {
             return;
         }
 
-        Transaction latestTransaction = transactionList.get(transactionList.size() - 1);
+        Transaction latestTransaction = TransactionManager.getLatestTransaction();
 
         System.out.println("Latest Transaction " + latestTransaction.getPriorityNumber());
 
-        if (PriorityStatus.COMPLETED.toString().equalsIgnoreCase(latestTransaction.getStatus()) ||
-                PriorityStatus.CANCELLED.toString().equalsIgnoreCase(latestTransaction.getStatus())) {
+        if (PriorityStatus.COMPLETED.toString().equals(latestTransaction.getStatus()) ||
+                PriorityStatus.CANCELLED.toString().equals(latestTransaction.getStatus())) {
             currentTicketNumber.setText("--");
             ticketDetailText.setText("");
             ticketDetailText.setText("No current ticket");
@@ -296,20 +287,13 @@ public class StudentHomepageController {
             return;
         }
 
-        String ticketNumber = latestTransaction.getPriorityNumber();
-        String currentDisplayedNumber = currentTicketNumber.getText();
-
-        if (ticketNumber.equals(currentDisplayedNumber)) {
-            return;
-        }
-
-        currentTicketNumber.setText(ticketNumber);
+        currentTicketNumber.setText(latestTransaction.getPriorityNumber());
 
         LocalDateTime localDateTime = latestTransaction.getTransactionDate()
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
-        String formattedTime = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String formattedTime = localDateTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
 
         StringBuilder details = new StringBuilder();
         details.append("Purpose: ").append(latestTransaction.getTransactionType()).append("\n")

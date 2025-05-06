@@ -203,13 +203,14 @@ public class TransactionDAO {
 
 	public static List<Transaction> getCompletedTransactionsByTeller(String tellerId) {
 		List<Transaction> completedTransactions = new ArrayList<>();
-		String query = "SELECT * FROM " + TABLE_NAME + " WHERE tellerId = ? AND status = ?";
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE tellerId = ? AND status IN (?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 
 			pstmt.setString(1, tellerId);
 			pstmt.setString(2, PriorityStatus.COMPLETED.toString());
+			pstmt.setString(3, PriorityStatus.CANCELLED.toString());
 
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
