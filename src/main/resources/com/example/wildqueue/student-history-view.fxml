@@ -3,19 +3,18 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="rootPane" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.StudentHistoryController">
-    <ScrollPane fx:id="scrollPane" prefWidth="360.0" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <VBox>
-            <!-- Header -->
-            <VBox alignment="CENTER" spacing="5" style="-fx-background-color: white; -fx-padding: 20 0 15 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 2, 0, 3);">
-                <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #800000;" text="Queue History" />
-                <Rectangle fill="#FFD700" height="2" width="160" />
-            </VBox>
-                <!-- Dynamic Content Container with top margin -->
-                <VBox fx:id="historyContainer" alignment="TOP_CENTER" spacing="15" style="-fx-padding: 15 20 20 20; -fx-background: #F8F9FA;" />
-        </VBox>
+    <!-- Fixed Header outside of ScrollPane -->
+    <VBox alignment="CENTER" prefWidth="360.0" spacing="5" style="-fx-background-color: white; -fx-padding: 20 0 15 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 2, 0, 3);" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #800000;" text="Queue History" />
+        <Rectangle fill="#FFD700" height="2" width="160" />
+    </VBox>
+
+    <!-- Scrollable Content below the header -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefWidth="360.0" vbarPolicy="AS_NEEDED" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60">
+        <VBox fx:id="historyContainer" alignment="TOP_CENTER" prefHeight="28.0" prefWidth="358.0" spacing="15" style="-fx-padding: 15 20 20 20; -fx-background: #F8F9FA;" />
     </ScrollPane>
 </AnchorPane>
