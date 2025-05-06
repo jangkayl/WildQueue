@@ -1,5 +1,6 @@
 package com.example.wildqueue.utils.managers;
 
+import com.example.wildqueue.dao.UserDAO;
 import com.example.wildqueue.models.User;
 import com.example.wildqueue.services.QueueUpdaterService;
 import com.example.wildqueue.services.TransactionUpdaterService;
@@ -45,5 +46,11 @@ public class SessionManager {
 				SessionManager.clearSession();
 			}
 		});
+	}
+
+	public static void refreshCurrentUser() {
+		if (currentUser != null) {
+			currentUser = UserDAO.getUserByInstitutionalId(currentUser.getInstitutionalId());
+		}
 	}
 }
