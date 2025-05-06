@@ -60,15 +60,15 @@ public abstract class AbstractUpdaterService<T, ID> {
 
 	private void fetchUpdates() {
 		T lastFetched;
+
 		synchronized (this) {
 			lastFetched = this.lastFetchedItem;
-			if (lastFetched == null) return;
 		}
 
-		System.out.println("Latest fetched item: " + getItemIdentifier(lastFetched));
+		if (lastFetched != null) {
+			System.out.println("Latest fetched item: " + getItemIdentifier(lastFetched));
+		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 7000);
 		System.out.println("Checking for updates since: " + lastModifiedSince);
 

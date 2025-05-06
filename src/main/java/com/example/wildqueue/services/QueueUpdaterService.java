@@ -18,7 +18,7 @@ public class QueueUpdaterService extends AbstractUpdaterService<PriorityNumber, 
 
 	@Override
 	protected List<PriorityNumber> fetchUpdatedItems(PriorityNumber lastFetched, Timestamp lastModifiedSince) {
-		return PriorityNumberDAO.getPriorityNumbersSince(lastFetched.getPriorityNumber(), lastModifiedSince);
+		return PriorityNumberDAO.getPriorityNumbersSince(lastModifiedSince);
 	}
 
 	@Override

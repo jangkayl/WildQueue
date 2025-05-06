@@ -296,15 +296,17 @@ public class TellerHomepageController {
 
 			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
 			if (transaction != null) {
+				transaction.setTransactionId(transaction.getTransactionId());
 				transaction.setWindowNumber(windowNumber);
 				transaction.setTellerId(currentUser.getInstitutionalId());
 				transaction.setCalledTime(new Timestamp(System.currentTimeMillis()));
+				transaction.setLastModified(new Timestamp(System.currentTimeMillis()));
 				transaction.setStatus(PriorityStatus.PROCESSING.toString());
 				TransactionDAO.updateTransaction(transaction);
 			}
 
-			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING, currentUser.getInstitutionalId());
-			TellerWindowDAO.assignStudentToWindow(windowNumber, currentServingNumber.getStudentId(), currentServingNumber.getPriorityNumber());
+			boolean success = PriorityNumberDAO.updatePriorityNumberStatus(currentServingNumber.getPriorityNumber() ,PriorityStatus.PROCESSING, currentUser.getInstitutionalId(), new Timestamp(System.currentTimeMillis()));
+			TellerWindowDAO.assignStudentToWindow(windowNumber, currentServingNumber.getStudentId(), currentServingNumber.getPriorityNumber(), new Timestamp(System.currentTimeMillis()));
 
 			TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
 			if(newUpdate != null){
@@ -340,7 +342,7 @@ public class TellerHomepageController {
 			);
 
 			if (result.isPresent() && result.get() == ButtonType.YES) {
-				TellerWindowDAO.removeStudentFromWindow(windowNumber);
+				TellerWindowDAO.removeStudentFromWindow(windowNumber, new Timestamp(System.currentTimeMillis()));
 
 				TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
 				if(newUpdate != null){
@@ -357,12 +359,14 @@ public class TellerHomepageController {
 			}
 
 			currentServingNumber.setStatus(PriorityStatus.COMPLETED);
+			currentServingNumber.setLastModified(new Timestamp(System.currentTimeMillis()));
 			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
 
 			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
 			if (transaction != null) {
 				transaction.setStatus(PriorityStatus.COMPLETED.toString());
 				transaction.setCompletionDate(new Timestamp(System.currentTimeMillis()));
+				transaction.setLastModified(new Timestamp(System.currentTimeMillis()));
 				TransactionDAO.updateTransaction(transaction);
 			}
 
@@ -390,7 +394,7 @@ public class TellerHomepageController {
 			);
 
 			if (result.isPresent() && result.get() == ButtonType.YES) {
-				TellerWindowDAO.removeStudentFromWindow(windowNumber);
+				TellerWindowDAO.removeStudentFromWindow(windowNumber, new Timestamp(System.currentTimeMillis()));
 
 				TellerWindow newUpdate = TellerWindowManager.getTellerCurrentWindow();
 				if(newUpdate != null){
@@ -407,12 +411,14 @@ public class TellerHomepageController {
 			}
 
 			currentServingNumber.setStatus(PriorityStatus.CANCELLED);
+			currentServingNumber.setLastModified(new Timestamp(System.currentTimeMillis()));
 			PriorityNumberDAO.updatePriorityNumber(currentServingNumber);
 
 			Transaction transaction = TransactionDAO.getTransactionByPriorityNumber(currentServingNumber.getPriorityNumber());
 			if (transaction != null) {
 				transaction.setStatus(PriorityStatus.CANCELLED.toString());
 				transaction.setCompletionDate(new Timestamp(System.currentTimeMillis()));
+				transaction.setLastModified(new Timestamp(System.currentTimeMillis()));
 				TransactionDAO.updateTransaction(transaction);
 			}
 
@@ -455,7 +461,7 @@ public class TellerHomepageController {
 				windowNumberText.setText("Window " + windowNumber);
 				windowStatusText.setText("OPEN");
 
-				TellerWindowDAO.assignTeller(windowNumber, currentUser.getInstitutionalId());
+				TellerWindowDAO.assignTeller(windowNumber, currentUser.getInstitutionalId(), new Timestamp(System.currentTimeMillis()));
 				TellerWindow currentTellerWindow = TellerWindowManager.getTellerWindowById(windowNumber);
 
 				if(currentTellerWindow != null){

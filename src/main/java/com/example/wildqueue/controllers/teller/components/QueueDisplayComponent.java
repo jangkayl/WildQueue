@@ -52,7 +52,6 @@ public class QueueDisplayComponent {
 
 	public void initializePriorityQueue() {
 		priorityQueue = PriorityNumberManager.getPriorityNumberList();
-		tellerHomepageController.updateQueueUI();
 
 		PriorityNumber lastFetched = !priorityQueue.isEmpty() ?
 				priorityQueue.get(priorityQueue.size() - 1) : null;

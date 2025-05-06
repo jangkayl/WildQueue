@@ -57,9 +57,8 @@ public class TransactionDetailController {
 		if (transaction == null) return;
 
 		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-
-		SimpleDateFormat utcFormat = new SimpleDateFormat("hh:mm a");
-		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		SimpleDateFormat createdAtFormat = new SimpleDateFormat("hh:mm a");
+		createdAtFormat.setTimeZone(TimeZone.getTimeZone("Asia/Manila"));
 
 		queueNumberText.setText(transaction.getPriorityNumber());
 		windowText.setText(String.valueOf(transaction.getWindowNumber()));
@@ -82,7 +81,7 @@ public class TransactionDetailController {
 		}
 
 		descriptionText.setText(transaction.getTransactionDetails());
-		generatedTimeText.setText(utcFormat.format(transaction.getTransactionDate()));
+		generatedTimeText.setText(createdAtFormat.format(transaction.getTransactionDate()));
 
 		if (transaction.getCalledTime() != null) {
 			calledTimeText.setText(timeFormat.format(transaction.getCalledTime()));

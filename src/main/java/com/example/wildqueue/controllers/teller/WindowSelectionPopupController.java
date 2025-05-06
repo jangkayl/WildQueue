@@ -16,7 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Optional;
 
 public class WindowSelectionPopupController {
 	@FXML private Button leaveButton;
@@ -39,8 +41,8 @@ public class WindowSelectionPopupController {
 		instance = this;
 	}
 
-	public static WindowSelectionPopupController getInstance() {
-		return instance;
+	public static Optional<WindowSelectionPopupController> getInstance() {
+		return Optional.ofNullable(instance);
 	}
 
 	public void setStage(Stage stage) {
@@ -95,7 +97,7 @@ public class WindowSelectionPopupController {
 			if (response == ButtonType.OK && !TellerWindowManager.hasCurrentTransaction()) {
 				TellerWindow currentWindow = Objects.requireNonNull(TellerWindowManager.getTellerCurrentWindow());
 				TellerWindowManager.addOrUpdateTellerWindow(currentWindow);
-				TellerWindowDAO.removeTeller(currentWindow.getWindowNumber());
+				TellerWindowDAO.removeTeller(currentWindow.getWindowNumber(), new Timestamp(System.currentTimeMillis()));
 				stage.close();
 			} else if(response == ButtonType.OK && TellerWindowManager.hasCurrentTransaction()){
 				Utils.showAlert(

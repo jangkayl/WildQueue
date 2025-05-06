@@ -39,7 +39,7 @@ public class PriorityNumberDAO {
 	}
 
 	public static void addPriorityNumber(PriorityNumber priorityNumber) {
-		String query = "INSERT INTO " + TABLE_NAME + " (priorityNumber, studentId, status) VALUES (?, ?, ?)";
+		String query = "INSERT INTO " + TABLE_NAME + " (priorityNumber, studentId, status, createdAt, lastModified) VALUES (?, ?, ?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -47,6 +47,8 @@ public class PriorityNumberDAO {
 			pstmt.setString(1, priorityNumber.getPriorityNumber());
 			pstmt.setString(2, priorityNumber.getStudentId());
 			pstmt.setString(3, priorityNumber.getStatus().toString());
+			pstmt.setTimestamp(4, priorityNumber.getCreatedAt());
+			pstmt.setTimestamp(5, priorityNumber.getLastModified());
 
 			pstmt.executeUpdate();
 			System.out.println("PriorityNumber added successfully.");
@@ -58,7 +60,8 @@ public class PriorityNumberDAO {
 	public static void updatePriorityNumber(PriorityNumber priorityNumber) {
 		String query = "UPDATE " + TABLE_NAME + " SET " +
 				"studentId = ?, " +
-				"status = ? " +
+				"status = ?, " +
+				"lastModified = ? " +
 				"WHERE priorityNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
@@ -66,7 +69,8 @@ public class PriorityNumberDAO {
 
 			pstmt.setString(1, priorityNumber.getStudentId());
 			pstmt.setString(2, priorityNumber.getStatus().toString());
-			pstmt.setString(3, priorityNumber.getPriorityNumber());
+			pstmt.setTimestamp(3, priorityNumber.getLastModified());
+			pstmt.setString(4, priorityNumber.getPriorityNumber());
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {
@@ -154,8 +158,8 @@ public class PriorityNumberDAO {
 		return null;
 	}
 
-	public static List<PriorityNumber> getPriorityNumbersSince(String lastPriorityNumber, Timestamp lastModifiedSince) {
-		String query = "SELECT * FROM " + TABLE_NAME + " WHERE priorityNumber > ? OR lastModified > ? ORDER BY priorityNumber ASC";
+	public static List<PriorityNumber> getPriorityNumbersSince(Timestamp lastModifiedSince) {
+		String query = "SELECT * FROM " + TABLE_NAME + " WHERE lastModified > ? ORDER BY priorityNumber ASC";
 
 		List<PriorityNumber> priorityNumbers = new ArrayList<>();
 
@@ -163,10 +167,8 @@ public class PriorityNumberDAO {
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-			stmt.setString(1, lastPriorityNumber);
-			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
+			stmt.setTimestamp(1, Timestamp.valueOf(sdf.format(lastModifiedSince)));
 			ResultSet rs = stmt.executeQuery();
 
 			System.out.println("Formatted Timestamp Prio Num: " + Timestamp.valueOf(sdf.format(lastModifiedSince)));
@@ -197,15 +199,16 @@ public class PriorityNumberDAO {
 		return priorityNumbers;
 	}
 
-	public static boolean updatePriorityNumberStatus(String priorityNumberId, PriorityStatus newStatus, String tellerId) {
-		String query = "UPDATE " + TABLE_NAME + " SET status = ?, tellerId = ?, lastModified = CURRENT_TIMESTAMP WHERE priorityNumber = ?";
+	public static boolean updatePriorityNumberStatus(String priorityNumberId, PriorityStatus newStatus, String tellerId, Timestamp lastModified) {
+		String query = "UPDATE " + TABLE_NAME + " SET status = ?, tellerId = ?, lastModified = ? WHERE priorityNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 
 			pstmt.setString(1, newStatus.toString());
 			pstmt.setString(2, tellerId);
-			pstmt.setString(3, priorityNumberId);
+			pstmt.setTimestamp(3, lastModified);
+			pstmt.setString(4, priorityNumberId);
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {

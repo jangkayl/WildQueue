@@ -28,8 +28,9 @@ public class TransactionUpdaterService extends AbstractUpdaterService<Transactio
                     lastModifiedSince
             );
         } else {
+            String priorityNumber = (lastFetched != null) ? lastFetched.getPriorityNumber() : null;
             return TransactionDAO.getTransactionsSince(
-                    lastFetched.getPriorityNumber(),
+                    priorityNumber,
                     lastModifiedSince
             );
         }

@@ -13,13 +13,13 @@ public class Transaction {
 	private double amount;
 	private String transactionType;
 	private String transactionDetails;
-	private Date transactionDate;
+	private Timestamp transactionDate;
 	private Timestamp lastModified;
 	private String status;
 	private Timestamp calledTime;
 	private Timestamp completionDate;
 
-	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentName, String studentId, String tellerId, double amount, String transactionType, String transactionDetails, Date transactionDate, Timestamp lastModified, String status, Timestamp calledTime, Timestamp completionDate) {
+	public Transaction(int transactionId, String priorityNumber, int windowNumber, String studentName, String studentId, String tellerId, double amount, String transactionType, String transactionDetails, Timestamp transactionDate, Timestamp lastModified, String status, Timestamp calledTime, Timestamp completionDate) {
 		this.transactionId = transactionId;
 		this.priorityNumber = priorityNumber;
 		this.windowNumber = windowNumber;
@@ -41,9 +41,7 @@ public class Transaction {
 		this.transactionId = transactionId;
 	}
 
-	public String getPriorityNumber() {
-		return priorityNumber;
-	}
+	public String getPriorityNumber() { return priorityNumber; }
 	public void setPriorityNumber(String priorityNumber) {
 		this.priorityNumber = priorityNumber;
 	}
@@ -87,8 +85,8 @@ public class Transaction {
 	public String getTransactionDetails() { return transactionDetails; }
 	public void setTransactionDetails(String transactionDetails) { this.transactionDetails = transactionDetails; }
 
-	public Date getTransactionDate() { return transactionDate; }
-	public void setTransactionDate(Date transactionDate) {
+	public Timestamp getTransactionDate() { return transactionDate; }
+	public void setTransactionDate(Timestamp transactionDate) {
 		this.transactionDate = transactionDate;
 	}
 

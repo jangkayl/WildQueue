@@ -47,7 +47,6 @@ public class TellerWindowDAO {
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 			stmt.setTimestamp(1, Timestamp.valueOf(sdf.format(lastModifiedSince)));
 			ResultSet rs = stmt.executeQuery();
@@ -110,14 +109,15 @@ public class TellerWindowDAO {
 	}
 
 
-	public static void assignStudentToWindow(int windowNumber, String studentId, String priorityNumber) {
-		String query = "UPDATE " + TABLE_NAME + " SET studentId = ?, priorityNumber = ? WHERE windowNumber = ?";
+	public static void assignStudentToWindow(int windowNumber, String studentId, String priorityNumber, Timestamp lastModified) {
+		String query = "UPDATE " + TABLE_NAME + " SET studentId = ?, priorityNumber = ?, lastModified = ? WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, studentId);
 			pstmt.setString(2, priorityNumber);
-			pstmt.setInt(3, windowNumber);
+			pstmt.setTimestamp(3, lastModified);
+			pstmt.setInt(4, windowNumber);
 			int rowsAffected = pstmt.executeUpdate();
 			if (rowsAffected > 0) {
 				System.out.println("STUDENT ASSIGNED TO WINDOW SUCCESSFULLY.");
@@ -129,12 +129,13 @@ public class TellerWindowDAO {
 		}
 	}
 
-	public static void removeStudentFromWindow(int windowNumber) {
-		String query = "UPDATE " + TABLE_NAME + " SET studentId = NULL, priorityNumber = NULL WHERE windowNumber = ?";
+	public static void removeStudentFromWindow(int windowNumber, Timestamp lastModified) {
+		String query = "UPDATE " + TABLE_NAME + " SET studentId = NULL, priorityNumber = NULL, lastModified = ? WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setInt(1, windowNumber);
+			pstmt.setTimestamp(1, lastModified);
+			pstmt.setInt(2, windowNumber);
 			int rowsAffected = pstmt.executeUpdate();
 			if (rowsAffected > 0) {
 				System.out.println("STUDENT REMOVED FROM WINDOW SUCCESSFULLY.");
@@ -163,13 +164,14 @@ public class TellerWindowDAO {
 		}
 	}
 
-	public static void assignTeller(int windowNumber, String tellerId) {
-		String query = "UPDATE " + TABLE_NAME + " SET tellerId = ? WHERE windowNumber = ?";
+	public static void assignTeller(int windowNumber, String tellerId, Timestamp lastModified) {
+		String query = "UPDATE " + TABLE_NAME + " SET tellerId = ?, lastModified = ? WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, tellerId);
-			pstmt.setInt(2, windowNumber);
+			pstmt.setTimestamp(2, lastModified);
+			pstmt.setInt(3, windowNumber);
 			int rowsAffected = pstmt.executeUpdate();
 			if (rowsAffected > 0) {
 				System.out.println("TELLER ASSIGNED SUCCESSFULLY.");
@@ -181,12 +183,13 @@ public class TellerWindowDAO {
 		}
 	}
 
-	public static void removeTeller(int windowNumber) {
-		String query = "UPDATE " + TABLE_NAME + " SET tellerId = '' WHERE windowNumber = ?";
+	public static void removeTeller(int windowNumber, Timestamp lastModified) {
+		String query = "UPDATE " + TABLE_NAME + " SET tellerId = '', lastModified = ? WHERE windowNumber = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
-			pstmt.setInt(1, windowNumber);
+			pstmt.setTimestamp(1, lastModified);
+			pstmt.setInt(2, windowNumber);
 			int rowsAffected = pstmt.executeUpdate();
 			if (rowsAffected > 0) {
 				System.out.println("TELLER REMOVED SUCCESSFULLY.");

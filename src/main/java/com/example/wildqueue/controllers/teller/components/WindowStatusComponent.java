@@ -73,7 +73,10 @@ public class WindowStatusComponent {
 
 		if (needsUpdate) {
 			updateTellerWindowUI();
-			WindowSelectionPopupController.getInstance().updateWindowStatus(Objects.equals(tellerWindows.get(0).getTellerId(), ""), Objects.equals(tellerWindows.get(1).getTellerId(), ""));
-		}
+			WindowSelectionPopupController.getInstance()
+					.ifPresent(controller -> controller.updateWindowStatus(
+							Objects.equals(tellerWindows.get(0).getTellerId(), ""),
+							Objects.equals(tellerWindows.get(1).getTellerId(), "")
+					));		}
 	}
 }

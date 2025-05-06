@@ -137,9 +137,9 @@ public class StudentDetailsFormController {
 				amount,
 				transactionType,
 				additionalDetails,
-				new Date(System.currentTimeMillis()),
 				new Timestamp(System.currentTimeMillis()),
-				"Pending",
+				new Timestamp(System.currentTimeMillis()),
+				PriorityStatus.PENDING.toString(),
 				null,
 				null
 		);
@@ -167,14 +167,5 @@ public class StudentDetailsFormController {
 				);
 			}
 		}
-	}
-
-
-	public List<PriorityNumber> getPriorityNumbers() {
-		return priorityNumbers;
-	}
-
-	public void setPriorityNumbers(List<PriorityNumber> priorityNumbers) {
-		this.priorityNumbers = priorityNumbers;
 	}
 }

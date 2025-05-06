@@ -52,8 +52,8 @@ public class TransactionDAO {
 
 	public static int createTransaction(Transaction transaction) {
 		String query = "INSERT INTO " + TABLE_NAME +
-				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status, transactionDetails) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				"(priorityNumber, windowNumber, studentName, studentId, tellerId, amount, transactionType, status, transactionDetails, transactionDate, lastModified) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DatabaseUtil.getConnection();
 		     PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -67,6 +67,8 @@ public class TransactionDAO {
 			pstmt.setString(7, transaction.getTransactionType());
 			pstmt.setString(8, transaction.getStatus());
 			pstmt.setString(9, transaction.getTransactionDetails());
+			pstmt.setTimestamp(10, transaction.getTransactionDate());
+			pstmt.setTimestamp(11, transaction.getLastModified());
 
 			int affectedRows = pstmt.executeUpdate();
 
@@ -249,7 +251,6 @@ public class TransactionDAO {
 			 PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 			stmt.setString(1, lastPriorityNumber);
 			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
@@ -301,7 +302,6 @@ public class TransactionDAO {
 		     PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 			stmt.setString(1, studentId);
 			stmt.setTimestamp(2, Timestamp.valueOf(sdf.format(lastModifiedSince)));
@@ -388,7 +388,8 @@ public class TransactionDAO {
 				"transactionType = ?, " +
 				"status = ?, " +
 				"calledTime = ?, " +
-				"completionDate = ? " +
+				"completionDate = ?, " +
+				"lastModified = ? " +
 				"WHERE transactionId = ?";
 
 		try (Connection conn = DatabaseUtil.getConnection();
@@ -403,7 +404,8 @@ public class TransactionDAO {
 			pstmt.setString(7, transaction.getStatus());
 			pstmt.setTimestamp(8, transaction.getCalledTime());
 			pstmt.setTimestamp(9, transaction.getCompletionDate());
-			pstmt.setInt(10, transaction.getTransactionId());
+			pstmt.setTimestamp(10, transaction.getLastModified());
+			pstmt.setInt(11, transaction.getTransactionId());
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {
