@@ -13,7 +13,6 @@ import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TellerWindowManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -58,9 +57,9 @@ public class TellerHomepageController {
 	private List<PriorityNumber> priorityQueue;
 	private List<Transaction> transactionList;
 	private List<TellerWindow> tellerWindows;
-	private PriorityNumber currentServingNumber;
 	private Transaction currentServing;
 	private int windowNumber;
+	public static PriorityNumber currentServingNumber;
 
 	@FXML
 	public void initialize() {
@@ -127,7 +126,7 @@ public class TellerHomepageController {
 		activityLogComponent.initializeTransactions();
 		transactionList = TransactionManager.getTransactionList();
 
-		WindowStatusComponent windowStatusComponent = new WindowStatusComponent(tellerWindows, windowNumberText, windowStatusText);
+		WindowStatusComponent windowStatusComponent = new WindowStatusComponent(tellerWindows, windowNumberText, windowStatusText, currentNumberText, currentStudentText);
 		windowStatusComponent.initializeTellerWindows();
 		tellerWindows = TellerWindowManager.getTellerWindowLists();
 	}
@@ -224,7 +223,8 @@ public class TellerHomepageController {
 				));
 			}
 
-			if (transaction.getCompletionDate() != null) {
+			if (transaction.getCompletionDate() != null &&
+					PriorityStatus.COMPLETED.toString().equals(transaction.getStatus())) {
 				activityEvents.add(new ActivityEvent(
 						"COMPLETED",
 						transaction.getPriorityNumber(),
@@ -234,6 +234,19 @@ public class TellerHomepageController {
 						Color.LIMEGREEN
 				));
 			}
+
+			if (transaction.getCompletionDate() != null &&
+					PriorityStatus.CANCELLED.toString().equals(transaction.getStatus())) {
+				activityEvents.add(new ActivityEvent(
+						"CANCELLED",
+						transaction.getPriorityNumber(),
+						transaction.getStudentName(),
+						transaction.getStudentId(),
+						transaction.getCompletionDate(),
+						Color.RED
+				));
+			}
+
 		}
 
 		List<ActivityEvent> recentActivities = activityEvents.stream()

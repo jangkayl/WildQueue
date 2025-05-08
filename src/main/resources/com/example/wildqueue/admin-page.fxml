@@ -15,6 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.image.Image?>
 <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FDFBEE;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.admin.AdminHomepageController">
 
     <!-- Top Section - Controls and Search -->
@@ -24,7 +25,7 @@
                 <!-- University Branding -->
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
-                        <!--                        <Image url="@/images/cit_logo.png" />-->
+                        <Image url="https://www.geocities.ws/respons/respons/new_logo.jpeg" />
                     </ImageView>
                     <Text style="-fx-fill: #FDFBEE; -fx-font-size: 18; -fx-font-weight: bold;" text="CIT University Queue Management System" />
                 </HBox>

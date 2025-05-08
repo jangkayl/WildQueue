@@ -15,7 +15,7 @@
         <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #550000; -fx-background-radius: 5 5 0 0; -fx-padding: 15;">
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-<!--                    <Image url="@../images/window-icon.png" />-->
+                    <Image url="https://cdn-icons-png.flaticon.com/128/13974/13974330.png" />
                 </image>
             </ImageView>
             <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #FFD700;" text="Select Your Window" />

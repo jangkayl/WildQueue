@@ -9,6 +9,8 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: #F8F9FA;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.StudentProfileController">
 
     <!-- Profile Content -->
@@ -22,29 +24,26 @@
 
             <!-- User Info -->
             <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 3);">
-                <!--            <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true">-->
-                <!--                <Image url="@/images/profile_icon.png" />-->
-                <!--            </ImageView>-->
+                            <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true">
+                                <Image url="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" />
+                            </ImageView>
                 <Text fx:id="txtName" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #800000;" text="Sabrina Aryan" />
                 <Text fx:id="txtInstitutionalEmail" style="-fx-font-size: 14px; -fx-fill: #6C757D;" text="SabrinaAry208@gmail.com" />
 
                 <!-- Edit Profile Button -->
-                <Button fx:id="editProfileButton" style="-fx-background-color: #800000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20; -fx-pref-width: 150; -fx-pref-height: 35; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" text="Edit Profile" />
+                <Button fx:id="editProfileButton" onAction="#editProfile" style="-fx-background-color: #800000; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 20; -fx-pref-width: 150; -fx-pref-height: 35; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" text="Edit Profile" />
             </VBox>
 
             <!-- Profile Options -->
             <VBox alignment="CENTER_LEFT" prefWidth="320.0" spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 15 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 3);">
                 <!-- Option Items -->
                 <VBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 0 20;">
-                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Favorites" />
-                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="History" />
-                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Settings" />
+                    <Label fx:id="lblHistory" onMouseClicked="#goToHistory" prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="History" />
                 </VBox>
 
                 <Separator prefWidth="280.0" style="-fx-background-color: #E9ECEF;" />
 
                 <VBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 15 20 0 20;">
-                    <Label prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Clear History" />
                     <Label fx:id="lblLogout" onMouseClicked="#logout" prefHeight="45.0" prefWidth="322.0" style="-fx-font-size: 16px; -fx-text-fill: #800000; -fx-font-weight: bold; -fx-padding: 10 0;" text="Log Out" />
                 </VBox>
             </VBox>

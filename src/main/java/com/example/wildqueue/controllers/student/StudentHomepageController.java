@@ -11,13 +11,22 @@ import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TellerWindowManager;
 import com.example.wildqueue.utils.managers.TransactionManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -27,8 +36,6 @@ import java.util.*;
 public class StudentHomepageController {
     public Text window1Status;
     public Text window2Status;
-    @FXML private Text window1Duration;
-    @FXML private Text window2Duration;
     @FXML private ScrollPane scrollPane;
     @FXML private Text window1Number;
     @FXML private Text window2Number;
@@ -148,6 +155,15 @@ public class StudentHomepageController {
                     existingTransaction.get().setCalledTime(updatedTransaction.getCalledTime());
                     existingTransaction.get().setCompletionDate(updatedTransaction.getCompletionDate());
                     needsUpdate = true;
+
+                    if (PriorityStatus.PROCESSING.toString().equals(updatedTransaction.getStatus())) {
+                        Platform.runLater(() -> {
+                            showCalledNumberAlert(
+                                    updatedTransaction.getPriorityNumber(),
+                                    String.valueOf(updatedTransaction.getWindowNumber())
+                            );
+                        });
+                    }
                 }
             } else {
                 TransactionManager.addOrUpdateTransaction(updatedTransaction);
@@ -360,5 +376,34 @@ public class StudentHomepageController {
         ellipsis.setStyle("-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold; " +
                 "-fx-padding: 5 9; -fx-background-color: #5E0A15; -fx-background-radius: 20;");
         hbQueue.getChildren().add(ellipsis);
+    }
+
+    private void showCalledNumberAlert(String priorityNumber, String windowNumber) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/alert.fxml"));
+            Parent root = loader.load();
+
+            AlertController alertController = loader.getController();
+            alertController.setAlertText(priorityNumber, "Is now called in Window " + windowNumber);
+
+            Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.setScene(new Scene(root));
+            dialog.getScene().setFill(Color.TRANSPARENT);
+
+            if (mainController != null && mainController.getPrimaryStage() != null) {
+                dialog.initOwner(mainController.getPrimaryStage());
+            }
+
+            dialog.show();
+
+            alertController.setAcceptAction(dialog::close);
+
+            alertController.setDeclineAction(dialog::close);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

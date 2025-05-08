@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="582.0" prefWidth="360.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wildqueue.controllers.student.StudentEditProfileController">
+
+    <VBox alignment="CENTER" layoutY="128.0" prefHeight="581.0" prefWidth="360.0" spacing="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" prefHeight="193.0" prefWidth="303.0" spacing="20" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-background-radius: 0 0 20 20; -fx-padding: 40 0 50 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);">
+            <StackPane>
+                <Text fill="#22ff00" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font name="Arial" size="30" />
+                    </font>
+                    <text>✓</text>
+                </Text>
+            </StackPane>
+            <Text fill="white" fontSmoothingType="LCD" style="-fx-font-weight: bold;">
+                <font>
+                    <Font name="Arial Bold" size="28" />
+                </font>
+                <text>Edit Profile</text>
+            </Text>
+            <Text fill="#FFD700" style="-fx-font-weight: 300;">
+                <font>
+                    <Font name="Arial" size="14" />
+                </font>
+                <text>Update your profile information</text>
+            </Text>
+        </VBox>
+
+        <GridPane alignment="CENTER" hgap="12.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 20;" vgap="1.0">
+            <!-- Name -->
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" prefWidth="280" promptText="Enter your name" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 8; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="nameError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <!-- Password -->
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="New Password" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <PasswordField fx:id="passwordField" prefWidth="280" promptText="Enter new password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 8; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="passwordError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <!-- Confirm Password -->
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #800000;" text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <PasswordField fx:id="confirmPasswordField" prefWidth="280" promptText="Re-enter new password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-border-width: 1.5; -fx-padding: 8; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="confirmError" style="-fx-text-fill: #e53935; -fx-font-size: 11;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <!-- Save Button -->
+            <Button fx:id="saveButton" defaultButton="true" onAction="#handleSave" prefWidth="280" style="-fx-background-color: linear-gradient(to right, #800000, #600000); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9; -fx-font-size: 14; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 2, 2);" text="SAVE CHANGES" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            </Button>
+
+            <columnConstraints>
+                <ColumnConstraints maxWidth="120.0" minWidth="80.0" prefWidth="107.0" />
+                <ColumnConstraints maxWidth="300.0" minWidth="171.0" prefWidth="178.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="35" prefHeight="35" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="35" prefHeight="35" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="35" prefHeight="35" />
+                <RowConstraints minHeight="20" prefHeight="20" />
+                <RowConstraints minHeight="45" prefHeight="45" />
+            </rowConstraints>
+        </GridPane>
+
+        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 30 0;">
+            <Text fill="#666" text="Go back to profile?" />
+            <Hyperlink fx:id="profileLink" style="-fx-text-fill: #800000; -fx-font-weight: bold; -fx-border-color: transparent; -fx-underline: false; -fx-cursor: hand;" text="Profile" />
+            <Text fill="#FFD700" style="-fx-font-weight: bold;" text="→" />
+        </HBox>
+    </VBox>
+</AnchorPane>

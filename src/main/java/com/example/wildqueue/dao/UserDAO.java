@@ -128,6 +128,7 @@ public class UserDAO {
 				"institutionalId = ?, " +
 				"email = ?, " +
 				"name = ?, " +
+				"password = ?, " +
 				"userType = ? " +
 				"WHERE institutionalId = ?";
 		try (Connection conn = DatabaseUtil.getConnection();
@@ -136,8 +137,9 @@ public class UserDAO {
 			pstmt.setString(1, user.getInstitutionalId());
 			pstmt.setString(2, user.getEmail());
 			pstmt.setString(3, user.getName());
-			pstmt.setString(4, user.getUserType());
-			pstmt.setString(5, user.getInstitutionalId());
+			pstmt.setString(4, user.getPassword());
+			pstmt.setString(5, user.getUserType());
+			pstmt.setString(6, user.getInstitutionalId());
 
 			int rowsUpdated = pstmt.executeUpdate();
 			if (rowsUpdated > 0) {

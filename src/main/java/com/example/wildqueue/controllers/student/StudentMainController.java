@@ -14,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class StudentMainController {
@@ -26,6 +28,14 @@ public class StudentMainController {
 	@FXML private Text profileText;
 	private StudentHomepageController homepageController;
 	private StudentHistoryController historyController;
+	private StudentProfileController profileController;
+	private Stage primaryStage;
+
+	public void setPrimaryStage(Stage primaryStage) { this.primaryStage = primaryStage; }
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 
 	@FXML
 	public void initialize() throws IOException {
@@ -81,6 +91,11 @@ public class StudentMainController {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-profile-view.fxml"));
 			AnchorPane profileContent = loader.load();
+
+			profileController = loader.getController();
+			profileController.setMainController(this);
+
+			profileContent.getProperties().put("controller", profileController);
 			contentPane.getChildren().clear();
 			contentPane.getChildren().add(profileContent);
 			setActiveTab(profileTab, profileText);
