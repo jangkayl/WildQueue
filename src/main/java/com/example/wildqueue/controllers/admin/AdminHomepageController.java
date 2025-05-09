@@ -194,6 +194,24 @@ public class AdminHomepageController {
 		}
 	}
 
+	@FXML
+	private void handleRefresh() {
+		loadSyncData();
+
+		loadStudentData();
+		loadTellerData();
+
+		updatePriorityQueueUI();
+		updateTransactionUI();
+
+		Utils.showAlert(
+				Alert.AlertType.INFORMATION,
+				"Refresh Complete",
+				"All data has been refreshed from the database.",
+				ButtonType.OK
+		);
+	}
+
 	private void handleStudentChangeAction(Student student) {
 		Optional<ButtonType> result = Utils.showAlert(
 				Alert.AlertType.CONFIRMATION,

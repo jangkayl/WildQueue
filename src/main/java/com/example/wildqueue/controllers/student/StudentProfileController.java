@@ -26,15 +26,16 @@ public class StudentProfileController {
 	@FXML
 	public void initialize() {
 		Utils.scrollPaneSetup(scrollPane);
-
 		loadUserData();
+
+		editProfileButton.setOnAction(event -> mainController.showEditProfile());
 	}
 
 	public void setMainController(StudentMainController mainController) {
 		this.mainController = mainController;
 	}
 
-	private void loadUserData() {
+	public void loadUserData() {
 		User currentUser = SessionManager.getCurrentUser();
 
 		if (currentUser != null) {
@@ -60,31 +61,6 @@ public class StudentProfileController {
 
 	@FXML
 	private void editProfile(ActionEvent actionEvent) {
-		User currentUser = SessionManager.getCurrentUser();
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-edit-profile.fxml"));
-			Parent root = loader.load();
-			StudentEditProfileController controller = loader.getController();
-			controller.setCurrentStudent(currentUser);
-
-			controller.setOnSaveCallback(() -> {
-				SessionManager.refreshCurrentUser();
-				loadUserData();
-			});
-
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root));
-			stage.setTitle("Edit Profile");
-			stage.setResizable(false);
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Utils.showAlert(
-					Alert.AlertType.ERROR,
-					"Error",
-					"Failed to open the Edit Page.",
-					ButtonType.OK
-			);
-		}
+		mainController.showEditProfile();
 	}
 }

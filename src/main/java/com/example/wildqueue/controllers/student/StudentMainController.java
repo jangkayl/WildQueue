@@ -4,6 +4,7 @@ import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.dao.TellerWindowDAO;
 import com.example.wildqueue.dao.TransactionDAO;
 import com.example.wildqueue.models.Transaction;
+import com.example.wildqueue.models.User;
 import com.example.wildqueue.utils.managers.PriorityNumberManager;
 import com.example.wildqueue.utils.managers.SessionManager;
 import com.example.wildqueue.utils.managers.TellerWindowManager;
@@ -87,7 +88,7 @@ public class StudentMainController {
 	}
 
 	@FXML
-	private void navigateToProfile() {
+	protected void navigateToProfile() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-profile-view.fxml"));
 			AnchorPane profileContent = loader.load();
@@ -136,6 +137,43 @@ public class StudentMainController {
 			e.printStackTrace();
 		}
 	}
+
+	public void showEditProfile() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wildqueue/student-edit-profile.fxml"));
+			AnchorPane detailsPane = loader.load();
+
+			StudentEditProfileController editController = loader.getController();
+			if (editController == null) {
+				throw new IllegalStateException("Controller not initialized");
+			}
+
+			editController.setMainController(this);
+
+			User currentUser = SessionManager.getCurrentUser();
+			if (currentUser != null) {
+				editController.setCurrentStudent(currentUser);
+			}
+
+			editController.setOnSaveCallback(() -> {
+				SessionManager.refreshCurrentUser();
+				if (profileController != null) {
+					profileController.loadUserData();
+				}
+				navigateToProfile();
+			});
+
+			if (contentPane != null) {
+				contentPane.getChildren().setAll(detailsPane);
+			} else {
+				throw new IllegalStateException("Content pane not initialized");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public StudentHomepageController getHomepageController() {
 		return homepageController;

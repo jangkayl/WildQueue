@@ -19,6 +19,7 @@ public class StudentEditProfileController {
     @FXML private Hyperlink profileLink;
     private Runnable onSaveCallback;
     private User currentStudent;
+    private StudentMainController mainController;
 
     public void setCurrentStudent(User student) {
         if (student == null) {
@@ -26,6 +27,10 @@ public class StudentEditProfileController {
         }
         this.currentStudent = student;
         initializeFields();
+    }
+
+    public void setMainController(StudentMainController mainController) {
+        this.mainController = mainController;
     }
 
     public void setOnSaveCallback(Runnable callback) {
@@ -37,8 +42,7 @@ public class StudentEditProfileController {
             nameField.setText(currentStudent.getName());
         }
         profileLink.setOnAction(event -> {
-            Stage stage = (Stage) profileLink.getScene().getWindow();
-            stage.close();
+            mainController.navigateToProfile();
         });
     }
 

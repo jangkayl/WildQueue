@@ -46,9 +46,8 @@ public class AlertController {
 	@FXML
 	private void handleDecline() {
 		if (declineAction != null) {
-			updateData();
-
 			declineAction.run();
+			updateData();
 		}
 	}
 

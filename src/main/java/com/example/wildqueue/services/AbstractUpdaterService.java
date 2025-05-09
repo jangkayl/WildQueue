@@ -69,7 +69,7 @@ public abstract class AbstractUpdaterService<T, ID> {
 			System.out.println("Latest fetched item: " + getItemIdentifier(lastFetched));
 		}
 
-		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 7000);
+		Timestamp lastModifiedSince = new Timestamp(System.currentTimeMillis() - 8000);
 		System.out.println("Checking for updates since: " + lastModifiedSince);
 
 		List<T> updatedItems = fetchUpdatedItems(lastFetched, lastModifiedSince);

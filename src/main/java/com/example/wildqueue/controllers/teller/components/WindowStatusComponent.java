@@ -2,6 +2,7 @@ package com.example.wildqueue.controllers.teller.components;
 
 import com.example.wildqueue.controllers.teller.TellerHomepageController;
 import com.example.wildqueue.controllers.teller.WindowSelectionPopupController;
+import com.example.wildqueue.dao.PriorityNumberDAO;
 import com.example.wildqueue.models.PriorityNumber;
 import com.example.wildqueue.models.TellerWindow;
 import com.example.wildqueue.services.WindowUpdaterService;
@@ -42,37 +43,38 @@ public class WindowStatusComponent {
 	}
 
 	private void updateTellerWindowUI() {
-		boolean windowAssigned = false;
+		TellerWindow currentWindow = null;
 
 		for (TellerWindow window : tellerWindows) {
 			if (window.getTellerId() != null &&
 					window.getTellerId().equals(SessionManager.getCurrentUser().getInstitutionalId())) {
-
-				windowNumberText.setText("Window " + window.getWindowNumber());
-				windowStatusText.setText("OPEN");
-
-				if (window.getStudentId() == null || window.getStudentId().isEmpty()) {
-					currentNumberText.setText("--");
-					currentStudentText.setText("No student currently");
-					TellerHomepageController.currentServingNumber = null;
-				} else {
-					currentNumberText.setText(window.getPriorityNumber() != null ?
-							window.getPriorityNumber() : "--");
-					currentStudentText.setText(window.getStudentId());
-				}
-
-				windowAssigned = true;
+				currentWindow = window;
 				break;
 			}
 		}
 
-		if (!windowAssigned) {
-			windowNumberText.setText("No Window Assigned");
-			windowStatusText.setText("CLOSED");
-			currentNumberText.setText("--");
-			currentStudentText.setText("No student currently");
-			TellerHomepageController.currentServingNumber = null;
+		if (currentWindow != null) {
+			windowNumberText.setText("Window " + currentWindow.getWindowNumber());
+			windowStatusText.setText("OPEN");
+
+			if (currentWindow.getStudentId() == null || currentWindow.getStudentId().isEmpty()) {
+				clearCurrentStudentInfo();
+			}
+		} else {
+			clearWindowAssignment();
 		}
+	}
+
+	private void clearCurrentStudentInfo() {
+		currentNumberText.setText("--");
+		currentStudentText.setText("No student currently");
+		TellerHomepageController.currentServingNumber = null;
+	}
+
+	private void clearWindowAssignment() {
+		windowNumberText.setText("No Window Assigned");
+		windowStatusText.setText("CLOSED");
+		clearCurrentStudentInfo();
 	}
 
 	private void handleTellerWindowUpdated(List<TellerWindow> updatedWindows) {
