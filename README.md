@@ -62,7 +62,8 @@ Class Diagram
 
 Update Class Diagram
 ----------------------------------------------------------------------------------
-![WildQueue drawio](https://github.com/user-attachments/assets/ad7109b0-4c7b-421d-bd79-13780a733342)
+![WildQueue Class Diagram](https://github.com/user-attachments/assets/b5c75b90-c889-4a84-baa8-c14e56d25f7c)
+
 
 
 Use-Case Diagram
