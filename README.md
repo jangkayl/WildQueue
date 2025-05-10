@@ -60,7 +60,7 @@ Class Diagram
 ----------------------------------------------------------------------------------
 ![LinTech drawio](https://github.com/user-attachments/assets/81a437de-230b-4d8f-b3ce-43830022725e)
 
-Update Class Diagram
+Updated Class Diagram
 ----------------------------------------------------------------------------------
 ![WildQueue Class Diagram](https://github.com/user-attachments/assets/b5c75b90-c889-4a84-baa8-c14e56d25f7c)
 
