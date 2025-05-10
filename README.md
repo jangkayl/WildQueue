@@ -67,7 +67,8 @@ Update Class Diagram
 
 Use-Case Diagram
 ----------------------------------------------------------------------------------
-![QueueManagementApp drawio](https://github.com/user-attachments/assets/791f3af1-f401-4e89-bde2-a1af5e7b98ac)
+![QueueManagementApp](https://github.com/user-attachments/assets/ac7f5232-67a5-4a32-845e-d80dcfa9c891)
+
 
 
 
